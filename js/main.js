@@ -183,7 +183,7 @@ $(document).ready(function () {
         currentPath === "/for-companies" ||
         currentPath === "/jobs" ||
         currentPath === "/events" ||
-        currentPath === "/become-a-master"
+        currentPath === "/club-recruitment"
     ) return;
 
     var lastScrollTop = 0;
