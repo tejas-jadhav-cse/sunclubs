@@ -28888,7 +28888,7 @@ body {
 
   .sidebar {
     width: 100%;
-    max-width: 14%;
+    max-width: 25%;
     backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
@@ -28902,13 +28902,13 @@ body {
 
   .tab-buttons {
     display: flex;
-    gap: 18px;
+    gap: 5px;
     border-bottom: 1px solid var(--grey3);
     padding-bottom: 7px;
   }
 
   .tab-btn {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 120%;
     color: var(--white);
     font-family: var(--go-medium);
@@ -28916,10 +28916,11 @@ body {
     transition: all 0.3s ease;
     border-bottom: 3px solid transparent;
     background: var(--transparent);
-    padding: 0px 23px 0px 0px;
+    padding: 0px 10px 0px 0px;
     width: 100%;
     max-width: 50%;
   }
+
 
   .tab-btn.active::after {
     content: "";
