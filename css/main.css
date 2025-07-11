@@ -10980,7 +10980,6 @@ input:focus {
   align-items: center;
 }
 
-.becomeamaster .circles .italic {}
 
 .becomeamaster .masterForm {
   width: 100%;
@@ -21653,6 +21652,7 @@ body {
 .bigFourChallenges .selectOptions {
   -webkit-appearance: auto;
   -moz-appearance: auto;
+  appearance: auto;
 }
 
 .bigFourChallenges .challengeHeadingWrap {
@@ -23519,8 +23519,10 @@ body {
 /* pgphightlight-tbm-fbm end */
 
 /* future Work Event page start */
+/* Commented out empty rule
 .futureForWork {
-  /* .muvector::after {
+*/
+/* .muvector::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -23530,8 +23532,8 @@ body {
     left: 0;
     bottom: -27%;
     z-index: -1;
-  } */
-}
+  } 
+*/
 
 .futureForWork .masterEssential {
   padding-top: 120px;
@@ -25728,8 +25730,10 @@ body {
   width: 40%;
 }
 
+/* Commented out empty rule
 .ugPastIntersect .developing {
-  /* 
+*/
+/* 
     .boxDev::after{
       position: absolute;
       content: "";
@@ -25741,8 +25745,8 @@ body {
       right: 53%;
       scale: 100%;
       transform: rotate(1deg);
-        } */
-}
+        } 
+*/
 
 .ugPastIntersect .developing .developright {
   position: relative;
@@ -26905,6 +26909,7 @@ body {
     background: var(--Linear,
         linear-gradient(90deg, #39b6d8 6.41%, #f7d344 51.47%, #e38330 96.52%));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: 0.4s ease-in-out;
   }
@@ -27280,6 +27285,7 @@ body {
     position: relative;
     text-align: center;
     -webkit-transform: translateZ(0);
+    transform: translateZ(0);
     /* webkit flicker fix */
     -webkit-font-smoothing: antialiased;
     /* webkit text rendering fix */
@@ -27726,7 +27732,8 @@ body {
       line-height: 140%;
       display: -webkit-box;
       -webkit-line-clamp: 1;
-      /* Limits to 2 lines */
+      line-clamp: 1;
+      /* Limits to 1 line */
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -28888,12 +28895,12 @@ body {
 
   .sidebar {
     width: 100%;
-    max-width: 25%;
+    max-width: 27.5%;
     backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     gap: 25px;
-    margin-left: 100px;
+    margin-left: 70px;
   }
 
   .content-area::-webkit-scrollbar-thumb {
@@ -30798,6 +30805,7 @@ body {
       .rightSubText {
         background: linear-gradient(92deg, #39b6d8 7.6%, #f7d344 53.43%, #e38330 99.26%);
         -webkit-background-clip: text;
+        background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
@@ -32055,6 +32063,7 @@ body {
 
   .workshopWrapper .line-clamp {
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .workshopContent .gradientButton::before {
@@ -32847,6 +32856,7 @@ body {
   .industryImmersionTech .cardContentHeading {
     background: linear-gradient(92deg, #39b6d8 7.6%, #f7d344 53.43%, #e38330 99.26%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 

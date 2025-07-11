@@ -1,0 +1,77 @@
+/* Category Buttons Styling */
+.category-buttons {
+  position: relative;
+  border-radius: 0px;
+  padding: 3px;
+  background: var(--black);
+  z-index: 1;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.category-buttons::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid transparent;
+  background: transparent;
+  border-radius: 50px;
+  z-index: -1;
+}
+
+.category-btn {
+  padding: 8px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  backdrop-filter: blur(2.5px);
+  font-size: 19px;
+  line-height: 110%;
+  font-family: var(--go-medium);
+  color: var(--white);
+  cursor: pointer;
+  background: var(--black);
+  border: none;
+  margin: 0px;
+}
+
+.category-btn.active {
+  background: var(--white);
+  border-radius: 54px;
+  color: var(--black);
+}
+
+/* Responsive styles for category buttons */
+@media screen and (max-width: 768px) {
+  .category-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .category-btn {
+    font-size: 16px;
+    padding: 1px 1px;
+
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .category-buttons {
+    flex-wrap: wrap;
+  }
+
+  .category-btn {
+    margin: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}

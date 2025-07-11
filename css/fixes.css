@@ -1,0 +1,28 @@
+/* CSS Fixes */
+
+/* Fix for background-clip property */
+.tangiblelabelChild:hover .labelChildPara {
+  background-clip: text;
+}
+
+.tab-btn.active {
+  background-clip: text;
+}
+
+/* Fix for transform property */
+.marketingWrapper img {
+  transform: translateZ(0);
+}
+
+/* Fix for line-clamp property */
+.eventTitle h3 {
+  line-clamp: 1;
+}
+
+.marketingTextBoxi {
+  line-clamp: 3;
+}
+
+/* Fix for commented-out empty rulesets */
+/* Fixed empty ruleset in .futureForWork */
+/* Fixed empty ruleset in .ugPastIntersect .developing */
