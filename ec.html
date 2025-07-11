@@ -25,17 +25,98 @@
         /* Mobile styles */
         @media screen and (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 5px;
             }
 
             .main-container {
                 display: block;
+                padding: 0;
             }
 
             .calendar-container {
                 max-width: 100%;
-                margin: 10px 0;
+                margin: 5px 0;
+                padding: 10px;
                 transition: filter 0.3s ease;
+                border-radius: 8px;
+            }
+
+            .calendar-header {
+                padding: 10px 5px;
+                gap: 5px;
+                margin-bottom: 10px;
+            }
+
+            .calendar-grid {
+                gap: 2px;
+                margin-top: 10px;
+            }
+
+            .calendar-day {
+                min-height: 60px;
+                padding: 5px;
+                font-size: 12px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+
+            .calendar-day-header {
+                padding: 5px;
+                font-size: 12px;
+            }
+
+            #prevMonth, #nextMonth {
+                padding: 6px 10px;
+                font-size: 10px;
+                width: 80px;
+                min-width: 80px;
+                margin: 0;
+            }
+
+            .month-year {
+                font-size: 20px;
+            }
+            
+            .month-year .month {
+                font-size: 18px;
+            }
+            
+            .month-year .year {
+                font-size: 16px;
+            }
+
+            /* Mobile event styling - hide event text, show highlight */
+            .event {
+                display: none;
+            }
+
+            .calendar-day.has-event {
+                background: linear-gradient(135deg, #5A42EF, #EB4886);
+                color: white;
+                font-weight: bold;
+                box-shadow: 0 2px 8px rgba(90, 66, 239, 0.4);
+                border: 1px solid rgba(90, 66, 239, 0.5);
+            }
+
+            .calendar-day.has-event:hover {
+                background: linear-gradient(135deg, #4a35d8, #d93c72);
+                transform: scale(1.05);
+                z-index: 10;
+            }
+
+            .calendar-day.has-event::after {
+                content: '';
+                position: absolute;
+                top: 3px;
+                right: 3px;
+                width: 8px;
+                height: 8px;
+                background: #fff;
+                border-radius: 50%;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.3);
             }
 
             .main-container.panel-active .calendar-container {
@@ -161,31 +242,53 @@
         }
 
         .calendar-header {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 10px;
             align-items: center;
             padding: 20px 0;
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
         }
 
         .month-year {
             font-size: 24px;
             font-weight: bold;
             color: #fff;
+            text-align: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.2;
+        }
+        
+        .month-year .month {
+            font-size: 20px;
+        }
+        
+        .month-year .year {
+            font-size: 18px;
+            opacity: 0.8;
         }
 
         #prevMonth, #nextMonth {
             background: linear-gradient(90deg, #5A42EF, #EB4886);
             color: #ffffff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 15px;
             border-radius: 25px;
             cursor: pointer;
             margin: 0 5px;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(90, 66, 239, 0.3);
+            width: 100px;
+            min-width: 100px;
         }
 
         #prevMonth:hover, #nextMonth:hover {
@@ -217,6 +320,7 @@
             color: #fff;
             border-radius: 5px;
             transition: background 0.3s;
+            cursor: pointer;
         }
 
         .calendar-day:hover {
@@ -383,15 +487,23 @@
         .main-container.panel-active .calendar-container {
             flex: 60%;
         }
+
+        /* Desktop event highlighting */
+        @media screen and (min-width: 769px) {
+            .calendar-day.has-event {
+                border: 2px solid #5A42EF;
+                box-shadow: 0 0 10px rgba(90, 66, 239, 0.3);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
         <div class="calendar-container">
             <div class="calendar-header">
-                <button id="prevMonth"  >&lt; Previous</button>
+                <button id="prevMonth" > Previous</button>
                 <h2 class="month-year" id="monthYear"></h2>
-                <button id="nextMonth">Next &gt;</button>
+                <button id="nextMonth">Next </button>
             </div>
             <div class="calendar-grid" id="calendarGrid">
                 <!-- Days of the week header -->
@@ -490,7 +602,10 @@
                 // Update month and year display
                 const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                               'July', 'August', 'September', 'October', 'November', 'December'];
-                this.monthYear.textContent = `${months[this.currentMonth]} ${this.currentYear}`;
+                this.monthYear.innerHTML = `
+                    <span class="month">${months[this.currentMonth]}</span>
+                    <span class="year">${this.currentYear}</span>
+                `;
                 
                 // Clear previous calendar days
                 const headerCells = Array.from(this.calendarGrid.querySelectorAll('.calendar-day-header'));
@@ -529,11 +644,25 @@
                                event.date.getFullYear() === this.currentYear;
                     });
                     
+                    if (dayEvents.length > 0) {
+                        dayEl.classList.add('has-event');
+                        
+                        // Add click handler for the entire day on mobile
+                        dayEl.addEventListener('click', () => {
+                            if (window.innerWidth <= 768) {
+                                this.showEventDetails(dayEvents[0]); // Show first event if multiple
+                            }
+                        });
+                    }
+                    
                     dayEvents.forEach(event => {
                         const eventEl = document.createElement('div');
                         eventEl.className = 'event';
                         eventEl.textContent = event.title;
-                        eventEl.addEventListener('click', () => this.showEventDetails(event));
+                        eventEl.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Prevent day click on desktop
+                            this.showEventDetails(event);
+                        });
                         dayEl.appendChild(eventEl);
                     });
                     
