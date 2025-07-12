@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club President Dashboard | Sandip University</title>
+  <link rel="icon" href="images/mu-fav-ico.png" type="image/x-icon">
+  <link rel="stylesheet" href="css/master-production.css">
+  <link rel="stylesheet" href="css/category-buttons.css">
+  <link rel="stylesheet" href="css/president.css">
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/jquery.min.js"></script>
+  
+  <style>
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    
+    .dashboard-title h1 {
+      font-size: 28px;
+      margin: 0;
+    }
+    
+    .dashboard-user {
+      text-align: right;
+    }
+    
+    .logout-btn {
+      background: linear-gradient(90deg, #5A42EF, #EB4886);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .card {
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
+      padding: 20px;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-header {
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 10px;
+    }
+    
+    .card-content {
+      min-height: 100px;
+    }
+    
+    .stats {
+      display: flex;
+      gap: 20px;
+      justify-content: space-around;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, #5A42EF, #EB4886);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    .events-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .event-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .event-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .event-date {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-style: italic;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div id="preloader">
+    <div class="preloader">
+      <img loading="lazy" src="images/preloader.gif" alt="Loader">
+    </div>
+  </div>
+
+  <section class="main-section">
+    <main class="president-main">
+      <div class="dashboard-container">
+        <div class="dashboard-header">
+          <div class="dashboard-title">
+            <h1>Welcome, <span id="clubName">Club President</span></h1>
+          </div>
+          <div class="dashboard-user">
+            <div id="clubId">Loading...</div>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+          </div>
+        </div>
+        
+        <div class="dashboard-cards">
+          <div class="card">
+            <div class="card-header">Club Statistics</div>
+            <div class="card-content">
+              <div class="stats">
+                <div class="stat-item">
+                  <div class="stat-value" id="eventCount">--</div>
+                  <div class="stat-label">Events</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value" id="memberCount">--</div>
+                  <div class="stat-label">Members</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-value" id="attendeeCount">--</div>
+                  <div class="stat-label">Attendees</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">Upcoming Events</div>
+            <div class="card-content">
+              <ul class="events-list" id="upcomingEvents">
+                <li class="loading">Loading events...</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">Recent Activities</div>
+            <div class="card-content">
+              <ul class="events-list" id="recentActivities">
+                <li class="loading">Loading activities...</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+  
+  <script>
+    // Initialize Supabase client
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your actual Supabase URL
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your actual Supabase anon key
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // DOM elements
+    const clubNameElement = document.getElementById('clubName');
+    const clubIdElement = document.getElementById('clubId');
+    const eventCountElement = document.getElementById('eventCount');
+    const memberCountElement = document.getElementById('memberCount');
+    const attendeeCountElement = document.getElementById('attendeeCount');
+    const upcomingEventsElement = document.getElementById('upcomingEvents');
+    const recentActivitiesElement = document.getElementById('recentActivities');
+    const logoutButton = document.getElementById('logoutBtn');
+    
+    // Better preloader handling
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(function() {
+        $("#preloader").fadeOut(250);
+      }, 500);
+      
+      // Check if user is logged in
+      checkAuthAndLoadData();
+    });
+    
+    // Check authentication and load dashboard data
+    async function checkAuthAndLoadData() {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error || !session) {
+          // Not logged in, redirect to login page
+          window.location.href = 'president-login.html';
+          return;
+        }
+        
+        // Get club information from local storage or fetch from database
+        const clubId = localStorage.getItem('clubId');
+        const clubName = localStorage.getItem('clubName');
+        
+        if (!clubId) {
+          // If club info is not in local storage, fetch from database
+          const { data: userData, error: userError } = await supabase
+            .from('club_presidents')
+            .select('club_id, clubs(name)')
+            .eq('id', session.user.id)
+            .single();
+            
+          if (userError || !userData) {
+            console.error('Error fetching user data:', userError);
+            alert('Error loading user data. Please login again.');
+            await supabase.auth.signOut();
+            window.location.href = 'president-login.html';
+            return;
+          }
+          
+          // Store in local storage
+          localStorage.setItem('clubId', userData.club_id);
+          localStorage.setItem('clubName', userData.clubs.name);
+          
+          // Update UI
+          clubNameElement.textContent = userData.clubs.name;
+          clubIdElement.textContent = userData.club_id;
+        } else {
+          // Use data from local storage
+          clubNameElement.textContent = clubName;
+          clubIdElement.textContent = clubId;
+        }
+        
+        // Load dashboard data
+        loadDashboardData(clubId || localStorage.getItem('clubId'));
+        
+      } catch (error) {
+        console.error('Auth check error:', error.message);
+        alert('Error checking authentication. Please login again.');
+        window.location.href = 'president-login.html';
+      }
+    }
+    
+    // Load dashboard data
+    async function loadDashboardData(clubId) {
+      try {
+        // Fetch stats
+        const { data: eventData, error: eventError } = await supabase
+          .from('events')
+          .select('count')
+          .eq('club_id', clubId);
+          
+        if (!eventError) {
+          eventCountElement.textContent = eventData[0]?.count || 0;
+        }
+        
+        // Fetch upcoming events
+        const { data: upcomingEventsData, error: upcomingError } = await supabase
+          .from('events')
+          .select('*')
+          .eq('club_id', clubId)
+          .gte('event_date', new Date().toISOString())
+          .order('event_date', { ascending: true })
+          .limit(5);
+          
+        if (!upcomingError && upcomingEventsData.length > 0) {
+          upcomingEventsElement.innerHTML = '';
+          
+          upcomingEventsData.forEach(event => {
+            const eventDate = new Date(event.event_date).toLocaleDateString();
+            upcomingEventsElement.innerHTML += `
+              <li class="event-item">
+                <div class="event-title">${event.title}</div>
+                <div class="event-date">${eventDate} at ${event.venue || 'TBD'}</div>
+              </li>
+            `;
+          });
+        } else {
+          upcomingEventsElement.innerHTML = '<li class="event-item">No upcoming events</li>';
+        }
+        
+        // For demo purposes - sample data for other stats
+        memberCountElement.textContent = Math.floor(Math.random() * 50) + 20;
+        attendeeCountElement.textContent = Math.floor(Math.random() * 200) + 50;
+        
+        // Sample recent activities
+        const activities = [
+          { title: 'Member registration opened', date: '2 days ago' },
+          { title: 'Website updated', date: '4 days ago' },
+          { title: 'Budget approved', date: '1 week ago' },
+          { title: 'Meeting minutes uploaded', date: '2 weeks ago' }
+        ];
+        
+        recentActivitiesElement.innerHTML = '';
+        activities.forEach(activity => {
+          recentActivitiesElement.innerHTML += `
+            <li class="event-item">
+              <div class="event-title">${activity.title}</div>
+              <div class="event-date">${activity.date}</div>
+            </li>
+          `;
+        });
+        
+      } catch (error) {
+        console.error('Error loading dashboard data:', error.message);
+        alert('Error loading dashboard data: ' + error.message);
+      }
+    }
+    
+    // Logout functionality
+    logoutButton.addEventListener('click', async function() {
+      try {
+        await supabase.auth.signOut();
+        localStorage.removeItem('clubId');
+        localStorage.removeItem('clubName');
+        localStorage.removeItem('clubRole');
+        window.location.href = 'president-login.html';
+      } catch (error) {
+        console.error('Error logging out:', error.message);
+        alert('Error logging out: ' + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
