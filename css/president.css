@@ -1,22 +1,36 @@
 /* Import Google Fonts - Fraunces */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
 
+/* Root variables */
+:root {
+  --background-color: #fff;
+  --text-color: #000;
+  --accent-color: #0a6d62;
+  --input-bg: #F5F5F5;
+  --form-radius: 24px;
+  --button-radius: 12px;
+  --input-radius: 8px;
+  --vh: 1vh; /* Custom viewport height property for mobile browsers */
+}
+
 /* Additional styles specific to login page */
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px;
-  max-width: 500px;
+  padding: min(50px, 8vh) 20px;
+  width: min(90%, 480px);
   margin: 0 auto;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 15px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 40px rgba(90, 66, 239, 0.2);
   color: #fff;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(90, 66, 239, 0.2);
+  transform: translateY(-10px); /* Slight upward adjustment for visual balance */
 }
 
 .login-container::before {
@@ -35,45 +49,95 @@
   max-width: 400px;
 }
 
+.logo-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.login-logo {
+  max-width: clamp(120px, 30%, 140px);
+  height: auto;
+}
+
 .login-title {
-  margin-bottom: 30px;
+  margin-bottom: min(25px, 5vh);
   text-align: center;
 }
 
+.login-title h2 {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  line-height: 1.2;
+  margin: 0;
+}
+
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .form-control {
   width: 100%;
-  padding: 15px;
+  padding: clamp(10px, 3vw, 14px);
   border: none;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  font-size: 16px;
+  color: #f3f3f3;
+  font-size: clamp(14px, 2vw, 15px);
   transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: none; /* Ensures consistent styling on iOS devices */
+  appearance: none;
 }
 
 .form-control:focus {
   background: rgba(255, 255, 255, 0.2);
   outline: none;
+  box-shadow: 0 2px 12px rgba(90, 66, 239, 0.3);
+  border: 1px solid rgba(90, 66, 239, 0.3);
 }
 
 .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #dfd2d2;
+  font-weight: 500;
+}
+
+/* Dropdown styling for select element */
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 24px;
+  padding-right: 40px;
+  cursor: pointer;
+  height: clamp(45px, 10vw, 50px); /* Responsive height */
+}
+
+/* Ensure password input has same height as select */
+input[type="password"].form-control {
+  height: clamp(45px, 10vw, 50px);
+  padding-left: 15px;
+}
+
+select.form-control option {
+  background-color: #333;
+  color: white;
+  padding: 10px;
 }
 
 .submit-btn {
   width: 100%;
-  padding: 15px;
+  padding: clamp(12px, 3vw, 14px);
   border: none;
   border-radius: 8px;
   background: linear-gradient(90deg, #5A42EF, #EB4886);
   color: white;
   font-weight: bold;
+  font-size: clamp(14px, 2vw, 16px);
   cursor: pointer;
   transition: all 0.3s;
+  -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
 }
 
 .submit-btn:hover {
@@ -83,13 +147,15 @@
 
 .forgot-password {
   text-align: right;
-  margin-top: 10px;
+  margin-top: clamp(8px, 2vw, 10px);
 }
 
 .forgot-password a {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  font-size: 14px;
+  font-size: clamp(13px, 2vw, 14px);
+  padding: 5px; /* Larger touch target for mobile */
+  display: inline-block;
 }
 
 .forgot-password a:hover {
@@ -98,31 +164,65 @@
 }
 
 .login-footer {
-  margin-top: 30px;
+  margin-top: clamp(20px, 5vh, 25px);
   text-align: center;
-  font-size: 14px;
+  font-size: clamp(12px, 1.5vw, 13px);
   color: rgba(255, 255, 255, 0.7);
+  padding: 0 clamp(5px, 2vw, 10px);
+}
+
+.login-footer a {
+  display: inline-block;
+  padding: 2px; /* Improves touch target size */
+}
+
+/* Body and HTML style overrides to prevent scrollbar */
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a1a 0%, #121212 100%);
+}
+
+/* Reset some potential styles that could cause scrolling */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Improved responsive text sizing */
+html {
+  font-size: 16px;
 }
 
 /* President page specific layout styles */
 .president-main {
-  min-height: 100vh;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100); /* Custom viewport height var fallback */
+  height: 100dvh; /* Dynamic viewport height for modern browsers */
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  background: transparent;
+  padding: clamp(10px, 3vw, 20px);
+  overflow: hidden; /* Prevent scrollbar */
 }
 
 .president-section {
-  padding-top: 0;
-  margin-top: 80px;
-  flex-grow: 1;
+  padding: 0;
+  margin: 0;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
 .president-container {
-  padding-top: 60px;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .support-section {
@@ -170,11 +270,55 @@
   color: rgba(255,255,255,0.7);
 }
 
+/* Simple footer styles for president login page */
+footer {
+  background-color: #000;
+  color: #fff;
+  padding: 30px 0;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.footer-simple {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-simple p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.footer-simple a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-simple a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Improved responsive styles with multiple breakpoints */
+/* Tablet styles */
+@media (max-width: 992px) {
+  .login-container {
+    width: 95%;
+    max-width: 450px;
+    transform: translateY(-5px);
+  }
+}
+
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .login-container {
     margin: 0 auto;
-    padding: 40px 15px;
+    padding: 35px 15px;
+    width: 92%;
+    transform: translateY(0); /* Remove the upward adjustment on mobile */
+    border-radius: 12px;
   }
   
   .form-control {
@@ -182,6 +326,62 @@
   }
 
   .president-section {
-    margin-top: 60px !important;
+    margin-top: 0 !important;
+  }
+  
+  select.form-control {
+    background-position: right 10px center;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 15px;
+    width: 95%;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .login-logo {
+    max-width: 110px;
+  }
+  
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .footerContent {
+    flex-direction: column;
+  }
+  
+  .footerLeft {
+    margin-bottom: 30px;
+    max-width: 100%;
+  }
+  
+  .footerRight {
+    width: 100%;
+  }
+  
+  .wrapperImg {
+    flex-direction: column;
+  }
+  
+  .footer-imgs {
+    margin-bottom: 30px;
+  }
+  
+  .footerLinks {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .footerLinkRight {
+    margin-top: 20px;
+  }
+  
+  .mob-hide {
+    display: none;
   }
 }

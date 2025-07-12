@@ -7,7 +7,7 @@
   <link rel="canonical" href="https://mastersunion.org/president-login">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="facebook-domain-verification" content="s4ua1njpjtxm5nvujtikb092tdhwbq">
   <title>Club President Login | Sandip University</title>
   <meta property="og:type" content="website">
@@ -32,6 +32,9 @@
   <script src="js/jquery.min.js"></script>
   <script src="js/swiper-bundle.min.js"></script>
   <script src="js/filestack.min.js"></script>
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- CLOUDFLARE INTEGRATION START - Add Cloudflare scripts here for security and performance optimization -->
   <!-- CLOUDFLARE INTEGRATION END -->
@@ -72,188 +75,28 @@
   </div>
 
   <script>
-    $("#preloader").fadeOut(1000);
-
-    document.addEventListener("DOMContentLoaded", function () {
-      document.querySelectorAll(".darkHeader a, footer a").forEach((link) => {
-        link.addEventListener("click", function () {
-          document.getElementById("preloader").style.display = "block";
-        });
+    // Enhanced preloader handling with orientation support
+    document.addEventListener("DOMContentLoaded", function() {
+      // Hide preloader immediately to prevent scrollbars
+      $("#preloader").fadeOut(100);
+      
+      // Handle orientation changes on mobile devices
+      window.addEventListener('orientationchange', function() {
+        // Small timeout to allow browser to adjust
+        setTimeout(function() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }, 300);
       });
+      
+      // Set initial viewport height for mobile browsers
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     });
   </script>
   <script src="js/slick.min.js"></script>
 
-  <section class="main-section">
-    <div class="main">
-      <header id="header" class="darkHeader">
-        <div class="container">
-          <div class="topMenu flexbox">
-            <div class="topHeaderLinks flexbox">
-              <a href="/for-companies" class="topLinks" id="nav__for-companies">For Companies</a>
-              <a href="/jobs" class="topLinks" id="nav__jobs">Jobs</a>
-              <a href="/events" class="topLinks" id="nav__events">Events</a>
-              <a href="/become-a-master" class="topLinks" id="nav__become-a-master">Become a Master</a>
-              <a href="/blog" class="topLinks" id="nav__blog">Blog</a>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="mainMenu flexbox">
-            <div class="hamburger">
-              <img loading="lazy" src="images/hamburger.svg" alt="Icon" class="">
-            </div>
-            <a href="/" class="menuLogo">
-              <img loading="lazy" src="images/logoanimationblack.gif" class="" alt="MU Logo">
-            </a>
-            <div class="megaMenus flexbox">
-              <div class="megaLink" data-rel="aboutus"></div>
-              <div class="megaLink" data-rel="academics"></div>
-              <a href="/careers" class="megaLink" id="nav__careers"></a>
-              <div class="megaLink" data-rel="studentlife"></div>
-              <div class="megaLink" data-rel="innovation"></div>
-            </div>
-          </div>
-        </div>
-
-        <section class="menudropdown" id="ourstory">
-          <div class="container">
-            <div class="tabgroup">
-              <div class="tabs">
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="menudropdown" id="academics">
-          <div class="container">
-            <div class="tabgroup">
-              <div class="tabs">
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Mobile menu components would be here, but omitted for brevity -->
-        <div class="mobMenuOuter">
-          <!-- Mobile menu content would be here -->
-        </div>
-      </header>
-      <div class="blurScreen" onclick="closeMenu()"></div>
-      <script>
-        $('.megaLink').click(function () {
-          let id = $(this).attr('data-rel')
-          $(this).toggleClass('active').siblings().removeClass('active');
-          $(`#${id}`).toggleClass('active').siblings().removeClass('active');
-          if ($('.menudropdown').hasClass('active')) {
-            $('header').addClass('menuActive');
-          } else {
-            $('header').removeClass('menuActive');
-          }
-          if ($('.darkHeader').hasClass('menuActive')) {
-            console.log("Blurring BG");
-            $('.blurScreen').addClass('active')
-            $('body').css('overflow', 'hidden');
-          } else {
-            $('.blurScreen').removeClass('active')
-            $('body').css('overflow', 'auto');
-          }
-          setActiveClassHeader();
-        });
-        
-        $(".tabs-nav li").hover(function () {
-          let id = $(this).attr('data-rel')
-          $(this).addClass('active').siblings().removeClass('active');
-          $(`#${id}`).addClass('active').siblings().removeClass('active');
-        });
-        
-        $('.mobMenuItem').click(function () {
-          $(this).toggleClass('active').siblings().removeClass('active')
-          $(this).find(".mobMenuItemBody").slideToggle()
-          $(this).siblings(".mobMenuItem").find(".mobMenuItemBody").slideUp();
-        });
-        
-        $('.closeIcon').click(function () {
-          $('.mobMenuOuter').removeClass('active')
-          $('#header').removeClass('height')
-          $('body').css('overflow', 'auto');
-        });
-        
-        $('.hamburger').click(function () {
-          $('.mobMenuOuter').addClass('active');
-          $('#header').addClass('height')
-          $('body').css('overflow', 'hidden');
-        });
-        
-        function closeMenu() {
-          $('.blurScreen').removeClass('active');
-          $('.megaLink').removeClass('active');
-          $('.menudropdown').removeClass('active');
-          $('body').css('overflow', 'auto');
-          $('header').removeClass('menuActive');
-          setActiveClassHeader();
-        }
-        
-        document.addEventListener("DOMContentLoaded", setActiveClassHeader);
-        
-        function getKeyByValue(value, routes) {
-          for (const [key, values] of Object.entries(routes)) {
-            if (values.includes(value)) {
-              return key;
-            }
-          }
-          return null; // If value is not found in any key
-        }
-        
-        function setActiveClassHeader() {
-          const routes = {
-            "/student-entrepreneurship": "innovation",
-            "/about-us": "about-us",
-            "/services": "services",
-            "/contact": "contact",
-            "/jobs": "/jobs",
-            "/careers": "careers",
-            "/blog": "blog"
-          };
-          
-          const currentPath = window.location.pathname.split("/")[1];
-          
-          const elem = document.querySelector(`#nav__${currentPath}`);
-          if (elem) {
-            elem.classList.add("active");
-          } else {
-            const routes = {
-              "academics": [
-                "pgp-technology-and-business-management",
-                "pgp-tbm-curriculum",
-                "pgp-tbm-admissions-and-fees",
-                // other routes...
-              ],
-              "aboutus": [
-                "about-us",
-                "experiencesatmastersunion"
-              ],
-              "studentlife": [
-                "hostel",
-                "student-life-campus",
-                "student-life-clubs-and-activities",
-              ],
-              "innovation": [
-                "innovation-student-startups",
-                "innovation-faculty-research"
-              ]
-            }
-            
-            const key = getKeyByValue(currentPath, routes);
-            const activeHeader = document.querySelector(`a[data-rel="${key}"]`);
-            if (activeHeader) {
-              activeHeader.classList.add("active");
-            }
-          }
-        }
-      </script>
-    </div>
-    
-    <main class="festPage intersectFiveHomePage techDsaiHomePage dsaiMobView president-main">
+  <main class="president-main">
       <!-- Login section starts directly without marquee header -->
 
       <!-- Login Section -->
@@ -263,6 +106,9 @@
             <!-- CLOUDFLARE TURNSTILE INTEGRATION - Add Cloudflare Turnstile here for CAPTCHA protection -->
             <!-- Background image div removed -->
             <div class="login-form">
+              <div class="logo-container">
+                <img src="images/applicationLogo.svg" alt="Sandip University Logo" class="login-logo">
+              </div>
               <div class="login-title">
                 <h2 class="font-white go-HighlightHeading">Club President<br>
                   <span class="fr-HeadingItalic">Login Portal</span>
@@ -271,7 +117,42 @@
               
               <form id="presidentLoginForm">
                 <div class="form-group">
-                  <input type="email" class="form-control" id="email" placeholder="University Email" required>
+                  <select class="form-control" id="email" required>
+                    <option value="" disabled selected>Select Club</option>
+                    <option value="sun-event-club">SUN Event Club</option>
+                    <option value="sun-dance-club">SUN Dance Club</option>
+                    <option value="sun-photography-club">SUN Photography Club</option>
+                    <option value="sun-media-club">SUN Media Club</option>
+                    <option value="sun-literary-drama-club">SUN Literary & Drama Club</option>
+                    <option value="sun-music-club">SUN Music Club</option>
+                    <option value="sun-painting-art-club">SUN Painting & Art Club</option>
+                    <option value="sun-creativity-craft-club">SUN Creativity & Craft Club</option>
+                    <option value="sun-trekking-club">SUN Trekking Club</option>
+                    <option value="sun-helping-hands-club">SUN Helping Hands Club</option>
+                    <option value="sun-women-empowerment-club">SUN Women Empowerment Club</option>
+                    <option value="sun-mathematics-club">SUN Mathematics Club</option>
+                    <option value="sun-leads-community-club">SUN Leads Community Club</option>
+                    <option value="sun-open-source-sect-club">SUN Open Source (SECT) Club</option>
+                    <option value="sun-cyber-security-club">SUN Cyber Security Club</option>
+                    <option value="sun-astronomy-club">SUN Astronomy Club</option>
+                    <option value="sun-talk-club">SUN Talk Club</option>
+                    <option value="sun-esports-club">SUN Esports Club</option>
+                    <option value="sun-act-club">SUN Action for Collective Transformation Club</option>
+                    <option value="sun-aero-modelling-club">SUN Aero Modelling Club</option>
+                    <option value="sun-apps-bloggers-club">SUN Apps and Bloggers Club</option>
+                    <option value="sun-culinary-club">SUN Culinary Club</option>
+                    <option value="sun-cycling-club">SUN Cycling Club</option>
+                    <option value="sun-ecological-club">SUN Ecological Club</option>
+                    <option value="sun-energy-club">SUN Energy Club</option>
+                    <option value="sun-fitness-club">SUN Fitness Club</option>
+                    <option value="sun-aiml-robotics-club">SUN AIML & Robotics Club</option>
+                    <option value="sun-movie-club">SUN Movie Club</option>
+                    <option value="sun-quiz-debate-club">SUN Quiz & Debate Club</option>
+                    <option value="sun-science-club">SUN Science Club</option>
+                    <option value="sun-youth-empowerment-club">SUN Youth Empowerment Club</option>
+                    <option value="sun-webmaster-club">SUN WebMaster Club</option>
+                    <option value="sun-innovator-club">SUN Innovator Club</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control" id="password" placeholder="Password" required>
@@ -296,23 +177,127 @@
         </div>
       </section>
     </main>
-
-    <footer>
-      <!-- Footer content would be here -->
-    </footer>
     
     <!-- CLOUDFLARE ANALYTICS INTEGRATION - Add Cloudflare Web Analytics here for privacy-focused analytics -->
     
+    <!-- Main JS Files -->
+    <script defer="" async="" src="js/main.js"></script>
+    <script defer="" async="" src="js/sliders.js"></script>
+    
+    <!-- Supabase Configuration and Authentication -->
     <script>
-      // Form submission handling
-      document.getElementById('presidentLoginForm').addEventListener('submit', function(e) {
+      // Initialize the Supabase client
+      const SUPABASE_URL = 'https://wlvyzynxpawwzpjeicxp.supabase.co'; // Replace with your actual Supabase URL
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsdnl6eW54cGF3d3pwamVpY3hwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyMTU1MDAsImV4cCI6MjA2Nzc5MTUwMH0.Pklrv6OADXUt566nkUQnfJZizabWVtidQgTPvgR4V_s'; // Replace with your actual Supabase anon key
+      const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      
+      // Form submission handling with Supabase authentication
+      document.getElementById('presidentLoginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        // Authentication logic would go here
-        console.log('Login form submitted');
-        // For demo purposes only - would normally be replaced with actual authentication
-        alert('Login functionality will be implemented soon.');
+        
+        // Show loading state
+        const submitBtn = document.querySelector('.submit-btn');
+        const originalBtnText = submitBtn.innerText;
+        submitBtn.innerText = 'Logging in...';
+        submitBtn.disabled = true;
+        
+        const clubId = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+          // Method 1: Using Supabase Auth (recommended for production)
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email: `${clubId}@example.com`, // You may need to adjust this based on your auth setup
+            password: password
+          });
+          
+          if (error) throw error;
+          
+          // Get additional club information from the database
+          const { data: clubData, error: clubError } = await supabase
+            .from('clubs')
+            .select('*')
+            .eq('club_id', clubId)
+            .single();
+          
+          if (clubError) throw clubError;
+          
+          console.log('Login successful:', data);
+          console.log('Club data:', clubData);
+          
+          // Store session data
+          localStorage.setItem('clubId', clubId);
+          localStorage.setItem('clubName', clubData.name);
+          localStorage.setItem('clubRole', clubData.role || 'president');
+          
+          // Redirect to dashboard
+          window.location.href = 'dashboard.html';
+          
+        } catch (error) {
+          console.error('Error during login:', error.message);
+          
+          // Show error message to user
+          alert(`Login failed: ${error.message}`);
+          
+          // Reset button state
+          submitBtn.innerText = originalBtnText;
+          submitBtn.disabled = false;
+        }
+      });
+      
+      // Check if user is already logged in
+      document.addEventListener('DOMContentLoaded', async function() {
+        try {
+          const { data: { session }, error } = await supabase.auth.getSession();
+          
+          if (session) {
+            console.log('User is already logged in');
+            window.location.href = 'dashboard.html';
+          }
+        } catch (error) {
+          console.error('Session check error:', error.message);
+        }
+      });
+      
+      // Handle forgot password
+      document.querySelector('.forgot-password a').addEventListener('click', async function(e) {
+        e.preventDefault();
+        
+        const clubId = document.getElementById('email').value;
+        
+        if (!clubId || clubId === '') {
+          alert('Please select your club first');
+          return;
+        }
+        
+        try {
+          // Get the email associated with the club
+          const { data, error } = await supabase
+            .from('clubs')
+            .select('email')
+            .eq('club_id', clubId)
+            .single();
+            
+          if (error) throw error;
+          
+          if (!data || !data.email) {
+            throw new Error('No email found for this club');
+          }
+          
+          // Send password reset email
+          const { error: resetError } = await supabase.auth.resetPasswordForEmail(data.email, {
+            redirectTo: 'https://sandipuniversity.org/president-reset-password',
+          });
+          
+          if (resetError) throw resetError;
+          
+          alert('Password reset instructions have been sent to your email');
+          
+        } catch (error) {
+          console.error('Error sending reset instructions:', error.message);
+          alert(`Error: ${error.message}`);
+        }
       });
     </script>
-  </section>
 </body>
 </html>
