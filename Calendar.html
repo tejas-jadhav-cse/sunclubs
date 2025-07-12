@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Calendar</title>
+    <link rel="stylesheet" href="Calendar.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button id="prevMonth" > Previous</button>
+                <h2 class="month-year" id="monthYear"></h2>
+                <button id="nextMonth">Next </button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+                <!-- Days of the week header -->
+                <div class="calendar-day-header">Sun</div>
+                <div class="calendar-day-header">Mon</div>
+                <div class="calendar-day-header">Tue</div>
+                <div class="calendar-day-header">Wed</div>
+                <div class="calendar-day-header">Thu</div>
+                <div class="calendar-day-header">Fri</div>
+                <div class="calendar-day-header">Sat</div>
+                <!-- Calendar days will be inserted here by JavaScript -->
+            </div>
+        </div>
+        <div class="event-panel">
+            <div class="event-panel-header">
+                <h3 class="event-panel-title">Event Details</h3>
+                <button class="close-panel">×</button>
+            </div>
+            <div class="event-date"></div>
+            <div class="event-details"></div>
+        </div>
+    </div>
+
+    <script>
+        class Calendar {
+            constructor() {
+                this.date = new Date();
+                this.currentMonth = this.date.getMonth();
+                this.currentYear = this.date.getFullYear();
+                
+                this.monthYear = document.getElementById('monthYear');
+                this.calendarGrid = document.getElementById('calendarGrid');
+                this.prevButton = document.getElementById('prevMonth');
+                this.nextButton = document.getElementById('nextMonth');
+                
+                this.prevButton.addEventListener('click', () => this.previousMonth());
+                this.nextButton.addEventListener('click', () => this.nextMonth());
+                
+                // Sample events - you can replace this with your actual events
+                this.events = [
+                    { 
+                        date: new Date(2025, 6, 12), 
+                        title: 'Shardium Meetup',
+                        description: 'Discover Shardeum — the EVM-based L1 blockchain that scales infinitely with low gas fees. Join us for insightful talks, networking, demos, and Web3 vibes!.',
+                        location: 'O-building Seminar Hall',
+                        time: '11:00 AM - 1:00 PM',
+                        club: 'SECT Club',
+                        image: 'images/academicscurriculum.webp',
+                        coordinators: [
+                            { name: 'Tejas Jadhav', contact: '+91 93560 16156', role: 'Head Coordinator' },
+                            { name: 'Sai kannadkar', contact: '+91 72191 224801 7249516546', role: 'Assistant Coordinator' }
+                        ]
+                    },
+                    { 
+                        date: new Date(2025, 6, 20), 
+                        title: 'Project Submission',
+                        description: 'Final project submission for the semester. Ensure all documentation is complete and properly formatted.',
+                        location: 'Department Office',
+                        time: '10:00 AM',
+                        club: 'Tech Club',
+                        image: 'images/challengesHeroBg.webp',
+                        coordinators: [
+                            { name: 'Alex Johnson', contact: '+91 9876543212', role: 'Project Lead' },
+                            { name: 'Sarah Williams', contact: '+91 9876543213', role: 'Technical Coordinator' }
+                        ]
+                    },
+                    { 
+                        date: new Date(2025, 6, 25), 
+                        title: 'Guest Lecture',
+                        description: 'Special guest lecture on Advanced Technologies in Industry 4.0',
+                        location: 'Auditorium',
+                        time: '2:00 PM - 4:00 PM',
+                        club: 'Industry Connect Club',
+                        image: 'images/companiesBG.webp',
+                        coordinators: [
+                            { name: 'Michael Brown', contact: '+91 9876543214', role: 'Event Manager' },
+                            { name: 'Emily Davis', contact: '+91 9876543215', role: 'Guest Relations' }
+                        ]
+                    }
+                ];
+                
+                this.mainContainer = document.querySelector('.main-container');
+                this.eventPanel = document.querySelector('.event-panel');
+                this.eventPanelTitle = this.eventPanel.querySelector('.event-panel-title');
+                this.eventDate = this.eventPanel.querySelector('.event-date');
+                this.eventDetails = this.eventPanel.querySelector('.event-details');
+                
+                // Close panel button
+                const closeButton = this.eventPanel.querySelector('.close-panel');
+                closeButton.addEventListener('click', () => this.hideEventDetails());
+                
+                this.render();
+            }
+            
+            render() {
+                // Update month and year display
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                              'July', 'August', 'September', 'October', 'November', 'December'];
+                this.monthYear.innerHTML = `
+                    <span class="month">${months[this.currentMonth]}</span>
+                    <span class="year">${this.currentYear}</span>
+                `;
+                
+                // Clear previous calendar days
+                const headerCells = Array.from(this.calendarGrid.querySelectorAll('.calendar-day-header'));
+                this.calendarGrid.innerHTML = '';
+                headerCells.forEach(cell => this.calendarGrid.appendChild(cell));
+                
+                // Get first day of the month
+                const firstDay = new Date(this.currentYear, this.currentMonth, 1);
+                const startingDay = firstDay.getDay();
+                
+                // Get last day of the month
+                const lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
+                const totalDays = lastDay.getDate();
+                
+                // Get last day of previous month
+                const prevMonthLastDay = new Date(this.currentYear, this.currentMonth, 0).getDate();
+                
+                // Previous month's days
+                for (let i = startingDay - 1; i >= 0; i--) {
+                    const dayEl = this.createDayElement(prevMonthLastDay - i, true);
+                    this.calendarGrid.appendChild(dayEl);
+                }
+                
+                // Current month's days
+                const today = new Date();
+                for (let i = 1; i <= totalDays; i++) {
+                    const isToday = today.getDate() === i && 
+                                  today.getMonth() === this.currentMonth && 
+                                  today.getFullYear() === this.currentYear;
+                    const dayEl = this.createDayElement(i, false, isToday);
+                    
+                    // Add events for this day
+                    const dayEvents = this.events.filter(event => {
+                        return event.date.getDate() === i &&
+                               event.date.getMonth() === this.currentMonth &&
+                               event.date.getFullYear() === this.currentYear;
+                    });
+                    
+                    if (dayEvents.length > 0) {
+                        dayEl.classList.add('has-event');
+                        
+                        // Add click handler for the entire day on mobile
+                        dayEl.addEventListener('click', () => {
+                            if (window.innerWidth <= 768) {
+                                this.showEventDetails(dayEvents[0]); // Show first event if multiple
+                            }
+                        });
+                    }
+                    
+                    dayEvents.forEach(event => {
+                        const eventEl = document.createElement('div');
+                        eventEl.className = 'event';
+                        eventEl.textContent = event.title;
+                        eventEl.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Prevent day click on desktop
+                            this.showEventDetails(event);
+                        });
+                        dayEl.appendChild(eventEl);
+                    });
+                    
+                    this.calendarGrid.appendChild(dayEl);
+                }
+                
+                // Next month's days
+                const remainingDays = 42 - (startingDay + totalDays); // 42 is 6 rows * 7 days
+                for (let i = 1; i <= remainingDays; i++) {
+                    const dayEl = this.createDayElement(i, true);
+                    this.calendarGrid.appendChild(dayEl);
+                }
+            }
+            
+            createDayElement(day, isOtherMonth, isToday = false) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                if (isOtherMonth) dayEl.classList.add('other-month');
+                if (isToday) dayEl.classList.add('today');
+                dayEl.textContent = day;
+                return dayEl;
+            }
+            
+            previousMonth() {
+                this.currentMonth--;
+                if (this.currentMonth < 0) {
+                    this.currentMonth = 11;
+                    this.currentYear--;
+                }
+                this.render();
+            }
+            
+            nextMonth() {
+                this.currentMonth++;
+                if (this.currentMonth > 11) {
+                    this.currentMonth = 0;
+                    this.currentYear++;
+                }
+                this.render();
+            }
+            
+            showEventDetails(event) {
+                this.mainContainer.classList.add('panel-active');
+                this.eventPanel.classList.add('active');
+                
+                // Prevent body scroll on mobile
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('panel-open');
+                }                    // Format the date
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const formattedDate = event.date.toLocaleDateString(undefined, options);
+                
+                // Update panel content
+                this.eventPanelTitle.textContent = event.title;  // Set the title area
+                this.eventDate.textContent = formattedDate;  // Set the date area
+                this.eventDetails.innerHTML = `
+                    <div class="event-content">
+                        <h2 class="event-title">${event.title}</h2>
+                        <img src="${event.image}" alt="${event.title}" class="event-image">
+                        <div class="event-info">
+                            <div class="club-name">${event.club}</div>
+                            <p><i class="far fa-calendar"></i> ${formattedDate} | ${event.time}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${event.location}</p>
+                        </div>
+                        <p class="event-info">${event.description}</p>
+                        <div class="event-coordinators">
+                            <h3>Event Coordinators</h3>
+                            ${event.coordinators.map(coord => `
+                                <div class="coordinator">
+                                    <p><strong>${coord.name}</strong> - ${coord.role}</p>
+                                    <p><i class="fas fa-phone"></i> ${coord.contact}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <button class="register-btn" data-event-title="${event.title}">Register for Event</button>
+                `;
+                
+                // Add event listener to the register button with proper event delegation
+                const registerBtn = this.eventDetails.querySelector('.register-btn');
+                if (registerBtn) {
+                    // Remove any existing event listeners
+                    registerBtn.onclick = null;
+                    
+                    // Add new event listener
+                    registerBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.handleRegistration(event);
+                    }, { passive: false });
+                    
+                    // Also add touch event for better mobile support
+                    registerBtn.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.handleRegistration(event);
+                    }, { passive: false });
+                }
+                
+                // Scroll to top of event details
+                setTimeout(() => {
+                    this.eventDetails.scrollTop = 0;
+                }, 100);
+            }
+            
+            handleRegistration(event) {
+                // Provide user feedback
+                const registerBtn = this.eventDetails.querySelector('.register-btn');
+                if (registerBtn) {
+                    const originalText = registerBtn.textContent;
+                    registerBtn.textContent = 'Registering...';
+                    registerBtn.disabled = true;
+                    
+                    // Simulate registration process
+                    setTimeout(() => {
+                        alert(`Registration successful for "${event.title}"!\n\nYou will receive a confirmation email shortly.`);
+                        registerBtn.textContent = 'Registered ✓';
+                        registerBtn.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
+                        
+                        // Reset after 3 seconds
+                        setTimeout(() => {
+                            registerBtn.textContent = originalText;
+                            registerBtn.disabled = false;
+                            registerBtn.style.background = 'linear-gradient(90deg, #5A42EF, #EB4886)';
+                        }, 3000);
+                    }, 1000);
+                }
+            }
+            
+            hideEventDetails() {
+                this.mainContainer.classList.remove('panel-active');
+                this.eventPanel.classList.remove('active');
+                
+                // Re-enable body scroll on mobile
+                if (window.innerWidth <= 768) {
+                    document.body.classList.remove('panel-open');
+                }
+            }
+        }
+
+        // Initialize the calendar
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendar = new Calendar();
+        });
+    </script>
+</body>
+</html>
