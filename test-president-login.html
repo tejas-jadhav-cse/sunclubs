@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test President Login Configuration</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config-manager.js"></script>
+    <script src="js/logger.js"></script>
+    <script src="js/supabase-config.js"></script>
+</head>
+<body>
+    <h1>Testing President Login Configuration</h1>
+    <div id="test-results"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultsDiv = document.getElementById('test-results');
+            
+            function addResult(test, status, message) {
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${test}:</strong> <span style="color: ${status === 'PASS' ? 'green' : 'red'}">${status}</span> - ${message}`;
+                resultsDiv.appendChild(p);
+            }
+            
+            // Test 1: Configuration Manager
+            try {
+                const hasConfigManager = typeof configManager !== 'undefined';
+                addResult('Configuration Manager', hasConfigManager ? 'PASS' : 'FAIL', 
+                    hasConfigManager ? 'Available' : 'Not loaded');
+                
+                if (hasConfigManager) {
+                    const config = configManager.getSupabaseConfig();
+                    addResult('Supabase Config', config.url && config.anonKey ? 'PASS' : 'FAIL',
+                        `URL: ${config.url ? 'Set' : 'Missing'}, Key: ${config.anonKey ? 'Set' : 'Missing'}`);
+                }
+            } catch (e) {
+                addResult('Configuration Manager', 'FAIL', e.message);
+            }
+            
+            // Test 2: Supabase Client
+            try {
+                const hasCreateClient = typeof window.createSupabaseClient === 'function';
+                addResult('Create Supabase Client Function', hasCreateClient ? 'PASS' : 'FAIL',
+                    hasCreateClient ? 'Available' : 'Not found');
+                
+                if (hasCreateClient) {
+                    const client = window.createSupabaseClient();
+                    addResult('Supabase Client Creation', client ? 'PASS' : 'FAIL',
+                        client ? 'Client created successfully' : 'Failed to create client');
+                }
+            } catch (e) {
+                addResult('Supabase Client', 'FAIL', e.message);
+            }
+            
+            // Test 3: Authentication (with test credentials)
+            setTimeout(async function() {
+                try {
+                    const client = window.createSupabaseClient();
+                    if (client) {
+                        // Test with obviously fake credentials to see error response
+                        const { data, error } = await client.auth.signInWithPassword({
+                            email: 'test@example.com',
+                            password: 'wrongpassword'
+                        });
+                        
+                        if (error) {
+                            addResult('Supabase Auth Test', 'PASS', 
+                                `Connection working - Expected error: ${error.message}`);
+                        } else {
+                            addResult('Supabase Auth Test', 'UNEXPECTED', 
+                                'Unexpected success with test credentials');
+                        }
+                    }
+                } catch (e) {
+                    addResult('Supabase Auth Test', 'FAIL', e.message);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

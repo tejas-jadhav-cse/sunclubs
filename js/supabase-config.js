@@ -21,11 +21,46 @@ const SUPABASE_CONFIG = (() => {
     }
 })();
 
-// Initialize Supabase client with secure configuration
-const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+// Store the original Supabase library reference before we overwrite window.supabase
+const SupabaseLibrary = window.supabase;
 
-// Make supabase available globally
-window.supabase = supabase;
+// Singleton Supabase client instance
+let supabaseClientInstance = null;
+
+// Initialize Supabase client with secure configuration (singleton pattern)
+function createSupabaseClient() {
+    // Return existing instance if already created
+    if (supabaseClientInstance) {
+        console.log('🔄 Returning existing Supabase client instance');
+        return supabaseClientInstance;
+    }
+
+    try {
+        if (SupabaseLibrary && SupabaseLibrary.createClient) {
+            supabaseClientInstance = SupabaseLibrary.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+            console.log('✅ Single Supabase client created');
+            return supabaseClientInstance;
+        } else {
+            console.warn('⚠️ Supabase library not available during client creation');
+            return null;
+        }
+    } catch (error) {
+        console.error('❌ Failed to create Supabase client:', error);
+        return null;
+    }
+}
+
+// Create the initial client instance
+const supabase = createSupabaseClient();
+
+// Make supabase client available globally (but preserve library access)
+if (supabase) {
+    window.supabaseClient = supabase;
+}
+// Keep the original library accessible
+window.SupabaseLibrary = SupabaseLibrary;
+// Expose the singleton creation function
+window.createSupabaseClient = createSupabaseClient;
 
 // Available clubs (modify as needed)
 const AVAILABLE_CLUBS = [
@@ -157,16 +192,16 @@ function initializeSupabase() {
         return null;
     }
 
-    try {
-        if (!window.supabase) {
-            console.error('Supabase library not loaded. Make sure to include the Supabase script.');
-            return null;
-        }
-        return window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-    } catch (error) {
-        console.error('Failed to initialize Supabase:', error);
-        return null;
+    console.log('🔥 Getting Supabase client instance...');
+    
+    // Return existing singleton instance instead of creating a new one
+    if (supabaseClientInstance) {
+        console.log('✅ Returning existing Supabase client instance');
+        return supabaseClientInstance;
     }
+
+    // If no instance exists, create one using the singleton function
+    return createSupabaseClient();
 }
 
 /**
@@ -307,4 +342,15 @@ if (typeof module !== 'undefined' && module.exports) {
         validateField,
         getFormData
     };
+}
+
+// Browser environment - expose everything globally for direct access
+if (typeof window !== 'undefined') {
+    window.VALIDATION_RULES = VALIDATION_RULES;
+    window.MESSAGES = MESSAGES;
+    window.AVAILABLE_CLUBS = AVAILABLE_CLUBS;
+    window.initializeSupabase = initializeSupabase;
+    window.submitApplication = submitApplication;
+    window.validateField = validateField;
+    window.getFormData = getFormData;
 }

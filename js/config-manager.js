@@ -5,9 +5,13 @@
 
 class ConfigManager {
     constructor() {
+        console.log('🔧 ConfigManager: Initializing...');
         this.config = {};
         this.isProduction = this.getEnvironment() === 'production';
+        console.log('🔧 ConfigManager: Environment detected:', this.getEnvironment());
+        console.log('🔧 ConfigManager: Is Production:', this.isProduction);
         this.loadConfiguration();
+        console.log('🔧 ConfigManager: Configuration loaded successfully');
     }
 
     /**
@@ -38,13 +42,19 @@ class ConfigManager {
      * Get environment variable safely
      */
     getEnvVar(key) {
+        // Node.js environment
         if (typeof process !== 'undefined' && process.env) {
             return process.env[key];
         }
         
-        // For client-side, check if variables are injected
+        // For client-side, check if variables are injected by build tools
         if (typeof window !== 'undefined' && window.__ENV__) {
             return window.__ENV__[key];
+        }
+        
+        // Manual environment injection for browser (fallback)
+        if (typeof window !== 'undefined' && window.__MANUAL_ENV__) {
+            return window.__MANUAL_ENV__[key];
         }
         
         return null;
@@ -54,9 +64,29 @@ class ConfigManager {
      * Get current environment
      */
     getEnvironment() {
-        return this.getEnvVar('VITE_ENVIRONMENT') || 
-               this.getEnvVar('NODE_ENV') || 
-               (window.location.hostname === 'localhost' ? 'development' : 'production');
+        // First check for explicit environment variables
+        const envVar = this.getEnvVar('VITE_ENVIRONMENT') || this.getEnvVar('NODE_ENV');
+        if (envVar) return envVar;
+        
+        // For browser applications, use hostname to determine environment
+        if (typeof window !== 'undefined') {
+            const hostname = window.location.hostname;
+            
+            // Development environments
+            if (hostname === 'localhost' || 
+                hostname === '127.0.0.1' || 
+                hostname.includes('localhost') ||
+                hostname.includes('127.0.0.1') ||
+                hostname.includes('.local')) {
+                return 'development';
+            }
+            
+            // Production environments (hosted domains)
+            return 'production';
+        }
+        
+        // Default fallback
+        return 'development';
     }
 
     /**

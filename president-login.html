@@ -267,9 +267,22 @@
         const password = document.getElementById('password').value;
         
         try {
-          // Check if required dependencies are loaded
-          if (typeof supabase === 'undefined') {
-            throw new Error('Supabase library not loaded. Please check your internet connection.');
+          // Initialize Supabase client using singleton pattern
+          let supabaseClient = window.createSupabaseClient ? window.createSupabaseClient() : null;
+          
+          if (!supabaseClient) {
+            // Fallback: try to use global supabaseClient or initialize directly
+            if (window.supabaseClient) {
+              supabaseClient = window.supabaseClient;
+            } else if (typeof initializeSupabase === 'function') {
+              supabaseClient = initializeSupabase();
+            } else {
+              throw new Error('Supabase client not available. Please check configuration.');
+            }
+          }
+          
+          if (!supabaseClient) {
+            throw new Error('Failed to initialize Supabase client. Please check your configuration.');
           }
           
           if (typeof logger === 'undefined') {
@@ -280,6 +293,13 @@
               success: console.log
             };
           }
+          
+          logger.debug('Login form initialization', { 
+            hasConfigManager: typeof configManager !== 'undefined',
+            hasCreateSupabaseClient: typeof window.createSupabaseClient === 'function',
+            hasGlobalSupabaseClient: !!window.supabaseClient,
+            hasInitializeSupabase: typeof initializeSupabase === 'function'
+          });
           
           // Validate inputs
           if (!email) {
@@ -294,10 +314,10 @@
             throw new Error('Please enter your password');
           }
 
-          logger.debug('Attempting login', { email: email });
+          logger.debug('Attempting login with Supabase client', { email: email });
 
-          // Direct Supabase authentication
-          const { data, error } = await supabase.auth.signInWithPassword({
+          // Use the properly configured Supabase client for authentication
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password
           });
@@ -309,22 +329,67 @@
 
           logger.success('Login successful', { userId: data.user.id });
 
-          // Get the club president data for this user
+          // Get the club president data for this user with flexible club data fetching
           logger.debug('Fetching club president data', { userId: data.user.id });
           
-          const { data: presidentData, error: presidentError } = await supabase
-            .from('club_presidents')
-            .select(`
-              *,
-              clubs (
-                club_id,
-                name,
-                category
-              )
-            `)
-            .eq('user_id', data.user.id)
-            .eq('status', 'active')
-            .single();
+          // First try to get president data with club join
+          let presidentData = null;
+          let presidentError = null;
+          
+          try {
+            const result = await supabaseClient
+              .from('club_presidents')
+              .select(`
+                *,
+                clubs (
+                  club_id,
+                  name,
+                  category
+                )
+              `)
+              .eq('user_id', data.user.id)
+              .eq('status', 'active')
+              .single();
+            
+            presidentData = result.data;
+            presidentError = result.error;
+          } catch (joinError) {
+            logger.warn('Club join failed, trying without join', joinError);
+            
+            // Fallback: get president data without club join
+            const result = await supabaseClient
+              .from('club_presidents')
+              .select('*')
+              .eq('user_id', data.user.id)
+              .eq('status', 'active')
+              .single();
+            
+            presidentData = result.data;
+            presidentError = result.error;
+            
+            // If successful, try to get club info separately
+            if (presidentData && !presidentError) {
+              try {
+                const clubResult = await supabaseClient
+                  .from('clubs')
+                  .select('club_id, name, category')
+                  .eq('club_id', presidentData.club_id)
+                  .single();
+                
+                if (clubResult.data) {
+                  presidentData.clubs = clubResult.data;
+                }
+              } catch (clubError) {
+                logger.warn('Could not fetch club details', clubError);
+                // Create fallback club data
+                presidentData.clubs = {
+                  club_id: presidentData.club_id,
+                  name: presidentData.club_id.charAt(0).toUpperCase() + presidentData.club_id.slice(1) + ' Club',
+                  category: 'unknown'
+                };
+              }
+            }
+          }
 
           logger.debug('President data query result', { 
             hasData: !!presidentData, 
@@ -375,9 +440,18 @@
             errorMessage = 'Please enter a valid email address.';
           } else if (error.message.includes('No active club president')) {
             errorMessage = 'No club president account found. Contact admin to set up your account.';
+          } else if (error.message.includes('Supabase client not available') || error.message.includes('Failed to initialize')) {
+            errorMessage = 'Configuration error. Please contact support or try refreshing the page.';
           } else {
             errorMessage += error.message;
           }
+          
+          // Log the full error for debugging
+          logger.error('Full error details', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+          });
           
           // Show error message
           showModernErrorMessage(errorMessage);
