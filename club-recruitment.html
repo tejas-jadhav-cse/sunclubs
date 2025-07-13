@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <link rel="icon" href="images/mu-fav-ico.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Club Recruitment - Sandip University</title>
+    <meta name="description" content="Join the amazing clubs at Sandip University. Apply now to be part of our vibrant community.">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+    </style>
+
+    <link rel="stylesheet" href="css/master-production.css">
+    <link rel="stylesheet" href="css/root.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/input-validator.js"></script>
+    <script src="js/modal-manager.js"></script>
+    <script src="js/supabase-config.js"></script>
+
+    <style>
+        /* Custom styles for club recruitment page */
+        .recruitment-page {
+            min-height: 100vh;
+            background: var(--white);
+            padding: 40px 0;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: transparent;
+            border: 1px solid var(--grey18);
+            border-radius: 50px;
+            color: var(--black);
+            font-family: 'go-medium';
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .back-button:hover {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        .back-button svg {
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-3px);
+        }
+
+        .recruitment-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .recruitment-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .recruitment-title {
+            font-family: 'go-regular';
+            font-size: 48px;
+            color: var(--black);
+            line-height: 110%;
+            margin-bottom: 16px;
+        }
+
+        .recruitment-subtitle {
+            font-family: 'go-regular';
+            font-size: 18px;
+            color: var(--grey);
+            line-height: 150%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .recruitment-form {
+            background: var(--white);
+            border: 1px solid var(--grey18);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(9, 9, 9, 0.05);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            width: 100%;
+        }
+
+        .form-label {
+            font-family: 'go-medium';
+            font-size: 14px;
+            color: var(--black);
+            margin-bottom: 8px;
+            line-height: 130%;
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: var(--red);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--grey18);
+            border-radius: 8px;
+            background: var(--white3);
+            font-family: 'go-medium';
+            font-size: 16px;
+            color: var(--black);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--black);
+            background: var(--white);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'go-regular';
+        }
+
+        /* Toggle Buttons */
+        .toggle-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .toggle-button {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid var(--grey18);
+            border-radius: 8px;
+            background: var(--white3);
+            color: var(--grey);
+            font-family: 'go-medium';
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .toggle-button:hover {
+            border-color: var(--black);
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .toggle-button.active {
+            border-color: var(--black);
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .toggle-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced Select Dropdowns */
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        select.form-input:focus {
+            outline: none;
+            border-color: var(--black);
+            background: var(--white);
+        }
+
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .club-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid var(--grey18);
+            border-radius: 8px;
+            background: var(--white3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .club-option:hover {
+            border-color: var(--black);
+            background: var(--white);
+        }
+
+        .club-option.selected {
+            border-color: var(--black);
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .club-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--grey18);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .club-option.selected .club-checkbox {
+            border-color: var(--white);
+            background: var(--white);
+        }
+
+        .club-checkbox::after {
+            content: "✓";
+            font-size: 10px;
+            color: var(--black);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .club-option.selected .club-checkbox::after {
+            opacity: 1;
+        }
+
+        .club-label {
+            font-family: 'go-medium';
+            font-size: 14px;
+            user-select: none;
+        }
+
+        .consent-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 30px 0;
+            padding: 16px;
+            background: var(--grey7);
+            border-radius: 8px;
+        }
+
+        .consent-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--grey18);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .consent-checkbox.checked {
+            border-color: var(--black);
+            background: var(--black);
+        }
+
+        .consent-checkbox::after {
+            content: "✓";
+            font-size: 12px;
+            color: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .consent-checkbox.checked::after {
+            opacity: 1;
+        }
+
+        .consent-text {
+            font-family: 'go-regular';
+            font-size: 14px;
+            color: var(--grey);
+            line-height: 150%;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-family: 'go-medium';
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .submit-button:hover {
+            background: var(--grey17);
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            background: var(--grey18);
+            color: var(--grey);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: var(--red);
+            font-family: 'go-medium';
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .success-message {
+            background: var(--green2);
+            color: var(--white);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'go-medium';
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-banner {
+            background: var(--red);
+            color: var(--white);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'go-medium';
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .recruitment-container {
+                padding: 0 16px;
+            }
+
+            .recruitment-title {
+                font-size: 36px;
+            }
+
+            .recruitment-form {
+                padding: 24px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .clubs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .back-button {
+                margin-bottom: 30px;
+            }
+
+            .toggle-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .toggle-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="recruitment-page">
+        <div class="recruitment-container">
+            <!-- Back Button -->
+            <a href="/" class="back-button">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Go Back
+            </a>
+
+            <!-- Header -->
+            <div class="recruitment-header">
+                <h1 class="recruitment-title">Join Our <span class="fr-HeadingItalic">Amazing Clubs</span></h1>
+                <p class="recruitment-subtitle">
+                    Be part of something bigger. Apply to join the clubs that match your interests and make lifelong connections.
+                </p>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div id="success-message" class="success-message"></div>
+            <div id="error-banner" class="error-banner"></div>
+
+            <!-- Form -->
+            <form id="recruitment-form" class="recruitment-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            class="form-input" 
+                            placeholder="Enter your full name" 
+                            required
+                            data-validate="name"
+                            minlength="2"
+                            maxlength="50"
+                        >
+                        <div class="error-message" id="fullName-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="form-input" 
+                            placeholder="Enter your email address" 
+                            required
+                            data-validate="email"
+                        >
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            class="form-input" 
+                            placeholder="Enter your phone number"
+                            data-validate="phone"
+                        >
+                        <div class="error-message" id="phone-error"></div>
+                    </div>
+                </div>
+
+                <!-- Institution Toggle -->
+                <div class="form-group full-width">
+                    <label class="form-label required">Institution</label>
+                    <div class="toggle-container">
+                        <button type="button" class="toggle-button active" id="sandip-foundation" data-institution="foundation">
+                            Sandip Foundation
+                        </button>
+                        <button type="button" class="toggle-button" id="sandip-university" data-institution="university">
+                            Sandip University
+                        </button>
+                    </div>
+                    <div class="error-message" id="institution-error"></div>
+                </div>
+
+                <!-- College, Branch & Year Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">College</label>
+                        <select id="college" class="form-input" required>
+                            <option value="">Select College</option>
+                            <option value="SIEM">SIEM</option>
+                            <option value="SITRC">SITRC</option>
+                            <option value="SP">SP</option>
+                            <option value="SIPS">SIPS</option>
+                            <option value="Jr. College">Jr. College</option>
+                        </select>
+                        <div class="error-message" id="college-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Branch</label>
+                        <select id="branch" class="form-input">
+                            <option value="">Select Branch (Optional)</option>
+                        </select>
+                        <div class="error-message" id="branch-error"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Year</label>
+                    <select id="year" class="form-input">
+                        <option value="">Select Year (Optional)</option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                        <option value="5th Year">5th Year</option>
+                    </select>
+                    <div class="error-message" id="year-error"></div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label required">Clubs to Join</label>
+                    <div class="clubs-grid" id="clubs-grid">
+                        <div class="club-option" data-club="tech">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Tech Club</span>
+                        </div>
+                        <div class="club-option" data-club="entrepreneurship">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Entrepreneurship Club</span>
+                        </div>
+                        <div class="club-option" data-club="cultural">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Cultural Club</span>
+                        </div>
+                        <div class="club-option" data-club="sports">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Sports Club</span>
+                        </div>
+                        <div class="club-option" data-club="debate">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Debate Club</span>
+                        </div>
+                        <div class="club-option" data-club="music">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Music Club</span>
+                        </div>
+                        <div class="club-option" data-club="dance">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Dance Club</span>
+                        </div>
+                        <div class="club-option" data-club="photography">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Photography Club</span>
+                        </div>
+                        <div class="club-option" data-club="community-service">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Community Service</span>
+                        </div>
+                        <div class="club-option" data-club="gaming">
+                            <div class="club-checkbox"></div>
+                            <span class="club-label">Gaming Club</span>
+                        </div>
+                    </div>
+                    <div class="error-message" id="clubs-error"></div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label required">Why do you want to join these clubs?</label>
+                    <textarea id="reason" class="form-input form-textarea" placeholder="Tell us about your interests, what you hope to gain, and how you plan to contribute..." required></textarea>
+                    <div class="error-message" id="reason-error"></div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Resume/Portfolio URL (Optional)</label>
+                    <input type="url" id="portfolio" class="form-input" placeholder="https://yourportfolio.com or drive.google.com/...">
+                    <div class="error-message" id="portfolio-error"></div>
+                </div>
+
+                <div class="consent-wrapper">
+                    <div class="consent-checkbox" id="consent-checkbox"></div>
+                    <div class="consent-text">
+                        I consent to the collection and processing of my personal data for club recruitment purposes. I understand that my information will be used to evaluate my application and communicate about club activities.
+                    </div>
+                </div>
+                <div class="error-message" id="consent-error"></div>
+
+                <button type="submit" class="submit-button" id="submit-button">
+                    <div class="loading-spinner" id="loading-spinner"></div>
+                    <span id="submit-text">Submit Application</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase client using configuration
+        const supabase = initializeSupabase();
+
+        // Form state - Initialize arrays properly
+        let selectedClubs = [];
+        let consentGiven = false;
+        let selectedInstitution = 'foundation'; // Default to Sandip Foundation
+
+        // Institution and course data
+        const institutionData = {
+            foundation: {
+                colleges: ['SIEM', 'SITRC', 'SP', 'SIPS', 'Jr. College'],
+                branches: {
+                    'SIEM': ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical', 'Civil'],
+                    'SITRC': ['Computer Science', 'Information Technology', 'Electronics', 'Mechanical'],
+                    'SP': ['Pharmacy', 'Pharmaceutical Sciences'],
+                    'SIPS': ['Physiotherapy', 'Occupational Therapy'],
+                    'Jr. College': ['Science', 'Commerce', 'Arts']
+                }
+            },
+            university: {
+                colleges: ['SOCSE', 'SOET', 'SOCMS', 'SOPS', 'SOL', 'SOS', 'SOD'],
+                branches: {
+                    'SOCSE': ['Computer Science & Engineering', 'Information Technology', 'Data Science', 'AI & ML'],
+                    'SOET': ['Mechanical Engineering', 'Civil Engineering', 'Electronics Engineering', 'Electrical Engineering'],
+                    'SOCMS': ['MBA', 'BBA', 'Commerce', 'Management Studies'],
+                    'SOPS': ['Pharmacy', 'Pharmaceutical Sciences', 'Pharmaceutical Chemistry'],
+                    'SOL': ['LLB', 'LLM', 'Legal Studies'],
+                    'SOS': ['B.Sc', 'M.Sc', 'Applied Sciences'],
+                    'SOD': ['BDS', 'MDS', 'Dental Sciences']
+                }
+            }
+        };
+
+        // DOM elements
+        const form = document.getElementById('recruitment-form');
+        const submitButton = document.getElementById('submit-button');
+        const submitText = document.getElementById('submit-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const successMessage = document.getElementById('success-message');
+        const errorBanner = document.getElementById('error-banner');
+
+        // Make variables available globally for the config file
+        window.selectedClubs = selectedClubs;
+        window.consentGiven = consentGiven;
+
+        // Institution toggle functionality
+        function initializeInstitutionToggle() {
+            const foundationBtn = document.getElementById('sandip-foundation');
+            const universityBtn = document.getElementById('sandip-university');
+            
+            function updateInstitution(institution) {
+                selectedInstitution = institution;
+                
+                // Update button states
+                foundationBtn.classList.toggle('active', institution === 'foundation');
+                universityBtn.classList.toggle('active', institution === 'university');
+                
+                // Update college dropdown
+                updateCollegeOptions();
+                
+                // Clear dependent dropdowns
+                clearBranchOptions();
+                clearError('institution');
+            }
+            
+            foundationBtn.addEventListener('click', () => updateInstitution('foundation'));
+            universityBtn.addEventListener('click', () => updateInstitution('university'));
+        }
+
+        // Update college dropdown based on selected institution
+        function updateCollegeOptions() {
+            const collegeSelect = document.getElementById('college');
+            const colleges = institutionData[selectedInstitution].colleges;
+            
+            // Clear existing options except the first one
+            collegeSelect.innerHTML = '<option value="">Select College</option>';
+            
+            // Add new options
+            colleges.forEach(college => {
+                const option = document.createElement('option');
+                option.value = college;
+                option.textContent = college;
+                collegeSelect.appendChild(option);
+            });
+            
+            // Clear branch dropdown when college options change
+            clearBranchOptions();
+        }
+
+        // Update branch dropdown based on selected college
+        function updateBranchOptions() {
+            const collegeSelect = document.getElementById('college');
+            const branchSelect = document.getElementById('branch');
+            const selectedCollege = collegeSelect.value;
+            
+            // Clear existing branch options
+            branchSelect.innerHTML = '<option value="">Select Branch (Optional)</option>';
+            
+            if (selectedCollege && institutionData[selectedInstitution].branches[selectedCollege]) {
+                const branches = institutionData[selectedInstitution].branches[selectedCollege];
+                
+                branches.forEach(branch => {
+                    const option = document.createElement('option');
+                    option.value = branch;
+                    option.textContent = branch;
+                    branchSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Clear branch dropdown
+        function clearBranchOptions() {
+            const branchSelect = document.getElementById('branch');
+            branchSelect.innerHTML = '<option value="">Select Branch (Optional)</option>';
+        }
+
+        // College change handler
+        document.getElementById('college').addEventListener('change', function() {
+            updateBranchOptions();
+            clearError('college');
+        });
+
+        // Debug function to check current state
+        function debugFormState() {
+            // Debug form state (development only)
+            if (typeof logger !== 'undefined') {
+                logger.debug('Current form state', {
+                    selectedClubs: selectedClubs,
+                    windowSelectedClubs: window.selectedClubs,
+                    consentGiven: consentGiven,
+                    windowConsentGiven: window.consentGiven
+                });
+            }
+        }
+
+        // Club selection functionality
+        document.querySelectorAll('.club-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const clubValue = this.getAttribute('data-club');
+                if (typeof logger !== 'undefined') {
+                    logger.debug('Club clicked', { clubValue });
+                }
+                
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    selectedClubs = selectedClubs.filter(club => club !== clubValue);
+                    if (typeof logger !== 'undefined') {
+                        logger.debug('Club removed', { selectedClubs });
+                    }
+                } else {
+                    // Check maximum selection limit
+                    if (selectedClubs.length >= VALIDATION_RULES.clubs.maxSelection) {
+                        showError('clubs', MESSAGES.validation.clubs.maxSelection);
+                        return;
+                    }
+                    this.classList.add('selected');
+                    selectedClubs.push(clubValue);
+                    if (typeof logger !== 'undefined') {
+                        logger.debug('Club added', { selectedClubs });
+                    }
+                }
+                
+                // Update global reference
+                window.selectedClubs = selectedClubs;
+                
+                // Clear clubs error immediately when selection changes
+                clearError('clubs');
+                
+                // Debug logging
+                if (typeof logger !== 'undefined') {
+                    logger.debug('Final selection state', { 
+                        selectedClubs, 
+                        windowSelectedClubs: window.selectedClubs 
+                    });
+                }
+            });
+        });
+
+        // Consent checkbox functionality
+        document.getElementById('consent-checkbox').addEventListener('click', function() {
+            consentGiven = !consentGiven;
+            this.classList.toggle('checked');
+            window.consentGiven = consentGiven; // Update global reference
+            clearError('consent');
+            
+            // Debug logging
+            if (typeof logger !== 'undefined') {
+                logger.debug('Consent changed', { consentGiven });
+            }
+        });
+
+        // Input validation helpers
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(fieldId + '-error');
+            if (errorElement) {
+                errorElement.textContent = message;
+            }
+        }
+
+        function clearError(fieldId) {
+            const errorElement = document.getElementById(fieldId + '-error');
+            if (errorElement) {
+                errorElement.textContent = '';
+            }
+        }
+
+        function showBanner(elementId, message, isError = false) {
+            const banner = document.getElementById(elementId);
+            banner.textContent = message;
+            banner.style.display = 'block';
+            
+            if (!isError) {
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Real-time validation for individual fields
+        function setupRealTimeValidation() {
+            const fieldMappings = {
+                'fullName': 'fullName',
+                'email': 'email', 
+                'phone': 'phone',
+                'college': 'college',
+                'reason': 'reason',
+                'portfolio': 'portfolio'
+            };
+
+            Object.entries(fieldMappings).forEach(([elementId, validationKey]) => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.addEventListener('blur', function() {
+                        const validation = validateField(validationKey, this.value.trim());
+                        if (!validation.isValid) {
+                            showError(elementId, validation.message);
+                        } else {
+                            clearError(elementId);
+                        }
+                    });
+                }
+            });
+
+            // Add change listeners for dropdowns
+            document.getElementById('branch').addEventListener('change', function() {
+                clearError('branch');
+            });
+            
+            document.getElementById('year').addEventListener('change', function() {
+                clearError('year');
+            });
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+            // Get current form data
+            const formData = getFormData();
+
+            // Debug logging
+            if (typeof logger !== 'undefined') {
+                logger.debug('Validating form', { 
+                    selectedClubs, 
+                    formDataClubs: formData.selected_clubs 
+                });
+            }
+
+            // Validate each field using the configuration
+            const fieldsToValidate = [
+                { name: 'fullName', value: formData.full_name },
+                { name: 'email', value: formData.email },
+                { name: 'phone', value: formData.phone },
+                { name: 'institution', value: formData.institution },
+                { name: 'college', value: formData.college },
+                { name: 'branch', value: formData.branch },
+                { name: 'year', value: formData.year },
+                { name: 'reason', value: formData.reason },
+                { name: 'portfolio', value: formData.portfolio_url },
+                { name: 'clubs', value: null }, // Special handling
+                { name: 'consent', value: formData.consent_given }
+            ];
+
+            fieldsToValidate.forEach(field => {
+                let validation;
+                
+                if (field.name === 'clubs') {
+                    // Use the local selectedClubs array directly
+                    if (typeof logger !== 'undefined') {
+                        logger.debug('Validating clubs', { selectedClubs });
+                    }
+                    validation = validateField('clubs', selectedClubs, selectedClubs);
+                } else if (field.name === 'consent') {
+                    validation = validateField('consent', consentGiven);
+                } else {
+                    validation = validateField(field.name, field.value);
+                }
+
+                if (!validation.isValid) {
+                    showError(field.name, validation.message);
+                    isValid = false;
+                }
+            });
+
+            return isValid;
+        }
+
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Debug current state before validation
+            debugFormState();
+
+            // Use new validation system
+            const validationResult = inputValidator.processFormData(form);
+            
+            if (!validationResult.isValid) {
+                if (typeof logger !== 'undefined') {
+                    logger.warn('Form validation failed:', validationResult.errors);
+                }
+                return;
+            }
+
+            // Show loading state
+            submitButton.disabled = true;
+            loadingSpinner.style.display = 'block';
+            submitText.textContent = MESSAGES.submitting;
+
+            try {
+                // Use sanitized data from validation
+                const formData = validationResult.data;
+
+                // Submit using the configuration helper
+                const result = await submitApplication(formData);
+
+                if (!result.success) {
+                    throw new Error(result.error || 'Submission failed');
+                }
+
+                if (typeof logger !== 'undefined') {
+                    logger.success('Application submitted successfully', result.data);
+                }
+
+                // Success feedback
+                showBanner('success-message', MESSAGES.success);
+                
+                // Reset form
+                form.reset();
+                selectedClubs = [];
+                consentGiven = false;
+                window.selectedClubs = selectedClubs;
+                window.consentGiven = consentGiven;
+                document.querySelectorAll('.club-option.selected').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                document.getElementById('consent-checkbox').classList.remove('checked');
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                if (typeof logger !== 'undefined') {
+                    logger.error('Submission error:', error);
+                }
+                showBanner('error-banner', MESSAGES.error, true);
+            } finally {
+                // Reset button state
+                submitButton.disabled = false;
+                loadingSpinner.style.display = 'none';
+                submitText.textContent = 'Submit Application';
+            }
+        });
+
+        // Clear error on input change
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', function() {
+                clearError(this.id);
+            });
+        });
+
+        // Auto-resize textarea
+        document.getElementById('reason').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+
+        // Initialize real-time validation
+        setupRealTimeValidation();
+
+        // Initialize institution toggle
+        initializeInstitutionToggle();
+
+        // Initialize college options for default institution
+        updateCollegeOptions();
+
+        if (typeof logger !== 'undefined') {
+            logger.info('Club Recruitment Form initialized');
+            logger.info('Remember to configure Supabase credentials in js/supabase-config.js');
+        }
+    </script>
+</body>
+
+</html>
