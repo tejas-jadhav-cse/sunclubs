@@ -1,6 +1,7 @@
 // Event Calendar JavaScript
 class EventCalendar {
     constructor() {
+        console.log('🗓️ Initializing EventCalendar...');
         this.currentDate = new Date();
         this.currentMonth = this.currentDate.getMonth();
         this.currentYear = this.currentDate.getFullYear();
@@ -64,11 +65,53 @@ class EventCalendar {
     }
 
     async init() {
+        console.log('🚀 Starting calendar initialization...');
+        
+        // Ensure we're starting with current date
+        this.currentDate = new Date();
+        this.currentMonth = this.currentDate.getMonth();
+        this.currentYear = this.currentDate.getFullYear();
+        
+        console.log(`📅 Current date: ${this.currentMonth + 1}/${this.currentYear}`);
+        
         this.setupEventListeners();
         this.updateMonthDisplay();
-        await this.loadEvents();
-        await this.loadClubFilters();
+        
+        console.log('📅 Showing calendar grid...');
+        // Force show the calendar grid immediately
+        this.forceShowCalendar();
         this.renderCalendar();
+        
+        console.log('📡 Loading events in background...');
+        // Try to load events in the background
+        try {
+            await this.loadEvents();
+            await this.loadClubFilters();
+            // Re-render calendar with events if successful
+            this.renderCalendar();
+            console.log('✅ Calendar initialization complete with events');
+        } catch (error) {
+            console.warn('⚠️ Failed to load events, but calendar is still functional', error);
+        }
+    }
+
+    forceShowCalendar() {
+        const loadingState = document.getElementById('loadingState');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const errorState = document.getElementById('errorState');
+        
+        if (loadingState) {
+            loadingState.style.display = 'none';
+            console.log('🚫 Hiding loading state');
+        }
+        if (calendarGrid) {
+            calendarGrid.style.display = 'block';
+            console.log('✅ Showing calendar grid');
+        }
+        if (errorState) {
+            errorState.style.display = 'none';
+            console.log('🚫 Hiding error state');
+        }
     }
 
     setupEventListeners() {
@@ -167,6 +210,14 @@ class EventCalendar {
 
     async loadEvents() {
         try {
+            // Check if eventManager is available
+            if (typeof eventManager === 'undefined') {
+                console.warn('EventManager not available, using empty events array');
+                this.events = [];
+                this.filteredEvents = [];
+                return;
+            }
+            
             this.showLoading();
             this.events = await eventManager.getAllEvents();
             this.filteredEvents = [...this.events];
@@ -176,12 +227,22 @@ class EventCalendar {
             if (typeof logger !== 'undefined') {
                 logger.error('Failed to load events:', error);
             }
-            this.showError();
+            console.warn('Events could not be loaded, but calendar will still be displayed');
+            // Show calendar even if events fail to load
+            this.events = [];
+            this.filteredEvents = [];
+            this.hideLoading();
+            this.renderCalendar();
         }
     }
 
     async loadClubFilters() {
         try {
+            if (typeof eventManager === 'undefined') {
+                // If eventManager is not available, skip loading club filters
+                return;
+            }
+            
             const clubs = await eventManager.getUniqueClubs();
             const clubFilter = document.getElementById('clubFilter');
             
@@ -198,6 +259,7 @@ class EventCalendar {
             if (typeof logger !== 'undefined') {
                 logger.error('Failed to load club filters:', error);
             }
+            console.warn('Club filters could not be loaded');
         }
     }
 
@@ -236,10 +298,19 @@ class EventCalendar {
 
     updateMonthDisplay() {
         const monthTitle = document.getElementById('currentMonth');
-        monthTitle.textContent = `${this.monthNames[this.currentMonth]} ${this.currentYear}`;
+        const displayText = `${this.monthNames[this.currentMonth]} ${this.currentYear}`;
+        
+        if (monthTitle) {
+            monthTitle.textContent = displayText;
+            console.log(`📅 Month display updated to: ${displayText}`);
+        } else {
+            console.error('❌ Could not find currentMonth element');
+        }
     }
 
     renderCalendar() {
+        console.log(`🎨 Rendering calendar for ${this.monthNames[this.currentMonth]} ${this.currentYear} with ${this.filteredEvents.length} events`);
+        
         const calendarDays = document.getElementById('calendarDays');
         calendarDays.innerHTML = '';
 
@@ -267,6 +338,8 @@ class EventCalendar {
         } else {
             this.hideNoEvents();
         }
+        
+        console.log('✅ Calendar rendered successfully');
     }
 
     createDayElement(date, todayDateString) {
@@ -352,9 +425,16 @@ class EventCalendar {
             eventElement.classList.add('virtualEvent');
         }
 
-        const status = eventManager.getEventStatus(event.event_date);
-        if (status === 'Completed' || status === 'Yesterday') {
-            eventElement.classList.add('completedEvent');
+        // Only try to get status if eventManager is available
+        if (typeof eventManager !== 'undefined') {
+            try {
+                const status = eventManager.getEventStatus(event.event_date);
+                if (status === 'Completed' || status === 'Yesterday') {
+                    eventElement.classList.add('completedEvent');
+                }
+            } catch (error) {
+                // Ignore status errors if eventManager is not working
+            }
         }
 
         // Click handler for individual event
@@ -411,15 +491,36 @@ class EventCalendar {
         }
 
         // Status badge
-        const status = eventManager.getEventStatus(event.event_date);
+        let status = 'Upcoming';
+        if (typeof eventManager !== 'undefined') {
+            try {
+                status = eventManager.getEventStatus(event.event_date);
+            } catch (error) {
+                // Use default status if eventManager fails
+            }
+        }
         const statusElement = document.getElementById('eventStatus');
         statusElement.textContent = status;
         statusElement.className = `statusBadge ${status.toLowerCase()}`;
 
         // Basic info
         document.getElementById('eventName').textContent = event.event_name;
-        document.getElementById('eventDate').textContent = eventManager.formatDate(event.event_date);
-        document.getElementById('eventTime').textContent = eventManager.formatTime(event.tentative_time);
+        
+        // Format date and time with fallbacks
+        let formattedDate = event.event_date;
+        let formattedTime = event.tentative_time || 'TBA';
+        
+        if (typeof eventManager !== 'undefined') {
+            try {
+                formattedDate = eventManager.formatDate(event.event_date);
+                formattedTime = eventManager.formatTime(event.tentative_time);
+            } catch (error) {
+                // Use original values if formatting fails
+            }
+        }
+        
+        document.getElementById('eventDate').textContent = formattedDate;
+        document.getElementById('eventTime').textContent = formattedTime;
         document.getElementById('eventClub').textContent = event.club_name || 'TBA';
         document.getElementById('eventVenue').textContent = event.venue || 'TBA';
         document.getElementById('eventType').textContent = event.event_type || 'TBA';
@@ -567,21 +668,41 @@ class EventCalendar {
         // Use timezone-safe date formatting
         const dateString = this.formatDateString(date);
         
+        // Format date with fallback
+        let formattedDate = dateString;
+        if (typeof eventManager !== 'undefined') {
+            try {
+                formattedDate = eventManager.formatDate(dateString);
+            } catch (error) {
+                // Use original date string if formatting fails
+            }
+        }
+        
         const modal = document.createElement('div');
         modal.className = 'dayEventsModal';
         modal.innerHTML = `
             <div class="dayEventsContent">
                 <div class="dayEventsHeader">
-                    <h3>Events on ${eventManager.formatDate(dateString)}</h3>
+                    <h3>Events on ${formattedDate}</h3>
                     <button class="closeDayEvents">×</button>
                 </div>
                 <div class="dayEventsList">
-                    ${events.map(event => `
-                        <div class="dayEventItem" data-event-id="${event.id}">
-                            <h4>${event.event_name}</h4>
-                            <p>${event.club_name} • ${eventManager.formatTime(event.tentative_time)}</p>
-                        </div>
-                    `).join('')}
+                    ${events.map(event => {
+                        let formattedTime = event.tentative_time || 'TBA';
+                        if (typeof eventManager !== 'undefined') {
+                            try {
+                                formattedTime = eventManager.formatTime(event.tentative_time);
+                            } catch (error) {
+                                // Use original time if formatting fails
+                            }
+                        }
+                        return `
+                            <div class="dayEventItem" data-event-id="${event.id}">
+                                <h4>${event.event_name}</h4>
+                                <p>${event.club_name} • ${formattedTime}</p>
+                            </div>
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -631,8 +752,17 @@ class EventCalendar {
     }
 
     hideLoading() {
-        document.getElementById('loadingState').style.display = 'none';
-        document.getElementById('calendarGrid').style.display = 'block';
+        const loadingState = document.getElementById('loadingState');
+        const calendarGrid = document.getElementById('calendarGrid');
+        
+        if (loadingState) {
+            loadingState.style.display = 'none';
+            console.log('🚫 Loading state hidden');
+        }
+        if (calendarGrid) {
+            calendarGrid.style.display = 'block';
+            console.log('✅ Calendar grid shown');
+        }
     }
 
     showError() {
@@ -653,17 +783,24 @@ class EventCalendar {
 
 // Initialize calendar when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if eventManager is available
-    if (typeof eventManager === 'undefined') {
-        if (typeof logger !== 'undefined') {
-            logger.error('Event Manager not found. Make sure event-supabase-config.js is loaded.');
-        }
-        return;
-    }
-
+    console.log('🚀 DOM Content Loaded - Starting calendar initialization');
+    
+    // Force hide loading state and show calendar immediately
+    const loadingState = document.getElementById('loadingState');
+    const calendarGrid = document.getElementById('calendarGrid');
+    const errorState = document.getElementById('errorState');
+    const noEventsMessage = document.getElementById('noEventsMessage');
+    
+    if (loadingState) loadingState.style.display = 'none';
+    if (calendarGrid) calendarGrid.style.display = 'block';
+    if (errorState) errorState.style.display = 'none';
+    if (noEventsMessage) noEventsMessage.style.display = 'none';
+    
+    console.log('📅 Calendar grid forced to display');
+    
     // Initialize the calendar
     window.eventCalendar = new EventCalendar();
-
+    
     // Handle URL parameters for direct event links
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('event');
@@ -672,10 +809,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Load specific event if ID is provided
         setTimeout(async () => {
             try {
-                const events = await eventManager.getAllEvents();
-                const event = events.find(e => e.id === eventId);
-                if (event) {
-                    window.eventCalendar.openEventModal(event);
+                if (typeof eventManager !== 'undefined') {
+                    const events = await eventManager.getAllEvents();
+                    const event = events.find(e => e.id === eventId);
+                    if (event) {
+                        window.eventCalendar.openEventModal(event);
+                    }
                 }
             } catch (error) {
                 if (typeof logger !== 'undefined') {
@@ -684,6 +823,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1000);
     }
+});
+
+// Fallback initialization - ensure calendar shows even if other scripts fail
+window.addEventListener('load', () => {
+    console.log('🔄 Window load event - checking calendar state');
+    
+    setTimeout(() => {
+        const loadingState = document.getElementById('loadingState');
+        const calendarGrid = document.getElementById('calendarGrid');
+        
+        // If loading is still showing after 3 seconds, force show calendar
+        if (loadingState && loadingState.style.display !== 'none') {
+            console.log('🚨 Loading state still visible, forcing calendar display');
+            
+            if (loadingState) loadingState.style.display = 'none';
+            if (calendarGrid) calendarGrid.style.display = 'block';
+            
+            // If calendar wasn't initialized, create a basic one
+            if (!window.eventCalendar) {
+                console.log('🔧 Creating fallback calendar');
+                try {
+                    window.eventCalendar = new EventCalendar();
+                } catch (error) {
+                    console.error('❌ Failed to create fallback calendar:', error);
+                    // Last resort - just show the calendar grid
+                    if (calendarGrid) calendarGrid.style.display = 'block';
+                }
+            }
+        }
+    }, 3000); // Wait 3 seconds before fallback
 });
 
 // Add some additional CSS for day events modal
