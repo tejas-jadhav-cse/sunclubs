@@ -2074,7 +2074,8 @@ $(document).ready(async function () {
         }
     }
 
-    await updateCurrency();
+    // Remove unnecessary currency update call for club recruitment system
+    // await updateCurrency();
     await getAllCountries();
 });
 
