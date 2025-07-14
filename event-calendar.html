@@ -76,8 +76,9 @@
                         <div class="hamburger">
                             <img loading="lazy" src="images/hamburger.svg" alt="Icon" class="">
                         </div>
+
                         <a href="/" class="menuLogo">
-                            <img loading="lazy" src="images/logoanimationblack.gif" class="" alt="MU Logo">
+                            <img loading="lazy" src="images/logo.webp" class="" alt="MU Logo">
                         </a>
                         <div class="megaMenus flexbox">
                             <a href="/club-recruitment.html" class="megaLink" id="nav__club-recruitment">
@@ -92,7 +93,36 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="mobMenuOuter">
+                    <div class="mobMenuHeader">
+                        <a href="/" class="logo">
+                            <img loading="lazy" src="images/logo.webp" class="" alt="SU Logo">
+                        </a>
+                        <div class="closeIcon">
+                            <img loading="lazy" src="images/menuCloseIcon.svg" alt="Icon" class="">
+                        </div>
+                    </div>
+                    <div class="mobMenuBody">
+                        <a href="/club-recruitment.html" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Club Recruitment
+                        </a>
+
+                        <a href="/event-calendar.html" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Event Calendar
+                        </a>
+
+                        <a href="/president-login.html" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Club Admin
+                        </a>
+                        
+                        <a href="https://www.sandipuniversity.edu.in/" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Become Sandipian!
+                        </a>
+                    </div>
+                </div>
             </header>
+            <div class="blurScreen" onclick="closeMenu()"></div>
 
             <main class="eventCalendarPage">
                 <!-- Hero Section -->
@@ -318,6 +348,37 @@
     </div>
 
     <script src="js/event-calendar.js"></script>
+    
+    <!-- Hamburger Menu Functionality -->
+    <script>
+        $(document).ready(function() {
+            // Hamburger menu click handler
+            $('.hamburger').click(function () {
+                $('.mobMenuOuter').addClass('active');
+                $('#header').addClass('height')
+                $('body').css('overflow', 'hidden');
+            });
+
+            // Close menu functionality
+            $('.closeIcon').click(function () {
+                $('.mobMenuOuter').removeClass('active')
+                $('#header').removeClass('height')
+                $('body').css('overflow', 'auto');
+            });
+
+            // Close menu function for blur screen
+            window.closeMenu = function() {
+                $('.blurScreen').removeClass('active');
+                $('.megaLink').removeClass('active');
+                $('.menudropdown').removeClass('active');
+                $('body').css('overflow', 'auto');
+                $('header').removeClass('menuActive');
+                $('.mobMenuOuter').removeClass('active');
+                $('#header').removeClass('height');
+            };
+        });
+    </script>
+    
     <script>
         // Initialize preloader fade out
         $("#preloader").fadeOut(1000);

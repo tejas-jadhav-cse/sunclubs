@@ -457,6 +457,84 @@
 </head>
 
 <body>
+    <!-- Header Navigation -->
+    <section class="main-section">
+        <div class="main">
+            <header id="header" class="darkHeader">
+                <div class="container">
+                    <div class="topMenu flexbox">
+                        <img loading="lazy" src="images/PNG/logo.png" class="logo-main" alt="SU Logo">
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="mainMenu flexbox">
+                        <div class="hamburger">
+                            <img loading="lazy" src="images/hamburger.svg" alt="Icon" class="">
+                        </div>
+                        <a href="/" class="menuLogo">
+                            <img loading="lazy" src="images/logoanimationblack.gif" class="" alt="SU Logo">
+                        </a>
+                        <div class="megaMenus flexbox">
+                            <a href="/club-recruitment.html" class="megaLink active" id="nav__club-recruitment">
+                                Club Recruitment
+                            </a>
+                            <a href="/event-calendar.html" class="megaLink" id="nav__event-calendar">
+                                Event Calendar
+                            </a>
+                            <a href="/president-login.html" class="megaLink" id="nav__president-login">
+                                Club Admin
+                            </a>
+                            <a href="https://www.sandipuniversity.edu.in/" class="megaLink" id="nav__become-sandipian">
+                                Become Sandipian!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mobMenuOuter">
+                    <div class="mobMenuHeader">
+                        <a href="/" class="logo">
+                            <img loading="lazy" src="images/logo.webp" class="" alt="SU Logo">
+                        </a>
+                        <div class="closeIcon">
+                            <img loading="lazy" src="images/menuCloseIcon.svg" alt="Icon" class="">
+                        </div>
+                    </div>
+                    <div class="mobMenuBody">
+                        <a href="/club-recruitment.html" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Club Recruitment
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z" fill="white"></path>
+                            </svg>
+                        </a>
+
+                        <a href="/event-calendar.html" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Event Calendar
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z" fill="white"></path>
+                            </svg>
+                        </a>
+
+                        <a href="/president-login.html" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Club Admin
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z" fill="white"></path>
+                            </svg>
+                        </a>
+                        
+                        <a href="https://www.sandipuniversity.edu.in/" class="mobLink font-white font-14 font-medium font-uppercase">
+                            Become Sandipian!
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z" fill="white"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </header>
+            <div class="blurScreen" onclick="closeMenu()"></div>
+        </div>
+    </section>
+
     <div class="recruitment-page">
         <div class="recruitment-container">
             <!-- Back Button -->
@@ -648,6 +726,9 @@
             </form>
         </div>
     </div>
+    
+    <!-- Close the main structure -->
+    </section>
 
     <script>
         // Wait for DOM to be fully loaded
@@ -1210,6 +1291,34 @@
                     setTimeout(() => testBtn.style.border = '', 1000);
                 }
             }, 100);
+        });
+        
+        // Hamburger Menu Functionality
+        $(document).ready(function() {
+            // Hamburger menu click handler
+            $('.hamburger').click(function () {
+                $('.mobMenuOuter').addClass('active');
+                $('#header').addClass('height')
+                $('body').css('overflow', 'hidden');
+            });
+
+            // Close menu functionality
+            $('.closeIcon').click(function () {
+                $('.mobMenuOuter').removeClass('active')
+                $('#header').removeClass('height')
+                $('body').css('overflow', 'auto');
+            });
+
+            // Close menu function for blur screen
+            window.closeMenu = function() {
+                $('.blurScreen').removeClass('active');
+                $('.megaLink').removeClass('active');
+                $('.menudropdown').removeClass('active');
+                $('body').css('overflow', 'auto');
+                $('header').removeClass('menuActive');
+                $('.mobMenuOuter').removeClass('active');
+                $('#header').removeClass('height');
+            };
         });
     </script>
 </body>
