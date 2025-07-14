@@ -1343,457 +1343,39 @@ $(document).ready(async function () {
 
     async function getUserCountry() {
         try {
-            const geoApiUrl = 'https://api.country.is/';
-            const response = await fetch(geoApiUrl);
-            const data = await response.json();
-            return data.country;
+            // Use browser's timezone to determine country (more reliable than external APIs)
+            if (Intl && Intl.DateTimeFormat) {
+                const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                console.log("User timezone: " + userTimeZone);
+                
+                // Simple timezone to country mapping for common cases
+                const timezoneCountryMap = {
+                    "Asia/Kolkata": "IN",
+                    "Asia/Calcutta": "IN",
+                    "America/New_York": "US",
+                    "America/Chicago": "US",
+                    "America/Denver": "US",
+                    "America/Los_Angeles": "US",
+                    "Europe/London": "GB",
+                    "Asia/Dubai": "AE",
+                    "Asia/Riyadh": "SA",
+                    "Asia/Kuwait": "KW",
+                    "Asia/Qatar": "QA",
+                    "Asia/Bahrain": "BH",
+                    "Asia/Muscat": "OM"
+                };
+                
+                const countryCode = timezoneCountryMap[userTimeZone];
+                console.log("Detected country code:", countryCode);
+                
+                return countryCode || "US";
+            }
+            return "US";
         } catch (error) {
-            console.error('Error fetching user country:', error);
+            console.error('Error detecting user country:', error);
             return 'US'; // Fallback to US in case of failure
         }
     }
-    const timeZoneMapping = {
-        "America/Aruba": "AW",
-        "Asia/Kabul": "AF",
-        "Africa/Luanda": "AO",
-        "America/Anguilla": "AI",
-        "Europe/Mariehamn": "AX",
-        "Europe/Tirane": "AL",
-        "Europe/Andorra": "AD",
-        "Asia/Dubai": "AE",
-        "America/Argentina/Buenos_Aires": "AR",
-        "America/Argentina/Cordoba": "AR",
-        "America/Argentina/Salta": "AR",
-        "America/Argentina/Jujuy": "AR",
-        "America/Argentina/Tucuman": "AR",
-        "America/Argentina/Catamarca": "AR",
-        "America/Argentina/La_Rioja": "AR",
-        "America/Argentina/San_Juan": "AR",
-        "America/Argentina/Mendoza": "AR",
-        "America/Argentina/San_Luis": "AR",
-        "America/Argentina/Rio_Gallegos": "AR",
-        "America/Argentina/Ushuaia": "AR",
-        "Asia/Yerevan": "AM",
-        "Pacific/Pago_Pago": "AS",
-        "Antarctica/McMurdo": "AQ",
-        "Antarctica/Casey": "AQ",
-        "Antarctica/Davis": "AQ",
-        "Antarctica/DumontDUrville": "AQ",
-        "Antarctica/Mawson": "AQ",
-        "Antarctica/Palmer": "AQ",
-        "Antarctica/Rothera": "AQ",
-        "Antarctica/Syowa": "AQ",
-        "Antarctica/Troll": "AQ",
-        "Antarctica/Vostok": "AQ",
-        "Indian/Kerguelen": "TF",
-        "America/Antigua": "AG",
-        "Australia/Lord_Howe": "AU",
-        "Antarctica/Macquarie": "AU",
-        "Australia/Hobart": "AU",
-        "Australia/Currie": "AU",
-        "Australia/Melbourne": "AU",
-        "Australia/Sydney": "AU",
-        "Australia/Broken_Hill": "AU",
-        "Australia/Brisbane": "AU",
-        "Australia/Lindeman": "AU",
-        "Australia/Adelaide": "AU",
-        "Australia/Darwin": "AU",
-        "Australia/Perth": "AU",
-        "Australia/Eucla": "AU",
-        "Europe/Vienna": "AT",
-        "Asia/Baku": "AZ",
-        "Africa/Bujumbura": "BI",
-        "Europe/Brussels": "BE",
-        "Africa/Porto-Novo": "BJ",
-        "Africa/Ouagadougou": "BF",
-        "Asia/Dhaka": "BD",
-        "Europe/Sofia": "BG",
-        "Asia/Bahrain": "BH",
-        "America/Nassau": "BS",
-        "Europe/Sarajevo": "BA",
-        "America/St_Barthelemy": "BL",
-        "Europe/Minsk": "BY",
-        "America/Belize": "BZ",
-        "Atlantic/Bermuda": "BM",
-        "America/La_Paz": "BO",
-        "America/Noronha": "BR",
-        "America/Belem": "BR",
-        "America/Fortaleza": "BR",
-        "America/Recife": "BR",
-        "America/Araguaina": "BR",
-        "America/Maceio": "BR",
-        "America/Bahia": "BR",
-        "America/Sao_Paulo": "BR",
-        "America/Campo_Grande": "BR",
-        "America/Cuiaba": "BR",
-        "America/Santarem": "BR",
-        "America/Porto_Velho": "BR",
-        "America/Boa_Vista": "BR",
-        "America/Manaus": "BR",
-        "America/Eirunepe": "BR",
-        "America/Rio_Branco": "BR",
-        "America/Barbados": "BB",
-        "Asia/Brunei": "BN",
-        "Asia/Thimphu": "BT",
-        "Europe/Oslo": "NO",
-        "Africa/Gaborone": "BW",
-        "Africa/Bangui": "CF",
-        "America/St_Johns": "CA",
-        "America/Halifax": "CA",
-        "America/Glace_Bay": "CA",
-        "America/Moncton": "CA",
-        "America/Goose_Bay": "CA",
-        "America/Blanc-Sablon": "CA",
-        "America/Toronto": "CA",
-        "America/Nipigon": "CA",
-        "America/Thunder_Bay": "CA",
-        "America/Iqaluit": "CA",
-        "America/Pangnirtung": "CA",
-        "America/Atikokan": "CA",
-        "America/Winnipeg": "CA",
-        "America/Rainy_River": "CA",
-        "America/Resolute": "CA",
-        "America/Rankin_Inlet": "CA",
-        "America/Regina": "CA",
-        "America/Swift_Current": "CA",
-        "America/Edmonton": "CA",
-        "America/Cambridge_Bay": "CA",
-        "America/Yellowknife": "CA",
-        "America/Inuvik": "CA",
-        "America/Creston": "CA",
-        "America/Dawson_Creek": "CA",
-        "America/Fort_Nelson": "CA",
-        "America/Vancouver": "CA",
-        "America/Whitehorse": "CA",
-        "America/Dawson": "CA",
-        "Indian/Cocos": "CC",
-        "Europe/Zurich": "CH",
-        "America/Santiago": "CL",
-        "Pacific/Easter": "CL",
-        "Asia/Shanghai": "CN",
-        "Asia/Urumqi": "CN",
-        "Africa/Abidjan": "CI",
-        "Africa/Douala": "CM",
-        "Africa/Kinshasa": "CD",
-        "Africa/Lubumbashi": "CD",
-        "Africa/Brazzaville": "CG",
-        "Pacific/Rarotonga": "CK",
-        "America/Bogota": "CO",
-        "Indian/Comoro": "KM",
-        "Atlantic/Cape_Verde": "CV",
-        "America/Costa_Rica": "CR",
-        "America/Havana": "CU",
-        "America/Curacao": "CW",
-        "Indian/Christmas": "CX",
-        "America/Cayman": "KY",
-        "Asia/Nicosia": "CY",
-        "Europe/Prague": "CZ",
-        "Europe/Berlin": "DE",
-        "Europe/Busingen": "DE",
-        "Africa/Djibouti": "DJ",
-        "America/Dominica": "DM",
-        "Europe/Copenhagen": "DK",
-        "America/Santo_Domingo": "DO",
-        "Africa/Algiers": "DZ",
-        "America/Guayaquil": "EC",
-        "Pacific/Galapagos": "EC",
-        "Africa/Cairo": "EG",
-        "Africa/Asmara": "ER",
-        "Africa/El_Aaiun": "EH",
-        "Europe/Madrid": "ES",
-        "Africa/Ceuta": "ES",
-        "Atlantic/Canary": "ES",
-        "Europe/Tallinn": "EE",
-        "Africa/Addis_Ababa": "ET",
-        "Europe/Helsinki": "FI",
-        "Pacific/Fiji": "FJ",
-        "Atlantic/Stanley": "FK",
-        "Europe/Paris": "FR",
-        "Atlantic/Faroe": "FO",
-        "Pacific/Chuuk": "FM",
-        "Pacific/Pohnpei": "FM",
-        "Pacific/Kosrae": "FM",
-        "Africa/Libreville": "GA",
-        "Europe/London": "GB",
-        "Asia/Tbilisi": "GE",
-        "Europe/Guernsey": "GG",
-        "Africa/Accra": "GH",
-        "Europe/Gibraltar": "GI",
-        "Africa/Conakry": "GN",
-        "America/Guadeloupe": "GP",
-        "Africa/Banjul": "GM",
-        "Africa/Bissau": "GW",
-        "Africa/Malabo": "GQ",
-        "Europe/Athens": "GR",
-        "America/Grenada": "GD",
-        "America/Godthab": "GL",
-        "America/Danmarkshavn": "GL",
-        "America/Scoresbysund": "GL",
-        "America/Thule": "GL",
-        "America/Guatemala": "GT",
-        "America/Cayenne": "GF",
-        "Pacific/Guam": "GU",
-        "America/Guyana": "GY",
-        "Asia/Hong_Kong": "HK",
-        "America/Tegucigalpa": "HN",
-        "Europe/Zagreb": "HR",
-        "America/Port-au-Prince": "HT",
-        "Europe/Budapest": "HU",
-        "Asia/Jakarta": "ID",
-        "Asia/Pontianak": "ID",
-        "Asia/Makassar": "ID",
-        "Asia/Jayapura": "ID",
-        "Europe/Isle_of_Man": "IM",
-        "Asia/Kolkata": "IN",
-        "Indian/Chagos": "IO",
-        "Europe/Dublin": "IE",
-        "Asia/Tehran": "IR",
-        "Asia/Baghdad": "IQ",
-        "Atlantic/Reykjavik": "IS",
-        "Asia/Jerusalem": "IL",
-        "Europe/Rome": "IT",
-        "America/Jamaica": "JM",
-        "Europe/Jersey": "JE",
-        "Asia/Amman": "JO",
-        "Asia/Tokyo": "JP",
-        "Asia/Almaty": "KZ",
-        "Asia/Qyzylorda": "KZ",
-        "Asia/Aqtobe": "KZ",
-        "Asia/Aqtau": "KZ",
-        "Asia/Oral": "KZ",
-        "Africa/Nairobi": "KE",
-        "Asia/Bishkek": "KG",
-        "Asia/Phnom_Penh": "KH",
-        "Pacific/Tarawa": "KI",
-        "Pacific/Enderbury": "KI",
-        "Pacific/Kiritimati": "KI",
-        "America/St_Kitts": "KN",
-        "Asia/Seoul": "KR",
-        "Europe/Belgrade": "RS",
-        "Asia/Kuwait": "KW",
-        "Asia/Vientiane": "LA",
-        "Asia/Beirut": "LB",
-        "Africa/Monrovia": "LR",
-        "Africa/Tripoli": "LY",
-        "America/St_Lucia": "LC",
-        "Europe/Vaduz": "LI",
-        "Asia/Colombo": "LK",
-        "Africa/Maseru": "LS",
-        "Europe/Vilnius": "LT",
-        "Europe/Luxembourg": "LU",
-        "Europe/Riga": "LV",
-        "Asia/Macau": "MO",
-        "America/Marigot": "MF",
-        "Africa/Casablanca": "MA",
-        "Europe/Monaco": "MC",
-        "Europe/Chisinau": "MD",
-        "Indian/Antananarivo": "MG",
-        "Indian/Maldives": "MV",
-        "America/Mexico_City": "MX",
-        "America/Cancun": "MX",
-        "America/Merida": "MX",
-        "America/Monterrey": "MX",
-        "America/Matamoros": "MX",
-        "America/Mazatlan": "MX",
-        "America/Chihuahua": "MX",
-        "America/Ojinaga": "MX",
-        "America/Hermosillo": "MX",
-        "America/Tijuana": "MX",
-        "America/Bahia_Banderas": "MX",
-        "Pacific/Majuro": "MH",
-        "Pacific/Kwajalein": "MH",
-        "Europe/Skopje": "MK",
-        "Africa/Bamako": "ML",
-        "Europe/Malta": "MT",
-        "Asia/Rangoon": "MM",
-        "Europe/Podgorica": "ME",
-        "Asia/Ulaanbaatar": "MN",
-        "Asia/Hovd": "MN",
-        "Asia/Choibalsan": "MN",
-        "Pacific/Saipan": "MP",
-        "Africa/Maputo": "MZ",
-        "Africa/Nouakchott": "MR",
-        "America/Montserrat": "MS",
-        "America/Martinique": "MQ",
-        "Indian/Mauritius": "MU",
-        "Africa/Blantyre": "MW",
-        "Asia/Kuala_Lumpur": "MY",
-        "Asia/Kuching": "MY",
-        "Indian/Mayotte": "YT",
-        "Africa/Windhoek": "NA",
-        "Pacific/Noumea": "NC",
-        "Africa/Niamey": "NE",
-        "Pacific/Norfolk": "NF",
-        "Africa/Lagos": "NG",
-        "America/Managua": "NI",
-        "Pacific/Niue": "NU",
-        "Europe/Amsterdam": "NL",
-        "Asia/Kathmandu": "NP",
-        "Pacific/Nauru": "NR",
-        "Pacific/Auckland": "NZ",
-        "Pacific/Chatham": "NZ",
-        "Asia/Muscat": "OM",
-        "Asia/Karachi": "PK",
-        "America/Panama": "PA",
-        "Pacific/Pitcairn": "PN",
-        "America/Lima": "PE",
-        "Asia/Manila": "PH",
-        "Pacific/Palau": "PW",
-        "Pacific/Port_Moresby": "PG",
-        "Pacific/Bougainville": "PG",
-        "Europe/Warsaw": "PL",
-        "America/Puerto_Rico": "PR",
-        "Asia/Pyongyang": "KP",
-        "Europe/Lisbon": "PT",
-        "Atlantic/Madeira": "PT",
-        "Atlantic/Azores": "PT",
-        "America/Asuncion": "PY",
-        "Asia/Gaza": "PS",
-        "Asia/Hebron": "PS",
-        "Pacific/Tahiti": "PF",
-        "Pacific/Marquesas": "PF",
-        "Pacific/Gambier": "PF",
-        "Asia/Qatar": "QA",
-        "Indian/Reunion": "RE",
-        "Europe/Bucharest": "RO",
-        "Europe/Kaliningrad": "RU",
-        "Europe/Moscow": "RU",
-        "Europe/Simferopol": "RU",
-        "Europe/Volgograd": "RU",
-        "Europe/Kirov": "RU",
-        "Europe/Astrakhan": "RU",
-        "Europe/Samara": "RU",
-        "Europe/Ulyanovsk": "RU",
-        "Asia/Yekaterinburg": "RU",
-        "Asia/Omsk": "RU",
-        "Asia/Novosibirsk": "RU",
-        "Asia/Barnaul": "RU",
-        "Asia/Tomsk": "RU",
-        "Asia/Novokuznetsk": "RU",
-        "Asia/Krasnoyarsk": "RU",
-        "Asia/Irkutsk": "RU",
-        "Asia/Chita": "RU",
-        "Asia/Yakutsk": "RU",
-        "Asia/Khandyga": "RU",
-        "Asia/Vladivostok": "RU",
-        "Asia/Ust-Nera": "RU",
-        "Asia/Magadan": "RU",
-        "Asia/Sakhalin": "RU",
-        "Asia/Srednekolymsk": "RU",
-        "Asia/Kamchatka": "RU",
-        "Asia/Anadyr": "RU",
-        "Africa/Kigali": "RW",
-        "Asia/Riyadh": "SA",
-        "Africa/Khartoum": "SD",
-        "Africa/Dakar": "SN",
-        "Asia/Singapore": "SG",
-        "Atlantic/South_Georgia": "GS",
-        "Arctic/Longyearbyen": "SJ",
-        "Pacific/Guadalcanal": "SB",
-        "Africa/Freetown": "SL",
-        "America/El_Salvador": "SV",
-        "Europe/San_Marino": "SM",
-        "Africa/Mogadishu": "SO",
-        "America/Miquelon": "PM",
-        "Africa/Juba": "SS",
-        "Africa/Sao_Tome": "ST",
-        "America/Paramaribo": "SR",
-        "Europe/Bratislava": "SK",
-        "Europe/Ljubljana": "SI",
-        "Europe/Stockholm": "SE",
-        "Africa/Mbabane": "SZ",
-        "America/Lower_Princes": "SX",
-        "Indian/Mahe": "SC",
-        "Asia/Damascus": "SY",
-        "America/Grand_Turk": "TC",
-        "Africa/Ndjamena": "TD",
-        "Africa/Lome": "TG",
-        "Asia/Bangkok": "TH",
-        "Asia/Dushanbe": "TJ",
-        "Pacific/Fakaofo": "TK",
-        "Asia/Ashgabat": "TM",
-        "Asia/Dili": "TL",
-        "Pacific/Tongatapu": "TO",
-        "America/Port_of_Spain": "TT",
-        "Africa/Tunis": "TN",
-        "Europe/Istanbul": "TR",
-        "Pacific/Funafuti": "TV",
-        "Asia/Taipei": "TW",
-        "Africa/Dar_es_Salaam": "TZ",
-        "Africa/Kampala": "UG",
-        "Europe/Kiev": "UA",
-        "Europe/Uzhgorod": "UA",
-        "Europe/Zaporozhye": "UA",
-        "Pacific/Johnston": "UM",
-        "Pacific/Midway": "UM",
-        "Pacific/Wake": "UM",
-        "America/Montevideo": "UY",
-        "America/New_York": "US",
-        "America/Detroit": "US",
-        "America/Kentucky/Louisville": "US",
-        "America/Kentucky/Monticello": "US",
-        "America/Indiana/Indianapolis": "US",
-        "America/Indiana/Vincennes": "US",
-        "America/Indiana/Winamac": "US",
-        "America/Indiana/Marengo": "US",
-        "America/Indiana/Petersburg": "US",
-        "America/Indiana/Vevay": "US",
-        "America/Chicago": "US",
-        "America/Indiana/Tell_City": "US",
-        "America/Indiana/Knox": "US",
-        "America/Menominee": "US",
-        "America/North_Dakota/Center": "US",
-        "America/North_Dakota/New_Salem": "US",
-        "America/North_Dakota/Beulah": "US",
-        "America/Denver": "US",
-        "America/Boise": "US",
-        "America/Phoenix": "US",
-        "America/Los_Angeles": "US",
-        "America/Anchorage": "US",
-        "America/Juneau": "US",
-        "America/Sitka": "US",
-        "America/Metlakatla": "US",
-        "America/Yakutat": "US",
-        "America/Nome": "US",
-        "America/Adak": "US",
-        "Pacific/Honolulu": "US",
-        "Asia/Samarkand": "UZ",
-        "Asia/Tashkent": "UZ",
-        "Europe/Vatican": "VA",
-        "America/St_Vincent": "VC",
-        "America/Caracas": "VE",
-        "America/Tortola": "VG",
-        "America/St_Thomas": "VI",
-        "Asia/Ho_Chi_Minh": "VN",
-        "Pacific/Efate": "VU",
-        "Pacific/Wallis": "WF",
-        "Pacific/Apia": "WS",
-        "Asia/Aden": "YE",
-        "Africa/Johannesburg": "ZA",
-        "Africa/Lusaka": "ZM",
-        "Africa/Harare": "ZW",
-        "Asia/Calcutta": "IN"
-    };
-
-    //  async function getUserCountry() {
-    //    try {
-    //      let userTimeZone;
-    //      let countryCode;
-    //      if (Intl) {
-    //        userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    //        console.log("time zone: " + userTimeZone);//
-
-    //        countryCode = timeZoneMapping[userTimeZone];//
-
-    //        console.log("countryCode:", countryCode);
-    //      }//
-
-    //      return countryCode ? countryCode : "US";
-    //    } catch (error) {
-    //      console.error("Error fetching user country:", error);
-    //      return "US"; // Fallback to US in case of failure
-    //    }
-    //  }
 
     // Function to get the exchange rate from a conversion API
     async function getExchangeRate(baseCurrency, targetCurrency) {
@@ -1824,7 +1406,7 @@ $(document).ready(async function () {
     // Function to update currency display on the page
     async function updateCurrency() {
         try {
-            console.log("first call curereny conveersionss");
+            console.log("Starting currency conversion process");
             const userCountryCode = await getUserCountry();
             const isIndianUser = userCountryCode === "IN";
             countryCodeForMobile = userCountryCode;
@@ -1888,39 +1470,12 @@ $(document).ready(async function () {
                 totalFeePgpRiseMENA: 53325,
             };
 
-            // Amounts for India and Outside India
-            const indiaAmounts = {
-                admissionFee: 82600,
-                tuitionFee: 2112200,
-                membershipFee: 129800,
-                totalFee: 2324600,
-                round1Fee: 2000,
-                round2Fee: 2000,
-            };
-
-            const outsideIndiaAmounts = {
-                admissionFee: 300000,
-                tuitionFee: 3900000,
-                membershipFee: 300000,
-                totalFee: 4515000,
-                round1Fee: 15000,
-                round2Fee: 15000,
-            };
-            //  for mena 18 region countries PGP Rise: General Management (Global)
-            const outsideIndiaAmountsMENAPGP_Rise = {
-                admissionFeePgpRiseMENA: 300000,
-                tuitionFeePgpRiseMENA: 3900000,
-                membershipFeePgpRiseMENA: 300000,
-                totalFeePgpRiseMENA: 4515000,
-                ApplicationRound1FeePgpRiseMENA: 15000,
-                ApplicationRound2FeePgpRiseMENA: 15000,
-            };
             // Hide or update content based on country
             const UserFees = feeData[userCountryCode] || fallbackFees;
 
             console.log("Fees for user:", UserFees);
             if (isIndianUser) {
-                console.log("india rtoh hai :::");
+                console.log("User detected from India");
                 const userCurrency =
                     countryCurrencyMapMENA_region[userCountryCode] || "USD"; // Default to USD if not found
                 console.log(userCurrency, "usercurrency:::::");
@@ -1962,12 +1517,6 @@ $(document).ready(async function () {
                 );
 
                 return;
-                //$('#round1Fee').text(formatCurrency(indiaAmounts.round1Fee, 'INR', 'en-IN'));
-                //$('#round2Fee').text(formatCurrency(indiaAmounts.round2Fee, 'INR', 'en-IN'));
-                //$('#admissionFee').text(formatCurrency(indiaAmounts.admissionFee, 'INR', 'en-IN'));
-                //$('#tuitionFee').text(formatCurrency(indiaAmounts.tuitionFee, 'INR', 'en-IN'));
-                //$('#membershipFee').text(formatCurrency(indiaAmounts.membershipFee, 'INR', 'en-IN'));
-                //$('#totalFee').text(formatCurrency(indiaAmounts.totalFee, 'INR', 'en-IN'));
             }
 
             // Get the user's currency or default to USD if the country is not in the map
@@ -1976,14 +1525,6 @@ $(document).ready(async function () {
             console.log(userCurrency, "usercurrency:::::");
             // Get exchange rate to convert from INR to the user's currency
             const exchangeRate = await getExchangeRate("INR", userCurrency);
-
-            // Convert and update the amounts for users outside India
-            // $('#round1Fee').text(formatCurrency(convertCurrency(outsideIndiaAmounts.round1Fee, exchangeRate), userCurrency, 'en-US'));
-            // $('#round2Fee').text(formatCurrency(convertCurrency(outsideIndiaAmounts.round2Fee, exchangeRate), userCurrency, 'en-US'));
-            // $('#admissionFee').text(formatCurrency(convertCurrency(outsideIndiaAmounts.admissionFee, exchangeRate), userCurrency, 'en-US'));
-            // $('#tuitionFee').text(formatCurrency(convertCurrency(outsideIndiaAmounts.tuitionFee, exchangeRate), userCurrency, 'en-US'));
-            // $('#membershipFee').text(formatCurrency(convertCurrency(outsideIndiaAmounts.membershipFee, exchangeRate), userCurrency, 'en-US'));
-            // $('#totalFee').text(formatCurrency(convertCurrency(outsideIndiaAmounts.totalFee, exchangeRate), userCurrency, 'en-US'));
 
             //  logic for changing for mena 18 region countries PGP Rise: General Management (Global)
             $("#round1FeePgpRiseMENA").text(
@@ -2014,11 +1555,9 @@ $(document).ready(async function () {
             );
 
             // --------- Conditions for outside of the country india ----------------
-            console.log("i changed the mena123:");
+            console.log("Applying MENA region configurations");
             APIpushToNPFendPoint = "pushToNPF_MENA";
             $(".changeAccOutsideIndia").text("January 2025");
-            //  $('.changefaq_tab-d-3Mena').text("Their studies will continue on the weekend they can join in virtually.");
-            //  $('.changefaq_tab-d-5Mena').text("Our deadlines are non-negotiable. Applications must be completed and submitted by midnight to be included in the ongoing round. A complete application includes the online form, all supporting documents, references, essays, and payment of the application fees.");
             $(".hideFortheMENA").addClass("hide");
             $("#MENAimgChange").attr(
                 "src",
@@ -2033,7 +1572,7 @@ $(document).ready(async function () {
 
     async function getAllCountries() {
         try {
-            console.log("2nd call get countries and set optionss");
+            console.log("Fetching countries for phone code dropdown");
 
             const response = await $.ajax({
                 url: "https://api.countrystatecity.in/v1/countries",
@@ -2074,8 +1613,7 @@ $(document).ready(async function () {
         }
     }
 
-    // Remove unnecessary currency update call for club recruitment system
-    // await updateCurrency();
+    await updateCurrency();
     await getAllCountries();
 });
 
