@@ -1,0 +1,139 @@
+.chairpersonSection {
+    padding: 80px 0;
+    background-color: #ffffff;
+}
+
+.newClassWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.newclassLeft {
+    flex: 1;
+    min-width: 300px;
+}
+
+.newclassRight {
+    flex: 1.5;
+    position: relative;
+    min-width: 300px;
+}
+
+.headingWrap {
+    margin-bottom: 30px;
+}
+
+.headingSmall {
+    font-size: 14px;
+    font-weight: 600;
+    color: #090909;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.headingSmall img {
+    width: 15px;
+    height: 15px;
+}
+
+.sectionHeading {
+    font-size: 36px;
+    font-weight: 700;
+    color: #090909;
+    line-height: 1.2;
+}
+
+.lightMuVector {
+    color: #C5B64D;
+    position: relative;
+    z-index: 1;
+}
+
+.newclassRight img {
+    width: 100%;
+    max-width: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.greybox {
+    background-color: #F5F5F5;
+    padding: 30px;
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contentHeadWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.textGroup h5 {
+    font-size: 14px;
+    color: #595959;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.textGroup h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #090909;
+    margin-bottom: 0;
+}
+
+.contentHeadWrap img {
+    width: 24px;
+    height: auto;
+}
+
+.contentWrapper p {
+    color: #595959;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .greybox {
+        position: relative;
+        margin-top: 20px;
+    }
+    
+    .newclassRight img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .chairpersonSection {
+        padding: 40px 0;
+    }
+    
+    .sectionHeading {
+        font-size: 28px;
+    }
+    
+    .greybox {
+        padding: 20px;
+    }
+    
+    .wd-50 {
+        width: 50%;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .newclassLeft, .newclassRight {
+        flex: 100%;
+    }
+}
