@@ -35,41 +35,19 @@
         <div class="preloader">
             <img loading="lazy" src="images/preloader.gif" alt="Loader">
         </div>
-    </div>
-
-    <script>
-        $("#preloader").fadeOut(3000);
-
+    </div>    <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // Hide preloader after DOM is ready
+            $("#preloader").fadeOut(3000);
+            
+            // Show preloader on navigation
             document.querySelectorAll(".darkHeader a, footer a").forEach((link) => {
                 link.addEventListener("click", function () {
                     document.getElementById("preloader").style.display = "block";
                 });
             });
         });
-
     </script>
-
-
-
-
-
-
-<!-- REMEMBER TO UPDATE THE PRELOADER -->
-
-
-
-
-
-
-
-
-
-
-
-    <script src="js/slick.min.js"></script>
-
-
 
     <section class="main-section">
         <div class="main">
@@ -118,33 +96,17 @@
                     <div class="mobMenuBody">
                         <a href="/club-recruitment.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Club Recruitment
-                                <path
-                                    d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z"
-                                    fill="white"></path>
-                            </svg>
                         </a>
 
                         <a href="/event-calendar.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Event Calendar
-                                <path
-                                    d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z"
-                                    fill="white"></path>
-                            </svg>
                         </a>
 
                         <a href="/president-login.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Club Admin
-                                <path
-                                    d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z"
-                                    fill="white"></path>
-                            </svg>
                         </a>
-                        <a href="/become-sandipian" class="mobLink font-white font-14 font-medium font-uppercase">
+                        <a href="/become-sandipian.html" class="mobLink font-white font-14 font-medium font-uppercase">
                             Become Sandipian!
-                                <path
-                                    d="M12.0156 7.06066L5.56066 13.5156L4.5 12.455L10.9549 6H5.26561V4.5H13.5156V12.75H12.0156V7.06066Z"
-                                    fill="white"></path>
-                            </svg>
                         </a>
                     </div>
                 </div>
@@ -153,14 +115,16 @@
             <script>
 
                 $('.megaLink').click(function () {
-                    let id = $(this).attr('data-rel')
+                    // Toggle active state for the clicked link
                     $(this).toggleClass('active').siblings().removeClass('active');
-                    $(`#${id}`).toggleClass('active').siblings().removeClass('active');
-                    if ($('.menudropdown').hasClass('active')) {
+                    
+                    // Check if any megaLink is active to determine menu state
+                    if ($('.megaLink.active').length > 0) {
                         $('header').addClass('menuActive');
                     } else {
                         $('header').removeClass('menuActive');
                     }
+                    
                     if ($('.darkHeader').hasClass('menuActive')) {
                         if (typeof logger !== 'undefined') {
                             logger.debug("Blurring BG");
@@ -171,18 +135,11 @@
                         $('.blurScreen').removeClass('active')
                         $('body').css('overflow', 'auto');
                     }
-                    // $('.blurScreen').addClass('active');
-                    // $('body').css('overflow', 'hidden');
+                    
                     setActiveClassHeader();
-
                 })
-                $(".tabs-nav li").hover(function () {
-                    let id = $(this).attr('data-rel')
-                    $(this).addClass('active').siblings().removeClass('active');
-                    $(`#${id}`).addClass('active').siblings().removeClass('active');
-                });
-
-
+                // Note: .tabs-nav elements removed as they don't exist in the current HTML structure
+                
                 $('.mobMenuItem').click(function () {
                     if (typeof logger !== 'undefined') {
                         logger.debug('click');
@@ -204,12 +161,6 @@
 
                 $(document).ready(function () {
                     $(".mobMenuItemBody").slideUp()
-
-                    // Existing click handlers
-                    $('.megaLink').on('click', function () {
-
-                        //$('.menudropdown').toggleClass('active').siblings().removeClass('active');
-                    });
                 });
 
                 $('.hamburger').click(function () {
@@ -221,7 +172,6 @@
                 function closeMenu() {
                     $('.blurScreen').removeClass('active');
                     $('.megaLink').removeClass('active');
-                    $('.menudropdown').removeClass('active');
                     $('body').css('overflow', 'auto');
                     $('header').removeClass('menuActive');
                     setActiveClassHeader();
@@ -239,19 +189,14 @@
                 }
 
                 function setActiveClassHeader() {
-
-                    const routes = {
-                        "/student-entrepreneurship": "innovation",
-                        "/about-us": "about-us",
-                        "/services": "services",
-                        "/contact": "contact",
-                        "/jobs": "/jobs",
-                        "/careers": "careers",
-                        "/blog": "blog"
-                    };
+                    // Clear any existing active states
+                    document.querySelectorAll('.megaLink.active').forEach(link => {
+                        link.classList.remove('active');
+                    });
 
                     const currentPath = window.location.pathname.split("/")[1];
 
+                    // Try to find a matching navigation element by path
                     const elem = document.querySelector(`#nav__${currentPath}`);
                     if (typeof logger !== 'undefined') {
                         logger.debug(elem);
@@ -259,56 +204,20 @@
                     if (elem) {
                         elem.classList.add("active");
                     } else {
+                        // Handle special routes mapping
                         const routes = {
-                            "academics": [
-                                "pgp-technology-and-business-management",
-                                "pgp-tbm-curriculum",
-                                "pgp-tbm-admissions-and-fees",
-                                "pgp-tbm-career-prospects",
-                                "pgp-tbm-cohort-profile",
-                                "ug-technology-and-business-management",
-                                "ug-curriculum",
-                                "ug-admissions-and-fees",
-                                "ug-career-prospects",
-                                "ug-cohort-profile",
-                                "pgp-rise-general-management",
-                                "pgp-rise-general-management-curriculum",
-                                "pgp-rise-general-management-admissions-and-fees",
-                                "pgp-rise-general-management-career-prospects",
-                                "pgp-rise-general-management-cohort-profile",
-                                "ug-psychology-and-marketing",
-                                "ug-psychology-and-marketing-curriculum",
-                                "ug-psychology-and-marketing-admissions-and-fees",
-                                "ug-psychology-and-marketing-career-prospects",
-                                "ug-psychology-and-marketing-cohort-profile",
+                            "club-recruitment": "club-recruitment",
+                            "event-calendar": "event-calendar", 
+                            "president-login": "president-login",
+                            "become-sandipian": "become-sandipian"
+                        };
 
-                            ],
-
-                            "afterMu": [
-                                "myaftercareer",
-                                "after-mu-homepage"
-                            ],
-
-                            "aboutus": [
-                                "about-us",
-                                "experiencesatmastersunion"
-                            ],
-                            "studentlife": [
-                                "hostel",
-                                "student-life-campus",
-                                "student-life-clubs-and-activities",
-                            ],
-                            "innovation": [
-                                "innovation-student-startups",
-                                "innovation-faculty-research"
-                            ]
-                        }
-
-
-                        const key = getKeyByValue(currentPath, routes);
-                        const activeHeader = document.querySelector(`a[data-rel="${key}"]`);
-                        if (activeHeader) {
-                            activeHeader.classList.add("active");
+                        const routeKey = routes[currentPath];
+                        if (routeKey) {
+                            const activeHeader = document.querySelector(`#nav__${routeKey}`);
+                            if (activeHeader) {
+                                activeHeader.classList.add("active");
+                            }
                         }
                     }
                 }
@@ -357,8 +266,8 @@
                         they make movies about.”
                     </p>
                     <div class="heroImageFestBox">
-                        <img class="heroImageFest mob-hide" src="images/CopyofCopyofP11231363.webp">
-                        <img class="heroImageFest mob-visible" src="images/Frame11712805081.webp">
+                        <img class="heroImageFest mob-hide" src="images/CopyofCopyofP11231363.webp" alt="Campus Life Hero Image">
+                        <img class="heroImageFest mob-visible" src="images/Frame11712805081.webp" alt="Campus Life Mobile Hero Image">
                     </div>
                 </div>
             </section>
@@ -404,27 +313,27 @@
                     <div class="swiper-wrapper">
 
                         <div class="festCard swiper-slide">
-                            <img src="images/PNG/_DSC0198.JPG">
+                            <img src="images/PNG/_DSC0198.JPG" alt="SUNHACKS Event Photo 1">
                         </div>
 
                         <div class="festCard swiper-slide">
-                            <img src="images/PNG/_DSC0203.JPG">
+                            <img src="images/PNG/_DSC0203.JPG" alt="SUNHACKS Event Photo 2">
                         </div>
 
                         <div class="festCard swiper-slide">
-                            <img src="images/PNG/_DSC0253.JPG">
+                            <img src="images/PNG/_DSC0253.JPG" alt="SUNHACKS Event Photo 3">
                         </div>
 
                         <div class="festCard swiper-slide">
-                            <img src="images/PNG/_DSC0322 (1).JPG">
+                            <img src="images/PNG/_DSC0322 (1).JPG" alt="SUNHACKS Event Photo 4">
                         </div>
 
                         <div class="festCard swiper-slide">
-                            <img src="images/PNG/_DSC0326.JPG">
+                            <img src="images/PNG/_DSC0326.JPG" alt="SUNHACKS Event Photo 5">
                         </div>
 
                         <div class="festCard swiper-slide">
-                            <img src="images/PNG/_DSC0373.JPG">
+                            <img src="images/PNG/_DSC0373.JPG" alt="SUNHACKS Event Photo 6">
                         </div>
 
                     </div>
@@ -1258,25 +1167,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="content-group" id="pg-Council-group" style="display: none;">
-                                            <div class="content-card">
-                                                <div class="postCard">
-                                                    <img src="images/STUDENTCouncil.webp">
-                                                    <div class="marketingWrapper">
-                                                        <img src="images/IconTag22.webp">
-                                                        <div class="marketingTextBoxi">
-                                                            <h4 class="headingMarket">STUDENT Council</h4>
-                                                            <p class="primaryText">The official voice of the student
-                                                                body,
-                                                                bridging students, faculty, and administration to create
-                                                                a
-                                                                dynamic and enriching campus experience.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="content-group" id="pg-comittee-muil" style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
@@ -1298,29 +1188,9 @@
                                             style="display: none;">
                                             <div class="content-card">
                                                 <div class="postCard">
-                                                    <img src="images/STUDENTCouncil.webp">
+                                                    <img src="images/STUDENTCouncil.webp" alt="Student Council">
                                                     <div class="marketingWrapper">
-                                                        <img src="images/IconTag22.webp">
-                                                        <div class="marketingTextBoxi">
-                                                            <h4 class="headingMarket">STUDENT Council</h4>
-                                                            <p class="primaryText">The official voice of the student
-                                                                body,
-                                                                bridging students, faculty, and administration to create
-                                                                a
-                                                                dynamic and enriching campus experience.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="content-group festHidden" id="pg-Council-group"
-                                            style="display: none;">
-                                            <div class="content-card">
-                                                <div class="postCard">
-                                                    <img src="images/STUDENTCouncil.webp">
-                                                    <div class="marketingWrapper">
-                                                        <img src="images/IconTag22.webp">
+                                                        <img src="images/IconTag22.webp" alt="Council Icon">
                                                         <div class="marketingTextBoxi">
                                                             <h4 class="headingMarket">STUDENT Council</h4>
                                                             <p class="primaryText">The official voice of the student
@@ -1343,9 +1213,9 @@
                                             <div class="content-card">
                                                 <a class="gridBox">
                                                     <img loading="lazy" src="images/SECTClub.webp" class="mob-visible"
-                                                        alt="">
+                                                        alt="Creative Spectrum Club Event">
                                                     <img loading="lazy" src="images/BeverageMakingCompetition.11.webp"
-                                                        alt="" class="mob-hide">
+                                                        alt="Beverage Making Competition" class="mob-hide">
                                                     <div class="floatingText mob-visible floatingMob">
                                                         <img src="images/IconTag23.webp">
                                                         <h4 class="headingMarket">Creative <span
@@ -1380,8 +1250,8 @@
                                             <div class="content-card">
                                                 <a class="gridBox">
                                                     <img loading="lazy" src="images/SECTClub1.webp" class="mob-visible"
-                                                        alt="">
-                                                    <img loading="lazy" src="images/DataCommunityMixer12.webp" alt=""
+                                                        alt="SECT Club Event">
+                                                    <img loading="lazy" src="images/DataCommunityMixer12.webp" alt="Data Community Mixer Event"
                                                         class="mob-hide">
                                                     <div class="floatingText mob-visible floatingMob">
                                                         <img src="images/IconTag24.webp">
@@ -1450,9 +1320,9 @@
                                             <div class="content-card">
                                                 <a class="gridBox">
                                                     <img loading="lazy" src="images/SECTClub3.webp" class="mob-visible"
-                                                        alt="">
+                                                        alt="Finance Club Event">
                                                     <img loading="lazy"
-                                                        src="images/FinancialFundamentalsWorkshop11.webp" alt=""
+                                                        src="images/FinancialFundamentalsWorkshop11.webp" alt="Financial Fundamentals Workshop"
                                                         class="mob-hide">
                                                     <div class="floatingText mob-visible floatingMob">
                                                         <img src="images/IconTag27.webp">
@@ -1525,8 +1395,8 @@
                                             <div class="content-card">
                                                 <a class="gridBox">
                                                     <img loading="lazy" src="images/SECTClub5.webp" class="mob-visible"
-                                                        alt="">
-                                                    <img loading="lazy" src="images/DebateWorkshop1.webp" alt=""
+                                                        alt="Intellectual Nexus Club Event">
+                                                    <img loading="lazy" src="images/DebateWorkshop1.webp" alt="Debate Workshop Event"
                                                         class="mob-hide">
                                                     <div class="floatingText mob-visible floatingMob">
                                                         <img src="images/IconTag29.webp">
@@ -1826,28 +1696,6 @@
                 </div>
 
             </section>
-
-
-
-            <script>
-                $(function () {
-                    $('.hSchoolWrapper').slick({
-                        autoplay: true,
-                        autoplaySpeed: 10,
-                        speed: 5000,
-                        arrows: false,
-                        swipe: false,
-                        slidesToShow: 4,
-                        cssEase: 'linear',
-                        pauseOnFocus: false,
-                        pauseOnHover: false,
-                    });
-                });
-            </script>
-
-
-
-
 
         </main>
 
