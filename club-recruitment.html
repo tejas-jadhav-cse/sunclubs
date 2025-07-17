@@ -240,6 +240,34 @@
             margin-top: 8px;
         }
 
+        .club-category {
+            margin-bottom: 32px;
+        }
+
+        .club-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-title {
+            font-family: 'go-medium';
+            font-size: 18px;
+            color: var(--black);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--grey18);
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title::before {
+            content: "";
+            width: 4px;
+            height: 20px;
+            background: var(--black);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
         .club-option {
             display: flex;
             align-items: center;
@@ -440,6 +468,30 @@
                 grid-template-columns: 1fr;
             }
 
+            .club-category {
+                margin-bottom: 24px;
+            }
+
+            .category-title {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .category-title::before {
+                width: 3px;
+                height: 16px;
+                margin-right: 8px;
+            }
+
+            .club-option {
+                padding: 14px 12px;
+            }
+
+            .club-label {
+                font-size: 13px;
+                line-height: 1.3;
+            }
+
             .back-button {
                 margin-bottom: 30px;
             }
@@ -451,6 +503,32 @@
 
             .toggle-button {
                 width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .recruitment-title {
+                font-size: 28px;
+            }
+
+            .recruitment-subtitle {
+                font-size: 16px;
+            }
+
+            .recruitment-form {
+                padding: 20px;
+            }
+
+            .category-title {
+                font-size: 15px;
+            }
+
+            .club-option {
+                padding: 12px 10px;
+            }
+
+            .club-label {
+                font-size: 12px;
             }
         }
     </style>
@@ -654,48 +732,163 @@
 
                 <div class="form-group full-width">
                     <label class="form-label required">Clubs to Join</label>
-                    <div class="clubs-grid" id="clubs-grid">
-                        <div class="club-option" data-club="tech">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Tech Club</span>
-                        </div>
-                        <div class="club-option" data-club="entrepreneurship">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Entrepreneurship Club</span>
-                        </div>
-                        <div class="club-option" data-club="cultural">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Cultural Club</span>
-                        </div>
-                        <div class="club-option" data-club="sports">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Sports Club</span>
-                        </div>
-                        <div class="club-option" data-club="debate">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Debate Club</span>
-                        </div>
-                        <div class="club-option" data-club="music">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Music Club</span>
-                        </div>
-                        <div class="club-option" data-club="dance">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Dance Club</span>
-                        </div>
-                        <div class="club-option" data-club="photography">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Photography Club</span>
-                        </div>
-                        <div class="club-option" data-club="community-service">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Community Service</span>
-                        </div>
-                        <div class="club-option" data-club="gaming">
-                            <div class="club-checkbox"></div>
-                            <span class="club-label">Gaming Club</span>
+                    
+                    <!-- Tech Clubs Category -->
+                    <div class="club-category">
+                        <h3 class="category-title">Tech Clubs</h3>
+                        <div class="clubs-grid">
+                            <div class="club-option" data-club="sect-chapter">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">SECT Chapter</span>
+                            </div>
+                            <div class="club-option" data-club="cyberx">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">CyberX</span>
+                            </div>
+                            <div class="club-option" data-club="leads-community">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Leads Community</span>
+                            </div>
+                            <div class="club-option" data-club="innovators-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Innovators Club</span>
+                            </div>
+                            <div class="club-option" data-club="science-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Science Club</span>
+                            </div>
+                            <div class="club-option" data-club="aeromodeling-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Aeromodeling Club</span>
+                            </div>
+                            <div class="club-option" data-club="esports-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Esports Club</span>
+                            </div>
+                            <div class="club-option" data-club="act-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Action for Collective Transformation Club</span>
+                            </div>
+                            <div class="club-option" data-club="webmasters-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">WebMasters Club</span>
+                            </div>
+                            <div class="club-option" data-club="astronomy-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Astronomy Club</span>
+                            </div>
+                            <div class="club-option" data-club="mathematics-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Mathematics Club</span>
+                            </div>
+                            <div class="club-option" data-club="ml-ai-robotics-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Machine Learning, AI & Robotics Club</span>
+                            </div>
+                            <div class="club-option" data-club="apps-bloggers-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Apps and Bloggers Club</span>
+                            </div>
+                            <div class="club-option" data-club="energy-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Energy Club</span>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- LibArts Category -->
+                    <div class="club-category">
+                        <h3 class="category-title">LibArts</h3>
+                        <div class="clubs-grid">
+                            <div class="club-option" data-club="dance-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Dance Club</span>
+                            </div>
+                            <div class="club-option" data-club="photography-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Photography Club</span>
+                            </div>
+                            <div class="club-option" data-club="literary-drama-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Literary & Drama Club</span>
+                            </div>
+                            <div class="club-option" data-club="painting-art-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Painting & Art Club</span>
+                            </div>
+                            <div class="club-option" data-club="music-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Music Club</span>
+                            </div>
+                            <div class="club-option" data-club="quiz-debate-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Quiz & Debate Club</span>
+                            </div>
+                            <div class="club-option" data-club="movie-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Movie Club</span>
+                            </div>
+                            <div class="club-option" data-club="culinary-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Culinary Club</span>
+                            </div>
+                            <div class="club-option" data-club="talk-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Talk Club</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CivicSide Category -->
+                    <div class="club-category">
+                        <h3 class="category-title">CivicSide</h3>
+                        <div class="clubs-grid">
+                            <div class="club-option" data-club="event-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Event Club</span>
+                            </div>
+                            <div class="club-option" data-club="media-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Media Club</span>
+                            </div>
+                            <div class="club-option" data-club="helping-hand-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Helping Hand Club</span>
+                            </div>
+                            <div class="club-option" data-club="youth-empowerment-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Youth Empowerment Club</span>
+                            </div>
+                            <div class="club-option" data-club="women-empowerment-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Women Empowerment Club</span>
+                            </div>
+                            <div class="club-option" data-club="ecological-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Ecological Club</span>
+                            </div>
+                            <div class="club-option" data-club="fitness-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Fitness Club</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Xcape Category -->
+                    <div class="club-category">
+                        <h3 class="category-title">Xcape</h3>
+                        <div class="clubs-grid">
+                            <div class="club-option" data-club="cycling-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Cycling Club</span>
+                            </div>
+                            <div class="club-option" data-club="trekking-club">
+                                <div class="club-checkbox"></div>
+                                <span class="club-label">Trekking Club</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="error-message" id="clubs-error"></div>
                 </div>
 
