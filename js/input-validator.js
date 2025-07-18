@@ -66,7 +66,7 @@ class InputValidator {
             case 'name':
                 return this.validateName(value);
             case 'password':
-                return this.validatePassword(value);
+                return this.validatePassword(value, element);
             case 'text':
                 return this.validateText(value, element);
             case 'number':
@@ -176,7 +176,20 @@ class InputValidator {
     /**
      * Password validation
      */
-    validatePassword(password) {
+    validatePassword(password, element = null) {
+        // Check if password validation is disabled for login forms
+        if (element && element.dataset.skipValidation === 'true') {
+            // For login forms, only check if password is not empty
+            if (password.length === 0) {
+                return {
+                    isValid: false,
+                    message: 'Password is required'
+                };
+            }
+            return { isValid: true, message: '' };
+        }
+
+        // Standard password validation for registration/signup forms
         if (password.length < 8) {
             return {
                 isValid: false,

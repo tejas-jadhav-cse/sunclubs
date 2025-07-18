@@ -12,12 +12,22 @@
 const SUPABASE_CONFIG = (() => {
     try {
         if (typeof configManager === 'undefined') {
-            throw new Error('Configuration manager not loaded. Please include config-manager.js first.');
+            console.warn('⚠️ Configuration manager not loaded. Please include config-manager.js first.');
+            // Return fallback configuration for testing
+            return {
+                url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+                anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+            };
         }
         return configManager.getSupabaseConfig();
     } catch (error) {
         console.error('❌ Configuration Error:', error.message);
-        throw error;
+        console.warn('⚠️ Using fallback configuration for testing');
+        // Return fallback configuration
+        return {
+            url: 'https://ycuxzzwlucnrhgpsucqc.supabase.co',
+            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljdXh6endsdWNucmhncHN1Y3FjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIyNjAxNDYsImV4cCI6MjA2NzgzNjE0Nn0.A8Tv2AqZ9OJxUDr6wtrL016YyZb0N_k11L4h-jCXZZo'
+        };
     }
 })();
 

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Supabase Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #333; text-align: center; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 8px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        .test-btn { padding: 12px 24px; margin: 10px; border: none; background: #007acc; color: white; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .test-btn:hover { background: #005aa0; }
+        .loading { opacity: 0.6; cursor: not-allowed; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 6px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Final Supabase Connection Test</h1>
+        <p style="text-align: center; color: #666;">Click the button below to run a comprehensive test of your Supabase setup</p>
+        
+        <div style="text-align: center;">
+            <button id="testBtn" class="test-btn" onclick="runFullTest()">🚀 Run Full Test</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <!-- Scripts in correct order -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/config-manager.js"></script>
+    <script src="js/supabase-config.js"></script>
+
+    <script>
+        const results = document.getElementById('results');
+        const testBtn = document.getElementById('testBtn');
+        
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = message;
+            results.appendChild(div);
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function clearResults() {
+            results.innerHTML = '';
+        }
+        
+        async function runFullTest() {
+            testBtn.disabled = true;
+            testBtn.className = 'test-btn loading';
+            testBtn.textContent = '⏳ Running tests...';
+            clearResults();
+            
+            try {
+                addResult('🔍 <strong>Step 1:</strong> Checking script dependencies...', 'info');
+                
+                // Check Supabase library
+                if (typeof window.supabase !== 'undefined') {
+                    addResult('✅ Supabase library loaded successfully', 'success');
+                } else {
+                    addResult('❌ Supabase library not found', 'error');
+                    return;
+                }
+                
+                // Check config manager
+                if (typeof configManager !== 'undefined') {
+                    addResult('✅ Config manager loaded successfully', 'success');
+                } else {
+                    addResult('⚠️ Config manager not found - using fallback configuration', 'info');
+                }
+                
+                // Check SUPABASE_CONFIG
+                if (typeof SUPABASE_CONFIG !== 'undefined') {
+                    addResult('✅ SUPABASE_CONFIG available', 'success');
+                    addResult(`📍 URL: <code>${SUPABASE_CONFIG.url}</code>`, 'info');
+                    addResult(`🔑 Key: <code>${SUPABASE_CONFIG.anonKey.substring(0, 30)}...</code>`, 'info');
+                } else {
+                    addResult('❌ SUPABASE_CONFIG not defined', 'error');
+                    return;
+                }
+                
+                addResult('🔗 <strong>Step 2:</strong> Testing Supabase connection...', 'info');
+                
+                // Create client
+                const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+                addResult('✅ Supabase client created', 'success');
+                
+                // Test connection
+                const { data, error, count } = await supabase
+                    .from('club_applications')
+                    .select('*', { count: 'exact', head: true });
+                
+                if (error) {
+                    if (error.message.includes('relation "public.club_applications" does not exist')) {
+                        addResult('✅ <strong>Connected to Supabase successfully!</strong>', 'success');
+                        addResult('⚠️ Table "club_applications" does not exist yet', 'error');
+                        addResult('💡 <strong>Next step:</strong> Create the table using the SQL scripts in your project', 'info');
+                    } else {
+                        addResult(`❌ Connection failed: ${error.message}`, 'error');
+                        addResult('🔧 <strong>Troubleshooting:</strong> Check your Supabase URL and anon key', 'info');
+                    }
+                } else {
+                    addResult('✅ <strong>Connection successful!</strong>', 'success');
+                    addResult(`📊 Table exists with ${count || 0} records`, 'success');
+                    
+                    // Test write permission
+                    addResult('🔒 <strong>Step 3:</strong> Testing write permissions...', 'info');
+                    
+                    const testData = {
+                        full_name: 'Test User ' + Date.now(),
+                        email: `test${Date.now()}@test.com`,
+                        phone: '+1234567890',
+                        institution: 'university',
+                        college: 'School of Computer Science',
+                        branch: 'Computer Science and Engineering',
+                        year: '3rd Year',
+                        selected_clubs: ['tech'],
+                        reason: 'This is a test record created during connection verification. I am testing the database connectivity and form submission functionality. This record contains enough text to meet the minimum character requirements for the reason field. Safe to delete.',
+                        portfolio_url: 'https://github.com/testuser',
+                        consent_given: true,
+                        created_at: new Date().toISOString()
+                    };
+                    
+                    const { data: insertData, error: insertError } = await supabase
+                        .from('club_applications')
+                        .insert([testData])
+                        .select();
+                    
+                    if (insertError) {
+                        addResult(`❌ Write test failed: ${insertError.message}`, 'error');
+                        addResult('🔧 <strong>Tip:</strong> Check your Row Level Security (RLS) policies in Supabase', 'info');
+                    } else {
+                        addResult('✅ <strong>Write test passed!</strong>', 'success');
+                        addResult(`📝 Test record created with ID: ${insertData[0].id}`, 'success');
+                        addResult('🎉 <strong>Your Supabase setup is working perfectly!</strong>', 'success');
+                    }
+                }
+                
+                addResult('🏁 <strong>Test completed!</strong>', 'info');
+                
+            } catch (error) {
+                addResult(`💥 <strong>Unexpected error:</strong> ${error.message}`, 'error');
+                addResult(`<pre>${error.stack}</pre>`, 'error');
+            } finally {
+                testBtn.disabled = false;
+                testBtn.className = 'test-btn';
+                testBtn.textContent = '🚀 Run Full Test';
+            }
+        }
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            addResult('🔧 Test environment ready. Click the button above to start testing.', 'info');
+        });
+    </script>
+</body>
+</html>

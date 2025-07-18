@@ -14,6 +14,8 @@
     
     <!-- Supabase CDN -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Load config manager first, then supabase config -->
+    <script src="js/config-manager.js"></script>
     <script src="js/supabase-config.js"></script>
 
     <style>
@@ -549,9 +551,14 @@
                 const testData = {
                     full_name: 'Test User ' + Date.now(),
                     email: 'test' + Date.now() + '@example.com',
-                    college_info: 'Test College, Test Branch, Test Year',
+                    phone: '+1234567890',
+                    institution: 'university',
+                    college: 'School of Computer Science',
+                    branch: 'Computer Science and Engineering',
+                    year: '3rd Year',
                     selected_clubs: ['tech'],
-                    reason: 'This is a test submission to verify database functionality. This entry can be safely deleted.',
+                    reason: 'This is a test submission to verify database functionality. I am testing the Supabase connection and ensuring that all form fields are properly validated and stored. This entry can be safely deleted after testing is complete.',
+                    portfolio_url: 'https://github.com/testuser',
                     consent_given: true,
                     created_at: new Date().toISOString()
                 };
@@ -670,9 +677,12 @@
                     full_name: 'John Doe (Test)',
                     email: 'test-form-' + Date.now() + '@example.com',
                     phone: '+1234567890',
-                    college_info: 'Sandip University, Computer Science, 3rd Year',
+                    institution: 'university',
+                    college: 'Sandip University',
+                    branch: 'Computer Science',
+                    year: '3rd Year',
                     selected_clubs: ['tech', 'entrepreneurship'],
-                    reason: 'I am very interested in technology and entrepreneurship. I believe joining these clubs will help me develop my skills and network with like-minded individuals. This is a test submission.',
+                    reason: 'I am very interested in technology and entrepreneurship. I believe joining these clubs will help me develop my skills and network with like-minded individuals. This is a comprehensive test submission to verify the form functionality and database integration.',
                     portfolio_url: 'https://github.com/johndoe',
                     consent_given: true,
                     created_at: new Date().toISOString()

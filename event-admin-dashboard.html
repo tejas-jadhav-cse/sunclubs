@@ -351,8 +351,8 @@
                         <input type="text" id="eventName" class="formInput" required>
                     </div>
                     <div class="formGroup">
-                        <label class="formLabel">Club Name *</label>
-                        <input type="text" id="clubName" class="formInput" required>
+                        <label class="formLabel">Club Name (Read-only)</label>
+                        <input type="text" id="clubNameInput" class="formInput" readonly style="background-color: rgba(255, 255, 255, 0.05); cursor: not-allowed;">
                     </div>
                 </div>
 
@@ -398,7 +398,7 @@
                     </div>
                     <div class="formGroup">
                         <label class="formLabel">Coordinator 1 Phone</label>
-                        <input type="tel" id="coordinator1Phone" class="formInput" placeholder="+91 XXXXXXXXXX">
+                        <input type="tel" id="coordinator1Phone" class="formInput" placeholder="+91 9876543210 (format: +91XXXXXXXXXX)" pattern="\+91[0-9]{10}" title="Phone number must be in format +91XXXXXXXXXX">
                     </div>
                 </div>
 
@@ -409,7 +409,7 @@
                     </div>
                     <div class="formGroup">
                         <label class="formLabel">Coordinator 2 Phone</label>
-                        <input type="tel" id="coordinator2Phone" class="formInput" placeholder="+91 XXXXXXXXXX">
+                        <input type="tel" id="coordinator2Phone" class="formInput" placeholder="+91 9876543210 (format: +91XXXXXXXXXX)" pattern="\+91[0-9]{10}" title="Phone number must be in format +91XXXXXXXXXX">
                     </div>
                 </div>
 
