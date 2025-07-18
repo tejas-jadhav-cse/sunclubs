@@ -1,0 +1,247 @@
+.chairpersonSection {
+    padding: 120px 0;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.newClassWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.newclassLeft {
+    flex: 1;
+    min-width: 400px;
+    position: relative;
+}
+
+.newclassRight {
+    flex: 1.2;
+    position: relative;
+    min-width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headingWrap {
+    margin-bottom: 50px;
+}
+
+.headingSmall {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.headingSmall img {
+    width: 15px;
+    height: 15px;
+}
+
+.sectionHeading {
+    font-size: 48px;
+    font-weight: 700;
+    color: #090909;
+    line-height: 1.1;
+    margin-bottom: 0;
+}
+
+.lightMuVector {
+    color: #C5B64D;
+    position: relative;
+    z-index: 1;
+}
+
+/* Chairman image styles */
+.chairman-image {
+    width: 100%;
+    max-width: 420px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.chairman-image:hover {
+    transform: translateY(-10px);
+}
+
+/* Desktop greybox - positioned below heading */
+.desktop-greybox {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(197, 182, 77, 0.1);
+    position: relative;
+    max-width: 500px;
+    margin-top: 30px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.desktop-greybox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+}
+
+.desktop-greybox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #C5B64D, #e6d65a);
+    border-radius: 20px 20px 0 0;
+}
+
+/* Mobile greybox - hidden on desktop */
+.mobile-greybox {
+    display: none;
+}
+
+.contentHeadWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.textGroup h5 {
+    font-size: 12px;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.textGroup h4 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #090909;
+    margin-bottom: 0;
+}
+
+.contentHeadWrap img {
+    width: 28px;
+    height: auto;
+    opacity: 0.7;
+}
+
+.contentWrapper p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .newClassWrapper {
+        gap: 40px;
+    }
+    
+    .newclassLeft {
+        min-width: 350px;
+    }
+    
+    .sectionHeading {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 992px) {
+    .chairpersonSection {
+        padding: 80px 0;
+    }
+    
+    .newClassWrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .newclassLeft, .newclassRight {
+        flex: 1;
+        min-width: unset;
+    }
+    
+    .sectionHeading {
+        font-size: 36px;
+    }
+    
+    /* Hide desktop greybox, show mobile greybox */
+    .desktop-greybox {
+        display: none;
+    }
+    
+    .mobile-greybox {
+        display: block;
+        background-color: #F5F5F5;
+        padding: 30px;
+        position: absolute;
+        right: 0;
+        bottom: 20px;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chairman-image {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .chairpersonSection {
+        padding: 60px 0;
+    }
+    
+    .newClassWrapper {
+        gap: 20px;
+    }
+    
+    .sectionHeading {
+        font-size: 28px;
+    }
+    
+    .headingWrap {
+        margin-bottom: 30px;
+    }
+    
+    .mobile-greybox {
+        position: relative;
+        margin-top: 20px;
+        padding: 25px;
+        right: auto;
+        bottom: auto;
+        max-width: 100%;
+    }
+    
+    .chairman-image {
+        width: 50%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        border-radius: 12px;
+    }
+    
+    .newclassRight {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+}

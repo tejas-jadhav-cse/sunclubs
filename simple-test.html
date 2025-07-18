@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Supabase Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .log { background: #000; color: #00ff00; padding: 15px; border-radius: 4px; font-family: monospace; font-size: 12px; margin: 10px 0; }
+        .log div { margin: 2px 0; }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .info { color: #00aaff; }
+        button { padding: 10px 20px; margin: 5px; border: none; background: #007acc; color: white; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #005aa0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Simple Supabase Connection Test</h1>
+        <p>This is a simplified test to diagnose Supabase connection issues.</p>
+        
+        <button onclick="runTest()">Run Test</button>
+        <button onclick="clearLog()">Clear Log</button>
+        
+        <div class="log" id="log"></div>
+    </div>
+
+    <!-- Load Supabase and configuration -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/config-manager.js"></script>
+    <script src="js/supabase-config.js"></script>
+
+    <script>
+        const logEl = document.getElementById('log');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${timestamp}] ${message}`;
+            logEl.appendChild(div);
+            logEl.scrollTop = logEl.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+        
+        function clearLog() {
+            logEl.innerHTML = '';
+        }
+        
+        async function runTest() {
+            clearLog();
+            log('🚀 Starting Supabase connection test...', 'info');
+            
+            try {
+                // Step 1: Check if dependencies are loaded
+                log('Step 1: Checking dependencies...', 'info');
+                
+                if (typeof window.supabase === 'undefined') {
+                    log('❌ Supabase library not loaded', 'error');
+                    return;
+                }
+                log('✅ Supabase library loaded', 'success');
+                
+                if (typeof configManager === 'undefined') {
+                    log('❌ Config manager not loaded', 'error');
+                    return;
+                }
+                log('✅ Config manager loaded', 'success');
+                
+                // Step 2: Get configuration
+                log('Step 2: Getting configuration...', 'info');
+                const config = configManager.getSupabaseConfig();
+                log(`URL: ${config.url.substring(0, 30)}...`, 'info');
+                log(`Key: ${config.anonKey.substring(0, 20)}...`, 'info');
+                
+                // Step 3: Create Supabase client
+                log('Step 3: Creating Supabase client...', 'info');
+                const supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+                log('✅ Supabase client created', 'success');
+                
+                // Step 4: Test connection
+                log('Step 4: Testing connection...', 'info');
+                const { data, error } = await supabaseClient
+                    .from('club_applications')
+                    .select('count', { count: 'exact' });
+                
+                if (error) {
+                    if (error.message.includes('relation "public.club_applications" does not exist')) {
+                        log('✅ Connected to Supabase successfully', 'success');
+                        log('⚠️ Table "club_applications" does not exist', 'error');
+                        log('💡 You need to create the table using the SQL setup scripts', 'info');
+                    } else {
+                        log(`❌ Connection failed: ${error.message}`, 'error');
+                    }
+                } else {
+                    log('✅ Connected to Supabase successfully', 'success');
+                    log(`✅ Table exists with ${data.count || 0} records`, 'success');
+                }
+                
+                // Step 5: Test insert permission
+                log('Step 5: Testing insert permission...', 'info');
+                const testRecord = {
+                    full_name: 'Test User ' + Date.now(),
+                    email: `test${Date.now()}@example.com`,
+                    phone: '+1234567890',
+                    institution: 'university',
+                    college: 'School of Computer Science',
+                    branch: 'Computer Science and Engineering',
+                    year: '3rd Year',
+                    selected_clubs: ['tech'],
+                    reason: 'This is a test record for connection verification. I am testing the database functionality and ensuring that all fields are properly structured and validated. This test helps verify that the Supabase connection is working correctly.',
+                    portfolio_url: 'https://github.com/testuser',
+                    consent_given: true,
+                    created_at: new Date().toISOString()
+                };
+                
+                const { data: insertData, error: insertError } = await supabaseClient
+                    .from('club_applications')
+                    .insert([testRecord])
+                    .select();
+                
+                if (insertError) {
+                    log(`❌ Insert test failed: ${insertError.message}`, 'error');
+                } else {
+                    log('✅ Insert test passed - record created successfully', 'success');
+                    log(`📝 Test record ID: ${insertData[0].id}`, 'info');
+                }
+                
+                log('🏁 Test completed!', 'info');
+                
+            } catch (error) {
+                log(`💥 Test failed with error: ${error.message}`, 'error');
+                console.error('Full error:', error);
+            }
+        }
+        
+        // Auto-run test on load
+        window.addEventListener('load', () => {
+            log('Page loaded. Click "Run Test" to start.', 'info');
+        });
+    </script>
+</body>
+</html>

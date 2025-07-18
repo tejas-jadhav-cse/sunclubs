@@ -1,0 +1,1511 @@
+@media (min-width: 786px) and (max-width: 1023px) {
+  /* .container {
+        max-width: 85%;
+        padding: 0 15px;
+        margin: 0 auto;
+    } */
+}
+
+@media (min-width: 1500px) and (max-width: 1550px) {
+  .mainMenu {
+    padding: 0;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+
+  html {
+    zoom: 90%;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+
+  .heroSection {
+    min-height: 100%;
+  }
+
+  .menudropdown {
+    /* max-width: 631px; */
+    width: fit-content;
+    left: 18%;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .swiper-pagination-bullet-active {
+    width: 30px !important;
+    border-radius: 10px !important;
+    transition: 0.4s ease-in-out !important;
+  }
+
+  .highlightdsai.mt40 {
+    margin-top: 20px !important;
+  }
+
+  .intersectFiveHomePage {
+
+    .caution p {
+      font-size: 12px !important;
+    }
+  }
+
+  .logoSlider {
+    width: 80% !important;
+  }
+
+  .footerLinkLeft {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .policieswrap {
+    order: 1;
+  }
+
+  .copyright {
+    order: 3;
+  }
+
+  .footerLinkRight {
+    order: 2;
+    margin-bottom: 0;
+  }
+
+  .swiper.menaSwipe .swiper-wrapper {
+    overflow: unset;
+  }
+
+  /* .pgpRise-Mena .placementRight.flexbox {
+    height: 289px;
+  } */
+
+  /* challenge page css start */
+
+  /* challenge page css end */
+
+  .hSchoolWrapper {
+    gap: 45px;
+  }
+
+  .highSchoolSlider {
+    max-width: 100%;
+  }
+
+  .highSchoolSlider video {
+    border-radius: 12px;
+  }
+
+  .caution {
+    /* align-items: flex-start; */
+  }
+
+  .caution p {
+    font-family: "go-regular";
+  }
+
+  .footerLinksWrap.box1 {
+    max-width: 100%;
+  }
+
+  .footerLinks {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 25px;
+  }
+
+  .footerLink {
+    min-width: none;
+  }
+
+  .multiListWrap {
+    max-width: 100%;
+  }
+
+  .faqquestionWraps,
+  .faqquestionWrap {
+    border: 0.5px solid var(--black5);
+  }
+
+  
+  .faqquestionWrap {
+    border: 0.5px solid var(--grey4);
+  }
+
+  .journey ::-webkit-scrollbar-thumb {
+    display: block;
+  }
+
+  .about .gridBox:nth-child(2) {
+    width: 100%;
+  }
+
+  /* .getprepped {
+    padding-bottom: 0 !important;
+  } */
+
+  /* shubham mob-fix */
+
+  .mobMenuHeader .logo {
+    width: 40%;
+  }
+
+  .menuLogo {
+    width: 38%;
+  }
+
+  .swiper-wrapper {
+    padding: 0;
+  }
+
+  .placementLeft>img {
+    width: 100%;
+  }
+
+  .gridBox:hover .overLayDetail {
+    padding-bottom: 60px;
+  }
+
+  .darkHeader.shrikIt {
+    top: 0 !important;
+  }
+
+  .mission {
+    height: auto;
+  }
+
+  .faqquestionWrap .toggler {
+    max-width: 26px;
+  }
+
+  .floatingText {
+    bottom: 20px;
+  }
+
+  .overLayDetail a {
+    font: 0.938rem "go-medium";
+    color: var(--grey17);
+  }
+
+  .overlayText {
+    font-size: 14px !important;
+    font-family: "go-regular";
+    color: var(--grey17);
+  }
+
+  .gridBox:first-child {
+    /* max-height: 240px; */
+    max-width: 100%;
+  }
+
+  .gridBox {
+    min-height: 240px;
+    max-height: 240px;
+    max-width: 328px;
+  }
+
+  /* .homeAlumni .lightMuVector::after {
+    filter: brightness(5.5);
+  } */
+
+  .journey .tabs li {
+    gap: 4px;
+  }
+
+  /* .studentClub .studentJourney.whiteLineBg {
+    padding-bottom: 0 !important;
+  } */
+
+  /* @mCompanies */
+
+  /* @mCompanies */
+
+  /* @mCompanies */
+
+  /* @mCompanies */
+
+  /* Responsive BY Khushi Starts */
+
+  .box.black .description {
+    width: 100%;
+  }
+
+  /* .reality .content {
+        height: max-content;
+    } */
+
+  /* Responsive BY Khushi Ends */
+
+  .heroSection {
+    padding: 0px !important;
+    min-height: unset;
+  }
+
+  /* body {
+        zoom: 100%
+    } */
+
+  /*
+  main {
+    overflow: hidden; 
+     do not use overflow hidden property as it will not allow to make any section sticky 
+  }
+     */
+
+  ::-webkit-scrollbar-thumb {
+    /* display: block !important; */
+    background: #d4d4d4;
+  }
+
+  .font-14 {
+    font-size: 0.875rem;
+  }
+
+  .tabs li {
+    color: var(--grey);
+  }
+
+  footer {
+    background-repeat: no-repeat;
+    background-position: bottom;
+    backdrop-filter: blur(4px);
+  }
+
+  .tabs li {
+    color: var(--grey);
+  }
+
+  footer {
+    background-repeat: no-repeat;
+    background-position: bottom;
+    backdrop-filter: blur(4px);
+  }
+
+  .button {
+    padding: 12px 16px;
+  }
+
+  .placementLeft::before {
+    content: unset;
+  }
+
+  .placementLeft::after {
+    content: unset;
+  }
+
+  .mob-hide {
+    display: none !important;
+  }
+
+  .mob-visible {
+    display: block !important;
+  }
+
+  .container {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .topMenu {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    display: none;
+  }
+
+  .megaLink {
+    display: none;
+  }
+
+  /* */
+
+  /* .eventSlider .swiper-slide {
+        flex-wrap: wrap;
+    } */
+
+  /* .eventImg {
+        width: 100%;
+    } */
+
+  .courseName {
+    padding: 0;
+    min-width: max-content;
+  }
+
+  .courseName.active,
+  .courseName:hover {
+    padding-left: 0;
+  }
+
+  .courseName img {
+    display: none;
+  }
+
+  /* .masterBox {
+        min-width: 250px;
+    } */
+
+  .founderCXO {
+    padding: 0px 0px;
+    border-top: 0;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  .journey {
+    padding: 40px 0;
+  }
+
+  .accordion .heading {
+    padding: 15px 15px;
+    font-size: 1rem;
+    font-family: "go-semibold";
+  }
+
+  .accordion .heading.active {
+    padding: 15px 15px;
+  }
+
+  .contents {
+    padding: 0 15px;
+    padding-bottom: 20px;
+  }
+
+  .mobHideFlex {
+    display: none !important;
+  }
+
+  .journeyStarts {
+    padding: 40px 0;
+  }
+
+  .journeyStarts.visible {
+    min-height: 520px;
+  }
+
+  .journeyStarts {
+    min-height: 520px;
+  }
+
+  .upperFooter {
+    padding: 40px 0;
+    border: none;
+  }
+
+  /* .upperFooter svg {
+        width: 50%;
+    } */
+
+  .upperFooter .container {
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .address {
+    font-size: 0.75rem;
+    line-height: 120%;
+    color: var(--grey6) !important;
+    line-height: 160%;
+  }
+
+  .bottomFooter {
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footerLinkRight {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .footerLinkRight a:nth-child(even) {
+    margin: 0 20px;
+  }
+
+  /* .cravePathHeart {
+        right: 15px;
+        width: 70px;
+    } */
+
+  .gridBox:nth-child(2) {
+    /* max-height: 240px; */
+    min-height: 240px;
+    max-width: 100%;
+    min-height: 230px;
+  }
+
+  .gridBox:nth-child(3) {
+    max-width: 100%;
+    max-height: 280px;
+  }
+
+  .faq .flexbox {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .box {
+    width: 100%;
+  }
+
+  .mission .flexbox {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .mission {
+    padding: 80px 0 0px;
+  }
+
+  .faqanswer {
+    font-size: 0.785rem;
+    line-height: 20px;
+    width: 100%;
+  }
+
+  .faqquestionWrap {
+    padding: 16px;
+  }
+
+  .faq .flexbox {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .group {
+    width: 100%;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  /* .careerteam .headingSmall {
+        font-size: 1.5rem;
+    } */
+
+  .box {
+    width: 100%;
+  }
+
+  .mission .flexbox {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .mission {
+    padding: 80px 0 0px;
+  }
+
+  .highlightsec {
+    padding-top: 70px !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* .cravePathHeart {
+        width: 100px;
+    } */
+
+  .form {
+    width: 100%;
+  }
+
+  .footerHeading {
+    font: 1rem "go-medium";
+  }
+
+  /* .beatingMid {
+        line-height: 7;
+    } */
+
+  /* 
+    .beatingHearts .cravePathHeart {
+        right: 20px;
+    } */
+
+  .spaceBetween {
+    justify-content: space-between;
+  }
+
+  /* 
+    .edubox .teaching1heading {
+        margin-top: 20px;
+    } */
+
+  section {
+    padding: 60px 0 !important;
+    /*mobile responsive*/
+  }
+
+  .main-section {
+    padding: 0 !important;
+  }
+
+  .intheNewsSlider .box {
+    height: 100%;
+  }
+
+  .intheNewsSlider .box img {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* .highlightBanner span {
+        font-size: 2rem;
+        font-family: 'go-medium';
+
+    } */
+
+  /* 
+    .eventsMU .swiper-wrapper {
+        padding: 15px;
+    } */
+
+  .mobMenuOuter {
+    display: flex;
+    width: 100%;
+    background: var(--black);
+    position: fixed;
+    height: 100dvh;
+    top: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    left: -100%;
+    transition: 0.5s ease;
+  }
+
+  .mobMenuOuter.active {
+    left: 0;
+  }
+
+  .mobMenuHeader {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .mobMenuBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /* gap: 32px; */
+    width: 100%;
+    padding: 0 15px 15px;
+    overflow-y: auto;
+    height: calc(100dvh - 73px);
+  }
+
+  .mobMenuItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    padding: 16px 16px;
+    transition: 0.4s ease;
+    gap: 24px;
+    position: relative;
+    border-radius: 12px;
+  }
+
+  .mobMenuItem.active {
+    background: var(--black4);
+    border-radius: 8px;
+  }
+
+  .mobMenuItemBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    gap: 32px;
+    position: relative;
+  }
+
+  .mobMenuItemBody .links {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .links .link {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: flex-start;
+    width: 100%;
+    transition: 0.3s ease;
+  }
+
+  .links .link img {
+    display: none;
+  }
+
+  .links .link:hover img {
+    display: block;
+  }
+
+  .closeIcon {
+    padding-inline: 18px;
+    /* width: 19%; */
+    padding-right: 0;
+  }
+
+  .hamburger {
+    display: flex;
+    width: 15%;
+    padding-inline: 22px;
+    padding-right: 0;
+  }
+
+  #header.height {
+    height: 100%;
+  }
+
+  /* .abouttimeline .flexbox {
+        display: none !important;
+    } */
+
+  .faqquestionWrap2 {
+    padding: 15px;
+  }
+
+  .faqquestionWrap2 img {
+    width: 24px;
+    height: auto;
+  }
+
+  .innovationSlider {
+    margin-top: 40px;
+  }
+
+  /* new home responsive */
+
+  .mainMenu {
+    /* padding: 12px 15px; */
+    width: 100%;
+    justify-content: space-between;
+    gap: 15px;
+    flex-direction: row-reverse;
+  }
+
+  header .megaMenus {
+    display: none;
+  }
+
+  .placementBox {
+    padding: 20px 0 !important;
+  }
+
+  .newsSlide2 .swiper-slide {
+    min-width: unset !important;
+    max-width: unset;
+    box-shadow: none;
+  }
+
+  .newsSlide2 .swiper-slide .masterImage {
+    width: 100%;
+  }
+
+  .mt40 {
+    margin-top: 30px;
+  }
+
+  .newsSlide2-prev>img {
+    width: 100%;
+  }
+
+  /* about page */
+
+  /* pgp page */
+
+  /* applynow page */
+
+  /* courseroaster page */
+
+  /* about time line */
+
+  /* pgpTbm admission start */
+
+  /* pgpTbm addmission end */
+
+  /* fbt mob changes start */
+
+  /* fbt changes end */
+
+  /* ug psm start 
+.vUgPsm{
+  .gradientMuBg.feestructure{
+    position: relative;
+    background:unset;
+    padding-bottom: 20px !important;
+  }
+
+  .counsellorLeft {
+    width: 100%;
+  }
+} */
+
+  /* intersect section */
+
+  /* End intersect section */
+
+  /* ugPSM mobview start */
+
+  /* ugPSM mobview start */
+
+  .festPage {
+    .sidebar-item img {
+      display: none !important;
+    }
+
+    .mapContentBoxiWrapper {
+      gap: 6px !important;
+    }
+
+    .sidebar-item.active {
+      padding-left: 0 !important;
+    }
+
+    /* .festHero{
+      background: url('https://images.mastersunion.link/uploads/28052025/v1/HeroSection.webp'),var(--black);
+    } */
+    .caseUnionWrapper {
+      gap: 8px;
+    }
+
+    .companyLogo {
+      max-width: 115px;
+      max-height: 46px;
+    }
+
+    .festHeroHeading {
+      font-size: 72px;
+      line-height: 120%;
+    }
+
+    .main-content {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar {
+      max-width: 100%;
+      margin-left: 0;
+    }
+
+    .postCard {
+      min-height: 335px;
+    }
+
+    .postCard>img {
+      min-height: 315px;
+    }
+
+    .sidebar-list {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-height: unset;
+    }
+
+    .floatingMob>img {
+      max-width: 34px;
+      max-height: 34px;
+
+    }
+
+    .sidebar-item {
+      padding: 15px 0;
+      border-top: none;
+      text-wrap: nowrap;
+
+    }
+
+    .gridBox {
+      min-width: 338px;
+      max-height: unset;
+      min-height: 315px;
+      max-width: 338px !important;
+    }
+
+    .gridBox::before {
+      display: none;
+    }
+
+    .sidebar-list::-webkit-scrollbar-thumb {
+      display: block;
+    }
+
+    .postCard {
+      max-width: 338px;
+      max-height: 315px;
+    }
+
+    .marketingWrapper {
+      padding: 0px 16px !important;
+      gap: 8px;
+      bottom: 45px !important;
+    }
+
+    .headingMarket {
+      font-size: 18px;
+    }
+
+    .gradientTextMarketing {
+      font-size: 20px;
+    }
+
+    .content-card p {
+      font-size: 13px !important;
+    }
+
+    .overlayText {
+      color: var(--grey4) !important;
+    }
+
+    .marketingTextBoxi {
+      gap: 12px;
+    }
+
+    .marketingWrapper>img {
+      max-width: 34px;
+      max-height: 34px;
+    }
+
+    .scrolling_wrapper {
+      top: 16%;
+    }
+
+    .heroImageFestBox {
+      left: 0;
+    }
+
+    .festHero {
+      background: url(../images/CopyofCopyofawdededfe3.webp), var(--black);
+      min-height: 90vh;
+    }
+
+    .festHeroPara {
+      font-size: 13px;
+      font-family: var(--go-medium);
+      line-height: 150%;
+      top: 92%;
+      left: 7%;
+    }
+
+    .digitsPara {
+      font-size: 22px;
+      padding-top: 10px;
+    }
+
+
+    .gradientAmountWrapper {
+      gap: 11px;
+    }
+
+    .gradientAmountBoxi {
+      width: 100%;
+      max-width: 25%;
+    }
+
+    .staticSponserSection {
+      padding-top: 0 !important;
+    }
+
+    .staticLogoWrapper,
+    .sponsorsSection {
+      gap: 24px;
+    }
+
+    .illinoisFest {
+      padding: 40px 0px !important;
+    }
+
+    .illinoisFest .illinoisWrapper {
+      border-radius: 20px !important;
+      padding: 40px 4px !important;
+    }
+
+    .illinoisFest .curriculumWrapper {
+      flex-direction: column;
+    }
+
+    .sparkText {
+      font-size: 16px;
+    }
+
+    .festHidden {
+      display: none !important;
+    }
+
+    .unMuteSection {
+      gap: 40px;
+      background: var(--white);
+    }
+
+    .unMuteSection .cashPara {
+      font-size: 12px;
+    }
+
+    .unMuteSection .digitsPara {
+      font-size: 20px;
+    }
+
+    .cashPara {
+      font-size: 12px;
+    }
+
+    .sponsorsSection {
+      padding: 40px 0 !important;
+    }
+
+    .unitsAmount {
+      font-size: 20px;
+    }
+
+    .gradientAmountBoxi:not(:last-child) {
+      padding-right: 11px;
+    }
+
+    .gradientAmountWrapper {
+      gap: 11px;
+    }
+
+    .gradientAmountWrapper {
+      margin-top: 16px;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  .bottomFooter {
+    gap: 75px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1365px) {
+
+  /* .container {
+        max-width: 95%;
+        padding: 0 15px;
+    } */
+}
+
+@media (min-width: 1366px) and (max-width: 1540px) {
+
+  /* .container {
+        max-width: 90%;
+        padding: 0 15px;
+    } */
+
+  /* .cravePath {
+        right: 15px;
+    } */
+
+  /* .masterBox {
+        width: calc(20% - 48px);
+    } */
+
+  /* .masterBox {
+        width: 18%;
+    } */
+}
+
+@media (min-width: 320px) and (max-width: 390px) {
+
+  .festPage {
+    .postCard {
+      max-width: 328px;
+    }
+
+    .gridBox {
+      min-width: 328px;
+      max-width: 328px !important;
+    }
+  }
+}
+
+
+
+/* FONT FAMILIES */
+
+.font-regular {
+  font-family: "go-regular";
+}
+
+.font-medium {
+  font-family: "go-medium";
+  font-weight: 500;
+}
+
+.font-uppercase {
+  text-transform: uppercase;
+}
+
+@media (min-width: 1920px) {
+
+  #aboutus {
+    left: 38%;
+  }
+
+  .festPage .festHero {
+    min-height: 90vh;
+  }
+
+  .festPage .caseUnion {
+    background-position-y: -180px;
+  }
+
+  .festPage .sidebar {
+    margin-left: 170px;
+  }
+
+  .festPage .heroImageFest {
+    min-width: 123%;
+  }
+
+  .festPage .festHeroPara {
+    left: 8%;
+  }
+
+  .container {
+    max-width: 1280px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #afterMu,
+  #studentlife,
+  #innovation {
+    min-width: 344px;
+    left: 62%;
+  }
+
+  #studentlife {
+    left: 70%;
+  }
+
+  #innovation {
+    left: 77%;
+  }
+
+  .menudropdown {
+    /* max-width: 631px; */
+    left: 40%;
+  }
+
+  /* .knowledgeHub  .learningWrap mt60 {
+        padding-left: 17.4%;
+    } */
+}
+
+@media (min-width: 1450px) and (max-width: 1919px) {
+  .container {
+    max-width: 1240px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /*
+
+
+    .font-32 {
+        font-size: 1.75rem;
+        line-height: 140%;
+    }
+
+    .font-28 {
+        font-size: 1.5rem;
+        line-height: 140%;
+    }
+
+    .font-24 {
+        font-size: 1.375rem;
+        line-height: 140%;
+    }
+
+    .font-22 {
+        font-size: 1.25rem;
+        line-height: 140%;
+    }
+
+    .font-20 {
+        font-size: 1.125rem;
+        line-height: 140%;
+    }
+
+    .font-18 {
+        font-size: 1rem;
+        line-height: 160%;
+    }
+
+    .font-16 {
+        font-size: 0.875rem;
+        line-height: 160%;
+    }
+
+    .font-14 {
+        font-size: 0.75rem;
+        line-height: 160%;
+    }
+
+    .font-12 {
+        font-size: 0.75rem;
+        line-height: 160%;
+    } */
+}
+
+@media (min-width: 1200px) and (max-width: 1440px) {
+
+  .container {
+    max-width: 1240px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+
+}
+
+@media (min-width: 600px) and (max-width: 992px) {
+  .container {
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  section {
+    padding: 60px 0;
+  }
+
+}
+
+
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+
+  .placementLeft {
+    max-width: 560px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1900px) {
+
+  .placementLeft {
+    max-width: 50%;
+    width: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+
+  /* .eventsMU .swiper-wrapper {
+        height: 460px;
+    } */
+
+  /* .detailBox .icon {
+    display: none;
+  } */
+
+  .privacyLinksWrap {
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  /* .transinner .box2col p {
+        width: auto;
+    } */
+
+  .events .eventData {
+    gap: 10px;
+  }
+
+  .elevateskill .swiper-slide {
+    padding: 10px;
+    box-shadow: none;
+  }
+
+  .selector {
+    max-width: calc(50% - 5px);
+    width: 100%;
+    min-width: 10px;
+  }
+
+  /* .collaboration .imgFlexContainer img {
+        width: 100%;
+    } */
+
+  .cardAccordian {
+    overflow: unset;
+  }
+
+  .mobAccordianBody {
+    padding: 25px 12px;
+    background: var(--white);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+    gap: 15px;
+  }
+
+  .mobAccordianBody .border {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+    left: 0;
+    background: linear-gradient(102deg, #39b6d8 0%, #f7d344 50%, #e38330 100%);
+  }
+
+  .mobAccordian {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--grey4);
+  }
+
+  .mobAccordian.active {
+    border-color: transparent;
+  }
+
+  .mobAccordian .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .mobAccordian .header.active p {
+    font-family: "go-bold";
+    color: var(--black);
+  }
+
+  .mobAccordian .header.active img {
+    transform: rotate(180deg);
+    transition: 0.4s ease-in-out;
+  }
+
+  .mobAccordian .header img {
+    transition: 0.4s ease-in-out;
+  }
+
+  .dropshippingSwiper .dropshippingSwiper-prev,
+  .dropshippingSwiper .dropshippingSwiper-next {
+    top: 40%;
+  }
+
+  .studenteventslide .swiper-slide {
+    flex-direction: column;
+  }
+
+  .table {
+    width: 100%;
+  }
+
+  .tableBody {
+    margin-top: 12px;
+    gap: 12px;
+  }
+
+  /* In-footer-image-added,css start */
+  .footer-imgs.mob-hide {
+    display: none !important;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 0;
+    gap: 20px;
+  }
+
+  .footer-imgs.mob-hide img:nth-child(2) {
+    margin-left: 40px;
+  }
+
+  .footer-imgs.mob-visible {
+    display: flex !important;
+    gap: 20px;
+  }
+
+  .footer-imgs img {
+    width: 35%;
+  }
+
+  .menuLogofooter {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .scalebig2 {
+    scale: 1;
+    max-width: 160px;
+    padding-left: 0;
+  }
+
+  .wrapperImg {
+    flex-wrap: wrap;
+    gap: 40px;
+    width: 100%;
+    padding-top: 20px;
+    border-top: 1px solid var(--grey9);
+    margin-top: 0;
+  }
+
+  .footer-imgs.mob-hide {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .footerLinksWrap.box1 {
+    flex-direction: row;
+    /* gap: 45%; */
+  }
+
+  a.footerHeading {
+    width: 100%;
+    min-width: max-content;
+  }
+
+  .scalebig2 {
+    transform: translateX(-14px);
+  }
+
+  /* In-footer-image-added,css end */
+
+  /* mena css  start */
+
+  /* mena css end */
+}
+
+/* student fiexs (hostel)  CSS start */
+
+/* ugTbm changes start */
+
+/* tech Mob vishali */
+@media (max-width: 767px) {
+
+  .homeheroHeading {
+    font-size: 96px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: end;
+  }
+
+  .muvectorhero::after {
+    display: none;
+  }
+
+  .muvectorhero {
+    font-weight: 300 !important;
+  }
+
+  .dsaiMobView {
+
+    .illinoisWrapper {
+      border-radius: 0 !important;
+    }
+
+    .heroParaTech {
+      font-size: 13px;
+    }
+
+    .sectionParaTechThin {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 160%;
+    }
+
+    .swiper {
+      overflow: hidden !important;
+    }
+
+    .sectionPara {
+      font-size: 13px !important;
+    }
+
+    .illinoisWrapper {
+      padding: 55px 0 !important;
+      border-radius: 0 !important;
+      gap: 30px;
+    }
+
+    .curriculumdsai {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .curriculumWrapper {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 30px;
+    }
+
+
+    .illinoisCurriculum .techPointersParent {
+      max-width: 100% !important;
+    }
+
+    .illinoisBelowDivi {
+      flex-direction: column;
+      gap: 20px !important;
+    }
+
+    .onScrrollParentWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+  }
+
+  .logoSlider {
+    width: 80% !important;
+  }
+
+  /* student Enterpreneurship Page */
+
+
+}

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Test - Sandip University</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+    </style>
+
+    <link rel="stylesheet" href="css/root.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Supabase CDN -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <!-- Load config manager first, then supabase config -->
+    <script src="js/config-manager.js"></script>
+    <script src="js/supabase-config.js"></script>
+
+    <style>
+        body {
+            font-family: 'go-regular', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background: var(--white3);
+            color: var(--black);
+        }
+
+        .test-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .test-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-title {
+            font-family: 'go-semibold';
+            font-size: 28px;
+            margin: 0 0 10px 0;
+        }
+
+        .test-subtitle {
+            font-family: 'go-regular';
+            font-size: 16px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .test-section {
+            background: var(--white);
+            border: 1px solid var(--grey18);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'go-semibold';
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            color: var(--black);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #856404;
+        }
+
+        .status-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-error {
+            background: #dc3545;
+            color: white;
+        }
+
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--grey18);
+        }
+
+        .test-item:last-child {
+            border-bottom: none;
+        }
+
+        .test-name {
+            font-family: 'go-medium';
+            font-size: 14px;
+        }
+
+        .test-result {
+            font-family: 'go-regular';
+            font-size: 13px;
+            padding: 4px 12px;
+            border-radius: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .result-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .result-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .result-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .test-details {
+            font-family: 'go-regular';
+            font-size: 12px;
+            color: var(--grey);
+            margin-top: 8px;
+            padding: 10px;
+            background: var(--grey7);
+            border-radius: 6px;
+            border-left: 3px solid var(--grey18);
+        }
+
+        .test-details.success {
+            border-left-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .test-details.error {
+            border-left-color: #dc3545;
+            background: #fff8f8;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .test-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'go-medium';
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .test-button.primary {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .test-button.primary:hover {
+            background: var(--grey17);
+        }
+
+        .test-button.secondary {
+            background: var(--grey18);
+            color: var(--black);
+        }
+
+        .test-button.secondary:hover {
+            background: var(--grey);
+            color: var(--white);
+        }
+
+        .test-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .code-block {
+            background: var(--grey17);
+            color: var(--white);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .config-section {
+            background: #fff9c4;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .log-section {
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--black);
+            color: var(--white);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+        }
+
+        .log-timestamp {
+            color: #888;
+        }
+
+        .log-success {
+            color: #4ade80;
+        }
+
+        .log-error {
+            color: #f87171;
+        }
+
+        .log-info {
+            color: #60a5fa;
+        }
+
+        @media (max-width: 768px) {
+            .test-container {
+                padding: 0 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .test-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1 class="test-title">🔧 Supabase Connection Test</h1>
+            <p class="test-subtitle">Verify your Supabase configuration and database connectivity</p>
+        </div>
+
+        <!-- Configuration Status -->
+        <div class="test-section">
+            <h2 class="section-title">
+                <span class="status-icon status-pending" id="config-status">?</span>
+                Configuration Check
+            </h2>
+            <div class="test-item">
+                <span class="test-name">Supabase URL</span>
+                <span class="test-result result-pending" id="url-status">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Anon Key</span>
+                <span class="test-result result-pending" id="key-status">Checking...</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Client Initialization</span>
+                <span class="test-result result-pending" id="client-status">Checking...</span>
+            </div>
+            <div class="test-details" id="config-details">
+                Configuration details will appear here...
+            </div>
+        </div>
+
+        <!-- Database Tests -->
+        <div class="test-section">
+            <h2 class="section-title">
+                <span class="status-icon status-pending" id="database-status">?</span>
+                Database Connectivity
+            </h2>
+            <div class="test-item">
+                <span class="test-name">Connection Test</span>
+                <span class="test-result result-pending" id="connection-status">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Table Exists (club_applications)</span>
+                <span class="test-result result-pending" id="table-status">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Insert Permission</span>
+                <span class="test-result result-pending" id="insert-status">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Read Permission</span>
+                <span class="test-result result-pending" id="read-status">Pending</span>
+            </div>
+            <div class="test-details" id="database-details">
+                Database test results will appear here...
+            </div>
+        </div>
+
+        <!-- Test Actions -->
+        <div class="test-section">
+            <h2 class="section-title">
+                <span class="status-icon status-pending" id="actions-status">⚡</span>
+                Test Actions
+            </h2>
+            <div class="action-buttons">
+                <button class="test-button primary" onclick="runAllTests()" id="run-tests-btn">
+                    Run All Tests
+                </button>
+                <button class="test-button secondary" onclick="testFormSubmission()" id="test-form-btn">
+                    Test Form Submission
+                </button>
+                <button class="test-button secondary" onclick="viewTestData()" id="view-data-btn">
+                    View Test Data
+                </button>
+                <button class="test-button secondary" onclick="clearLogs()">
+                    Clear Logs
+                </button>
+            </div>
+        </div>
+
+        <!-- Configuration Help -->
+        <div class="config-section" id="config-help" style="display: none;">
+            <h3 style="margin: 0 0 15px 0; font-family: 'go-semibold';">⚠️ Configuration Required</h3>
+            <p style="margin: 0 0 15px 0; font-family: 'go-regular'; font-size: 14px;">
+                Your Supabase is not configured yet. Update your credentials in <strong>js/supabase-config.js</strong>:
+            </p>
+            <div class="code-block">const SUPABASE_CONFIG = {
+    url: 'https://your-project-id.supabase.co',
+    anonKey: 'your-anon-key-here'
+};</div>
+            <p style="margin: 0; font-family: 'go-regular'; font-size: 13px; color: #856404;">
+                Get these values from your Supabase Dashboard → Settings → API
+            </p>
+        </div>
+
+        <!-- Real-time Logs -->
+        <div class="test-section">
+            <h2 class="section-title">
+                <span class="status-icon status-pending" id="logs-status">📝</span>
+                Test Logs
+            </h2>
+            <div class="log-section" id="log-output">
+                <div class="log-entry">
+                    <span class="log-timestamp">[00:00:00]</span>
+                    <span class="log-info">Test environment initialized. Click "Run All Tests" to begin.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize test environment
+        let supabase = null;
+        let testResults = {};
+
+        // Logging function
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logOutput = document.getElementById('log-output');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'log-timestamp';
+            timeSpan.textContent = `[${timestamp}] `;
+            
+            const messageSpan = document.createElement('span');
+            messageSpan.className = `log-${type}`;
+            messageSpan.textContent = message;
+            
+            logEntry.appendChild(timeSpan);
+            logEntry.appendChild(messageSpan);
+            logOutput.appendChild(logEntry);
+            
+            // Auto-scroll to bottom
+            logOutput.scrollTop = logOutput.scrollHeight;
+        }
+
+        // Update status indicators
+        function updateStatus(elementId, status, message = '') {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            element.className = `test-result result-${status}`;
+            element.textContent = message || status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
+        function updateSectionStatus(sectionId, status) {
+            const element = document.getElementById(sectionId);
+            if (!element) return;
+            
+            element.className = `status-icon status-${status}`;
+            if (status === 'success') element.textContent = '✓';
+            else if (status === 'error') element.textContent = '✗';
+            else element.textContent = '?';
+        }
+
+        // Test 1: Configuration Check
+        async function testConfiguration() {
+            log('Starting configuration check...', 'info');
+            
+            try {
+                // Check if config file is loaded
+                if (typeof SUPABASE_CONFIG === 'undefined') {
+                    throw new Error('SUPABASE_CONFIG not found. Is js/supabase-config.js loaded?');
+                }
+                
+                // Check URL
+                const url = SUPABASE_CONFIG.url;
+                if (!url || url === 'YOUR_SUPABASE_URL_HERE') {
+                    updateStatus('url-status', 'error', 'Not configured');
+                    log('❌ Supabase URL not configured', 'error');
+                    testResults.url = false;
+                } else {
+                    updateStatus('url-status', 'success', 'Configured');
+                    log('✅ Supabase URL configured: ' + url.substring(0, 30) + '...', 'success');
+                    testResults.url = true;
+                }
+                
+                // Check Anon Key
+                const key = SUPABASE_CONFIG.anonKey;
+                if (!key || key === 'YOUR_SUPABASE_ANON_KEY_HERE') {
+                    updateStatus('key-status', 'error', 'Not configured');
+                    log('❌ Supabase Anon Key not configured', 'error');
+                    testResults.key = false;
+                } else {
+                    updateStatus('key-status', 'success', 'Configured');
+                    log('✅ Supabase Anon Key configured: ' + key.substring(0, 20) + '...', 'success');
+                    testResults.key = true;
+                }
+                
+                // Try to initialize client
+                if (testResults.url && testResults.key) {
+                    supabase = initializeSupabase();
+                    if (supabase) {
+                        updateStatus('client-status', 'success', 'Initialized');
+                        log('✅ Supabase client initialized successfully', 'success');
+                        testResults.client = true;
+                        updateSectionStatus('config-status', 'success');
+                        document.getElementById('config-help').style.display = 'none';
+                    } else {
+                        throw new Error('Client initialization failed');
+                    }
+                } else {
+                    updateStatus('client-status', 'error', 'Failed');
+                    log('❌ Cannot initialize client without proper configuration', 'error');
+                    testResults.client = false;
+                    updateSectionStatus('config-status', 'error');
+                    document.getElementById('config-help').style.display = 'block';
+                }
+                
+                // Update details
+                const details = document.getElementById('config-details');
+                if (testResults.url && testResults.key && testResults.client) {
+                    details.className = 'test-details success';
+                    details.textContent = '✅ Configuration is valid and client is ready for database operations.';
+                } else {
+                    details.className = 'test-details error';
+                    details.textContent = '❌ Configuration incomplete. Please update js/supabase-config.js with your Supabase credentials.';
+                }
+                
+            } catch (error) {
+                log('❌ Configuration test failed: ' + error.message, 'error');
+                updateStatus('url-status', 'error');
+                updateStatus('key-status', 'error');
+                updateStatus('client-status', 'error');
+                updateSectionStatus('config-status', 'error');
+                document.getElementById('config-help').style.display = 'block';
+                
+                const details = document.getElementById('config-details');
+                details.className = 'test-details error';
+                details.textContent = '❌ Error: ' + error.message;
+            }
+        }
+
+        // Test 2: Database Connectivity
+        async function testDatabase() {
+            log('Starting database connectivity tests...', 'info');
+            
+            if (!supabase) {
+                log('❌ Cannot test database - Supabase client not initialized', 'error');
+                updateStatus('connection-status', 'error', 'No client');
+                updateStatus('table-status', 'error', 'No client');
+                updateStatus('insert-status', 'error', 'No client');
+                updateStatus('read-status', 'error', 'No client');
+                updateSectionStatus('database-status', 'error');
+                return;
+            }
+            
+            try {
+                // Test basic connection
+                log('Testing basic connection...', 'info');
+                const { data, error } = await supabase.from('club_applications').select('count', { count: 'exact' });
+                
+                if (error) {
+                    if (error.message.includes('relation "public.club_applications" does not exist')) {
+                        updateStatus('connection-status', 'success', 'Connected');
+                        updateStatus('table-status', 'error', 'Table missing');
+                        log('✅ Connected to Supabase', 'success');
+                        log('❌ Table "club_applications" does not exist', 'error');
+                        
+                        const details = document.getElementById('database-details');
+                        details.className = 'test-details error';
+                        details.textContent = '❌ Table "club_applications" not found. Please run the SQL from SUPABASE_SETUP.md in your Supabase SQL Editor.';
+                        
+                        updateSectionStatus('database-status', 'error');
+                        return;
+                    } else {
+                        throw error;
+                    }
+                }
+                
+                updateStatus('connection-status', 'success', 'Connected');
+                updateStatus('table-status', 'success', 'Exists');
+                log('✅ Connected to Supabase successfully', 'success');
+                log('✅ Table "club_applications" exists', 'success');
+                
+                // Test insert permission
+                log('Testing insert permission...', 'info');
+                const testData = {
+                    full_name: 'Test User ' + Date.now(),
+                    email: 'test' + Date.now() + '@example.com',
+                    phone: '+1234567890',
+                    institution: 'university',
+                    college: 'School of Computer Science',
+                    branch: 'Computer Science and Engineering',
+                    year: '3rd Year',
+                    selected_clubs: ['tech'],
+                    reason: 'This is a test submission to verify database functionality. I am testing the Supabase connection and ensuring that all form fields are properly validated and stored. This entry can be safely deleted after testing is complete.',
+                    portfolio_url: 'https://github.com/testuser',
+                    consent_given: true,
+                    created_at: new Date().toISOString()
+                };
+                
+                const { data: insertData, error: insertError } = await supabase
+                    .from('club_applications')
+                    .insert([testData])
+                    .select();
+                
+                if (insertError) {
+                    updateStatus('insert-status', 'error', 'Permission denied');
+                    log('❌ Insert permission test failed: ' + insertError.message, 'error');
+                    testResults.insert = false;
+                } else {
+                    updateStatus('insert-status', 'success', 'Allowed');
+                    log('✅ Insert permission test passed', 'success');
+                    testResults.insert = true;
+                    testResults.testRecordId = insertData[0].id;
+                }
+                
+                // Test read permission
+                log('Testing read permission...', 'info');
+                const { data: readData, error: readError } = await supabase
+                    .from('club_applications')
+                    .select('*')
+                    .limit(1);
+                
+                if (readError) {
+                    updateStatus('read-status', 'error', 'Permission denied');
+                    log('❌ Read permission test failed: ' + readError.message, 'error');
+                    testResults.read = false;
+                } else {
+                    updateStatus('read-status', 'success', 'Allowed');
+                    log('✅ Read permission test passed', 'success');
+                    log(`📊 Found ${readData.length} record(s) in the table`, 'info');
+                    testResults.read = true;
+                }
+                
+                // Update section status
+                if (testResults.insert && testResults.read) {
+                    updateSectionStatus('database-status', 'success');
+                    const details = document.getElementById('database-details');
+                    details.className = 'test-details success';
+                    details.textContent = '✅ Database is fully functional. Form submissions will work correctly.';
+                } else {
+                    updateSectionStatus('database-status', 'error');
+                    const details = document.getElementById('database-details');
+                    details.className = 'test-details error';
+                    details.textContent = '❌ Database permissions issue. Check your RLS policies in Supabase.';
+                }
+                
+            } catch (error) {
+                log('❌ Database test failed: ' + error.message, 'error');
+                updateStatus('connection-status', 'error', 'Failed');
+                updateStatus('table-status', 'error', 'Unknown');
+                updateStatus('insert-status', 'error', 'Failed');
+                updateStatus('read-status', 'error', 'Failed');
+                updateSectionStatus('database-status', 'error');
+                
+                const details = document.getElementById('database-details');
+                details.className = 'test-details error';
+                details.textContent = '❌ Database connection failed: ' + error.message;
+            }
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            const runButton = document.getElementById('run-tests-btn');
+            runButton.disabled = true;
+            runButton.textContent = 'Running Tests...';
+            
+            log('🚀 Starting comprehensive Supabase tests...', 'info');
+            
+            // Reset all status indicators
+            document.querySelectorAll('.test-result').forEach(el => {
+                el.className = 'test-result result-pending';
+                el.textContent = 'Testing...';
+            });
+            
+            try {
+                await testConfiguration();
+                await new Promise(resolve => setTimeout(resolve, 500)); // Small delay for better UX
+                await testDatabase();
+                
+                log('🏁 All tests completed!', 'info');
+                
+                // Summary
+                const allPassed = testResults.url && testResults.key && testResults.client && 
+                                testResults.insert && testResults.read;
+                
+                if (allPassed) {
+                    log('🎉 All tests passed! Your Supabase is working perfectly.', 'success');
+                } else {
+                    log('⚠️ Some tests failed. Please check the results above.', 'error');
+                }
+                
+            } catch (error) {
+                log('💥 Test suite failed: ' + error.message, 'error');
+            } finally {
+                runButton.disabled = false;
+                runButton.textContent = 'Run All Tests';
+            }
+        }
+
+        // Test form submission (simulates the actual form)
+        async function testFormSubmission() {
+            if (!supabase) {
+                log('❌ Cannot test form submission - Supabase not configured', 'error');
+                return;
+            }
+            
+            log('📝 Testing form submission simulation...', 'info');
+            
+            try {
+                const formData = {
+                    full_name: 'John Doe (Test)',
+                    email: 'test-form-' + Date.now() + '@example.com',
+                    phone: '+1234567890',
+                    institution: 'university',
+                    college: 'Sandip University',
+                    branch: 'Computer Science',
+                    year: '3rd Year',
+                    selected_clubs: ['tech', 'entrepreneurship'],
+                    reason: 'I am very interested in technology and entrepreneurship. I believe joining these clubs will help me develop my skills and network with like-minded individuals. This is a comprehensive test submission to verify the form functionality and database integration.',
+                    portfolio_url: 'https://github.com/johndoe',
+                    consent_given: true,
+                    created_at: new Date().toISOString()
+                };
+                
+                const result = await submitApplication(formData);
+                
+                if (result.success) {
+                    log('✅ Form submission test passed!', 'success');
+                    log('📄 Test record created successfully', 'success');
+                } else {
+                    log('❌ Form submission test failed: ' + result.error, 'error');
+                }
+                
+            } catch (error) {
+                log('❌ Form submission test error: ' + error.message, 'error');
+            }
+        }
+
+        // View test data
+        async function viewTestData() {
+            if (!supabase) {
+                log('❌ Cannot view data - Supabase not configured', 'error');
+                return;
+            }
+            
+            log('👀 Fetching recent test data...', 'info');
+            
+            try {
+                const { data, error } = await supabase
+                    .from('club_applications')
+                    .select('full_name, email, selected_clubs, created_at')
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+                
+                if (error) {
+                    log('❌ Failed to fetch data: ' + error.message, 'error');
+                    return;
+                }
+                
+                log(`📊 Found ${data.length} record(s):`, 'info');
+                data.forEach((record, index) => {
+                    const date = new Date(record.created_at).toLocaleString();
+                    log(`${index + 1}. ${record.full_name} (${record.email}) - ${record.selected_clubs.join(', ')} - ${date}`, 'info');
+                });
+                
+                if (data.length === 0) {
+                    log('📝 No records found in the database yet.', 'info');
+                }
+                
+            } catch (error) {
+                log('❌ Error viewing data: ' + error.message, 'error');
+            }
+        }
+
+        // Clear logs
+        function clearLogs() {
+            document.getElementById('log-output').innerHTML = '';
+            log('Logs cleared. Ready for new tests.', 'info');
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            log('🔧 Supabase Test Environment Loaded', 'info');
+            log('Click "Run All Tests" to verify your configuration', 'info');
+        });
+    </script>
+</body>
+
+</html>

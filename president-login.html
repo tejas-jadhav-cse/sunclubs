@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+  <link rel="icon" href="images/mu-fav-ico.png" type="image/x-icon">
+  <link rel="alternate" href="https://sandipuniversity.edu.in/president-login" hreflang="en-in">
+  <link rel="canonical" href="https://sandipuniversity.edu.in/president-login">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Club President Login | Sandip University Clubs & Fests</title>
+  <meta property="og:type" content="website">
+  <meta name="description" content="Club President Login Portal - Access your club administration dashboard at Sandip University">
+  <meta property="og:title" content="Club President Login | Sandip University">
+  <meta property="og:image" content="images/logoanimationblack.gif">
+  <meta property="og:description" content="Club President Login Portal - Access your club administration dashboard at Sandip University">
+  <meta property="og:url" content="https://sandipuniversity.edu.in/president-login">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+  </style>
+   
+  <link rel="stylesheet" href="css/master-production.css">
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="css/category-buttons.css">
+  <link rel="stylesheet" href="css/council-popup.css">
+  <link rel="stylesheet" href="css/president.css">
+  <!-- Core Libraries -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/swiper-bundle.min.js"></script>
+  <script src="js/filestack.min.js"></script>
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Core utility scripts (load in order) -->
+  <script src="js/config-manager.js"></script>
+  <script src="js/error-boundary.js"></script>
+  <script src="js/logger.js"></script>
+  <script src="js/datetime-manager.js"></script>
+  <script src="js/input-validator.js"></script>
+  <script src="js/modal-manager.js"></script>
+  
+  <!-- Supabase Configuration -->
+  <script src="js/supabase-config.js"></script>
+
+  <script type="text/javascript">
+    // Initialize error handling early
+    window.addEventListener('error', function(e) {
+      console.error('JavaScript Error:', e.error);
+      if (e.error && e.error.message && e.error.message.includes('supabase')) {
+        console.error('Supabase configuration error. Please check your setup.');
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+  <div id="preloader">
+    <div class="preloader">
+      <img loading="lazy" src="images/preloader.gif" alt="Loader">
+    </div>
+  </div>
+
+  <script>
+    // Enhanced preloader handling
+    document.addEventListener("DOMContentLoaded", function() {
+      $("#preloader").fadeOut(2000);
+      
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+      
+      window.addEventListener('orientationchange', function() {
+        setTimeout(function() {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }, 300);
+      });
+    });
+  </script>
+
+  <section class="main-section">
+    <div class="main">
+      <!-- Header Navigation - Same as main website -->
+      <header id="header" class="darkHeader">
+        <div class="container">
+          <div class="topMenu flexbox">
+            <img loading="lazy" src="images/PNG/logo.png" class="logo-main" alt="Sandip University Logo">
+          </div>
+        </div>
+        <div class="container">
+          <div class="mainMenu flexbox">
+            <div class="hamburger">
+              <img loading="lazy" src="images/hamburger.svg" alt="Icon" class="">
+            </div>
+            <a href="/" class="menuLogo">
+              <img loading="lazy" src="images/logo.webp" class="" alt="Sandip University Logo">
+            </a>
+            <div class="megaMenus `1 12flexbox">
+              <a href="/club-recruitment.html" class="megaLink" id="nav__club-recruitment">
+                Club Recruitment
+              </a>
+              <a href="/event-calendar.html" class="megaLink" id="nav__event-calendar">
+                Event Calendar
+              </a>
+              <a href="/president-login.html" class="megaLink active" id="nav__president-login">
+                Club Admin
+              </a>
+              <a href="https://www.sandipuniversity.edu.in/" class="megaLink" id="nav__become-sandipian">
+                Become Sandipian!
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mobMenuOuter">
+          <div class="mobMenuHeader">
+            <a href="/" class="logo">
+              <img loading="lazy" src="images/logo.webp" class="" alt="SU Logo">
+            </a>
+            <div class="closeIcon">
+              <img loading="lazy" src="images/menuCloseIcon.svg" alt="Icon" class="">
+            </div>
+          </div>
+          <div class="mobMenuBody">
+            <a href="/club-recruitment.html" class="mobLink font-white font-14 font-medium font-uppercase">
+              Club Recruitment
+            </a>
+
+            <a href="/event-calendar.html" class="mobLink font-white font-14 font-medium font-uppercase">
+              Event Calendar
+            </a>
+
+            <a href="/president-login.html" class="mobLink font-white font-14 font-medium font-uppercase">
+              Club Admin
+            </a>
+            
+            <a href="https://www.sandipuniversity.edu.in/" class="mobLink font-white font-14 font-medium font-uppercase">
+              Become Sandipian!
+            </a>
+          </div>
+        </div>
+      </header>
+      <div class="blurScreen" onclick="closeMenu()"></div>
+
+      <!-- Login Section with website's design pattern -->
+      <section class="caseUnion president-login-section">
+        <div class="container">
+          <div class="president-login-wrapper">
+            <div class="login-content-area">
+              
+              <!-- Left side - Branding and welcome -->
+              <div class="login-branding">
+                <div class="brand-logo-container">
+                  <img src="images/applicationLogo.svg" alt="Sandip University" class="brand-logo">
+                </div>
+                <h1 class="font-white go-HighlightHeading login-main-title">
+                  Club President<br>
+                  <span class="fr-HeadingItalic">Login Portal</span>
+                </h1>
+                <p class="login-description">Access your club administration dashboard and manage events, members, and activities.</p>
+                
+                <div class="login-features">
+                  <div class="feature-item">
+                    <img src="images/Calendar.svg" alt="Events" class="feature-icon">
+                    <span>Manage Events</span>
+                  </div>
+                  <div class="feature-item">
+                    <img src="images/announce.svg" alt="Members" class="feature-icon">
+                    <span>Track Members</span>
+                  </div>
+                  <div class="feature-item">
+                    <img src="images/applicationLogo.svg" alt="Analytics" class="feature-icon">
+                    <span>View Analytics</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right side - Login Form -->
+              <div class="login-form-container">
+                <div class="login-form-card">
+                  <div class="form-header">
+                    <h3 class="form-title">Welcome Back</h3>
+                    <p class="form-subtitle">Sign in to your club admin account</p>
+                  </div>
+                  
+                  <form id="presidentLoginForm" class="president-login-form">
+                    <div class="form-group">
+                      <label for="email" class="form-label">Email Address</label>
+                      <input type="email" class="form-control modern-input" id="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" class="form-control modern-input" id="password" placeholder="Enter your password" data-skip-validation="true" required>
+                    </div>
+                    
+                    <div class="form-group">
+                      <button type="submit" class="submit-btn modern-btn">
+                        <span class="btn-text">Sign In</span>
+                        <span class="btn-loader" style="display: none;">
+                          <img src="images/preloader.gif" alt="Loading" class="btn-loading-icon">
+                        </span>
+                      </button>
+                    </div>
+                    
+                    <div class="form-footer">
+                      <a href="#" class="forgot-link">Forgot your password?</a>
+                    </div>
+                  </form>
+
+                  <div class="help-section">
+                    <p class="help-text">
+                      Need help? Contact our support team at 
+                      <a href="mailto:admin@sandipuniversity.edu.in" class="help-link">admin@sandipuniversity.edu.in</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Background decorative elements -->
+        <div class="login-bg-decoration">
+          <div class="bg-circle bg-circle-1"></div>
+          <div class="bg-circle bg-circle-2"></div>
+          <div class="bg-circle bg-circle-3"></div>
+        </div>
+      </section>
+    </div>
+  </section>
+    
+    <!-- Main JS Files -->
+    <script defer="" async="" src="js/main.js"></script>
+    <script defer="" async="" src="js/sliders.js"></script>
+    
+    <!-- Hamburger Menu Functionality -->
+    <script>
+      $(document).ready(function() {
+        // Hamburger menu click handler
+        $('.hamburger').click(function () {
+          $('.mobMenuOuter').addClass('active');
+          $('#header').addClass('height')
+          $('body').css('overflow', 'hidden');
+        });
+
+        // Close menu functionality
+        $('.closeIcon').click(function () {
+          $('.mobMenuOuter').removeClass('active')
+          $('#header').removeClass('height')
+          $('body').css('overflow', 'auto');
+        });
+
+        // Close menu function for blur screen
+        window.closeMenu = function() {
+          $('.blurScreen').removeClass('active');
+          $('.megaLink').removeClass('active');
+          $('.menudropdown').removeClass('active');
+          $('body').css('overflow', 'auto');
+          $('header').removeClass('menuActive');
+          $('.mobMenuOuter').removeClass('active');
+          $('#header').removeClass('height');
+        };
+      });
+    </script>
+    
+    <!-- Supabase Configuration and Authentication -->
+    <script>
+      // Global variables for better state management
+      let isLoginInProgress = false;
+      
+      // Wait for DOM and dependencies to load
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeLoginForm();
+      });
+      
+      function initializeLoginForm() {
+        const form = document.getElementById('presidentLoginForm');
+        if (!form) {
+          console.error('Login form not found');
+          return;
+        }
+        
+        // Enhanced form submission handling with modern UI feedback
+        form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Prevent multiple submissions
+        if (isLoginInProgress) {
+          return;
+        }
+        
+        isLoginInProgress = true;
+        
+        // Show loading state with new design
+        const submitBtn = document.querySelector('.modern-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoader = submitBtn.querySelector('.btn-loader');
+        const originalBtnText = btnText.innerText;
+        
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'flex';
+        submitBtn.disabled = true;
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        
+        try {
+          // Initialize Supabase client using singleton pattern
+          let supabaseClient = window.createSupabaseClient ? window.createSupabaseClient() : null;
+          
+          if (!supabaseClient) {
+            // Fallback: try to use global supabaseClient or initialize directly
+            if (window.supabaseClient) {
+              supabaseClient = window.supabaseClient;
+            } else if (typeof initializeSupabase === 'function') {
+              supabaseClient = initializeSupabase();
+            } else {
+              throw new Error('Supabase client not available. Please check configuration.');
+            }
+          }
+          
+          if (!supabaseClient) {
+            throw new Error('Failed to initialize Supabase client. Please check your configuration.');
+          }
+          
+          if (typeof logger === 'undefined') {
+            console.warn('Logger not available, using console');
+            window.logger = {
+              debug: console.log,
+              error: console.error,
+              success: console.log
+            };
+          }
+          
+          logger.debug('Login form initialization', { 
+            hasConfigManager: typeof configManager !== 'undefined',
+            hasCreateSupabaseClient: typeof window.createSupabaseClient === 'function',
+            hasGlobalSupabaseClient: !!window.supabaseClient,
+            hasInitializeSupabase: typeof initializeSupabase === 'function'
+          });
+          
+          // Validate inputs
+          if (!email) {
+            throw new Error('Please enter your email address');
+          }
+          
+          if (!email.includes('@') || !email.includes('.')) {
+            throw new Error('Please enter a valid email address');
+          }
+          
+          if (!password) {
+            throw new Error('Please enter your password');
+          }
+
+          logger.debug('Attempting login with Supabase client', { email: email });
+
+          // Use the properly configured Supabase client for authentication
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            logger.error('Supabase auth error', error);
+            throw error;
+          }
+
+          logger.success('Login successful', { userId: data.user.id });
+
+          // Get the club president data for this user with flexible club data fetching
+          logger.debug('Fetching club president data', { userId: data.user.id });
+          
+          // First try to get president data with club join
+          let presidentData = null;
+          let presidentError = null;
+          
+          try {
+            const result = await supabaseClient
+              .from('club_presidents')
+              .select(`
+                *,
+                clubs (
+                  club_id,
+                  name,
+                  category
+                )
+              `)
+              .eq('user_id', data.user.id)
+              .eq('status', 'active')
+              .single();
+            
+            presidentData = result.data;
+            presidentError = result.error;
+          } catch (joinError) {
+            logger.warn('Club join failed, trying without join', joinError);
+            
+            // Fallback: get president data without club join
+            const result = await supabaseClient
+              .from('club_presidents')
+              .select('*')
+              .eq('user_id', data.user.id)
+              .eq('status', 'active')
+              .single();
+            
+            presidentData = result.data;
+            presidentError = result.error;
+            
+            // If successful, try to get club info separately
+            if (presidentData && !presidentError) {
+              try {
+                const clubResult = await supabaseClient
+                  .from('clubs')
+                  .select('club_id, name, category')
+                  .eq('club_id', presidentData.club_id)
+                  .single();
+                
+                if (clubResult.data) {
+                  presidentData.clubs = clubResult.data;
+                }
+              } catch (clubError) {
+                logger.warn('Could not fetch club details', clubError);
+                // Create fallback club data
+                presidentData.clubs = {
+                  club_id: presidentData.club_id,
+                  name: presidentData.club_id.charAt(0).toUpperCase() + presidentData.club_id.slice(1) + ' Club',
+                  category: 'unknown'
+                };
+              }
+            }
+          }
+
+          logger.debug('President data query result', { 
+            hasData: !!presidentData, 
+            hasError: !!presidentError 
+          });
+
+          if (presidentError) {
+            logger.error('President data error', presidentError);
+            if (presidentError.code === 'PGRST116') {
+              throw new Error('No club president account found for this email. Contact admin to set up your account.');
+            }
+            throw new Error('Database error: ' + presidentError.message);
+          }
+
+          if (!presidentData) {
+            throw new Error('No active club president account found for this email');
+          }
+
+          // Store session data in localStorage
+          localStorage.setItem('clubId', presidentData.club_id);
+          localStorage.setItem('clubName', presidentData.clubs.name);
+          localStorage.setItem('clubRole', presidentData.role);
+          localStorage.setItem('presidentName', presidentData.full_name);
+          localStorage.setItem('clubCategory', presidentData.clubs.category);
+          localStorage.setItem('presidentEmail', presidentData.email);
+          
+          // Show success message
+          btnText.innerText = 'Login Successful!';
+          btnText.style.display = 'block';
+          btnLoader.style.display = 'none';
+          
+          // Redirect to event admin dashboard after a short delay
+          setTimeout(() => {
+            window.location.href = 'event-admin-dashboard.html';
+          }, 1000);
+          
+        } catch (error) {
+          logger.error('Error during login', error.message);
+          
+          // Show specific error messages using modern alert
+          let errorMessage = 'Login failed. ';
+          
+          if (error.message.includes('Invalid login credentials')) {
+            errorMessage = 'Incorrect email or password. Please check your credentials and try again.';
+          } else if (error.message.includes('Email not confirmed')) {
+            errorMessage = 'Please verify your email address first.';
+          } else if (error.message.includes('valid email')) {
+            errorMessage = 'Please enter a valid email address.';
+          } else if (error.message.includes('No active club president')) {
+            errorMessage = 'No club president account found. Contact admin to set up your account.';
+          } else if (error.message.includes('Supabase client not available') || error.message.includes('Failed to initialize')) {
+            errorMessage = 'Configuration error. Please contact support or try refreshing the page.';
+          } else {
+            errorMessage += error.message;
+          }
+          
+          // Log the full error for debugging
+          logger.error('Full error details', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+          });
+          
+          // Show error message
+          showModernErrorMessage(errorMessage);
+          
+          // Reset button state
+          btnText.innerText = originalBtnText;
+          btnText.style.display = 'block';
+          btnLoader.style.display = 'none';
+          submitBtn.disabled = false;
+          isLoginInProgress = false;
+        }
+      });
+      } // End of initializeLoginForm
+
+      // Modern error message function with fallback
+      function showModernErrorMessage(message) {
+        try {
+          // Remove existing error message
+          const existingError = document.querySelector('.error-message');
+          if (existingError) {
+            existingError.remove();
+          }
+
+          // Create error message element
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'error-message';
+          errorDiv.innerHTML = `
+            <div class="error-content">
+              <div class="error-icon">⚠️</div>
+              <div class="error-text">${message}</div>
+              <button class="error-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+          `;
+
+          // Add styles
+          errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(220, 0, 0, 0.95);
+            color: white;
+            padding: 0;
+            border-radius: 12px;
+            z-index: 1000;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease-out;
+          `;
+
+          const errorContent = errorDiv.querySelector('.error-content');
+          errorContent.style.cssText = `
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 12px;
+          `;
+
+          const errorIcon = errorDiv.querySelector('.error-icon');
+          errorIcon.style.cssText = `
+            font-size: 20px;
+            flex-shrink: 0;
+          `;
+
+          const errorText = errorDiv.querySelector('.error-text');
+          errorText.style.cssText = `
+            font-family: "go-regular", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
+            flex: 1;
+          `;
+
+          const errorClose = errorDiv.querySelector('.error-close');
+          errorClose.style.cssText = `
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+          `;
+
+          // Add keyframes for animation
+          if (!document.querySelector('#error-animation-styles')) {
+            const style = document.createElement('style');
+            style.id = 'error-animation-styles';
+            style.textContent = `
+              @keyframes slideIn {
+                from {
+                  transform: translateX(100%);
+                  opacity: 0;
+                }
+                to {
+                  transform: translateX(0);
+                  opacity: 1;
+                }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+
+          document.body.appendChild(errorDiv);
+
+          // Auto remove after 7 seconds
+          setTimeout(() => {
+            if (errorDiv.parentNode) {
+              errorDiv.remove();
+            }
+          }, 7000);
+          
+        } catch (err) {
+          // Fallback to basic alert if DOM manipulation fails
+          console.error('Error showing modern error message:', err);
+          alert('Error: ' + message);
+        }
+      }
+
+      // Modern success message function with fallback
+      function showModernSuccessMessage(message) {
+        try {
+          const existingSuccess = document.querySelector('.success-message');
+          if (existingSuccess) {
+            existingSuccess.remove();
+          }
+
+          const successDiv = document.createElement('div');
+          successDiv.className = 'success-message';
+          successDiv.innerHTML = `
+            <div class="success-content">
+              <div class="success-icon">✅</div>
+              <div class="success-text">${message}</div>
+              <button class="success-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+          `;
+
+          successDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(28, 124, 84, 0.95);
+            color: white;
+            padding: 0;
+            border-radius: 12px;
+            z-index: 1000;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease-out;
+          `;
+
+          const successContent = successDiv.querySelector('.success-content');
+          successContent.style.cssText = `
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 12px;
+          `;
+
+          const successIcon = successDiv.querySelector('.success-icon');
+          successIcon.style.cssText = `
+            font-size: 20px;
+            flex-shrink: 0;
+          `;
+
+          const successText = successDiv.querySelector('.success-text');
+          successText.style.cssText = `
+            font-family: "go-regular", Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
+            flex: 1;
+          `;
+
+          const successClose = successDiv.querySelector('.success-close');
+          successClose.style.cssText = `
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+          `;
+
+          document.body.appendChild(successDiv);
+
+          setTimeout(() => {
+            if (successDiv.parentNode) {
+              successDiv.remove();
+            }
+          }, 5000);
+          
+        } catch (err) {
+          // Fallback to basic alert if DOM manipulation fails
+          console.error('Error showing success message:', err);
+          alert('Success: ' + message);
+        }
+      }
+      
+      // Check if user is already logged in - separate function
+      async function checkExistingSession() {
+        try {
+          // Check if supabase is available
+          if (typeof supabase === 'undefined') {
+            console.error('Supabase not loaded for session check');
+            return;
+          }
+          
+          // Test Supabase connection
+          if (typeof logger !== 'undefined') {
+            logger.debug('Testing Supabase connection');
+          }
+          
+          // Try to fetch session
+          const { data: { session }, error } = await supabase.auth.getSession();
+          
+          if (typeof logger !== 'undefined') {
+            logger.debug('Session check result', { hasSession: !!session, hasError: !!error });
+          }
+          
+          if (error) {
+            if (typeof logger !== 'undefined') {
+              logger.error('Supabase connection error', error);
+            }
+            showModernErrorMessage('Database connection failed. Please check your internet connection and try again.');
+            return;
+          }
+          
+          if (typeof logger !== 'undefined') {
+            logger.success('Supabase connection successful');
+          }
+          
+          if (session && session.user) {
+            if (typeof logger !== 'undefined') {
+              logger.debug('User is already logged in');
+            }
+            
+            // Get club president data for this user
+            const { data: presidentData, error: presidentError } = await supabase
+              .from('club_presidents')
+              .select(`
+                *,
+                clubs (
+                  club_id,
+                  name,
+                  category
+                )
+              `)
+              .eq('user_id', session.user.id)
+              .eq('status', 'active')
+              .single();
+
+            if (presidentData && !presidentError) {
+              localStorage.setItem('clubId', presidentData.club_id);
+              localStorage.setItem('clubName', presidentData.clubs.name);
+              localStorage.setItem('clubRole', presidentData.role);
+              localStorage.setItem('presidentName', presidentData.full_name);
+              localStorage.setItem('clubCategory', presidentData.clubs.category);
+              localStorage.setItem('presidentEmail', presidentData.email);
+              
+              // Redirect to event admin dashboard
+              window.location.href = 'event-admin-dashboard.html';
+            }
+          }
+        } catch (error) {
+          if (typeof logger !== 'undefined') {
+            logger.error('Session check error', error.message);
+          }
+          if (error.message.includes('Failed to fetch')) {
+            showModernErrorMessage('Cannot connect to database. Please check your internet connection.');
+          }
+        }
+      }
+      
+      // Initialize session check
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(checkExistingSession, 500); // Small delay to ensure dependencies are loaded
+      });
+      
+      // Handle forgot password - single event listener
+      function initializeForgotPassword() {
+        const forgotLink = document.querySelector('.forgot-link');
+        if (forgotLink) {
+          forgotLink.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // Check if supabase is available
+            if (typeof supabase === 'undefined') {
+              showModernErrorMessage('Database connection not available. Please refresh the page and try again.');
+              return;
+            }
+            
+            const email = document.getElementById('email').value.trim();
+            
+            if (!email || email === '') {
+              showModernErrorMessage('Please enter your email address first');
+              return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+              showModernErrorMessage('Please enter a valid email address');
+              return;
+            }
+
+            try {
+              const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/president-login.html'
+              });
+
+              if (error) {
+                throw error;
+              }
+
+              showModernSuccessMessage('Password reset email sent! Check your inbox.');
+            } catch (error) {
+              if (typeof logger !== 'undefined') {
+                logger.error('Password reset error', error.message);
+              }
+              showModernErrorMessage('Failed to send password reset email. Please try again.');
+            }
+          });
+        }
+      }
+
+      // Add input validation for email field with better error handling
+      function initializeInputValidation() {
+        const emailInput = document.getElementById('email');
+        if (emailInput) {
+          emailInput.addEventListener('input', function() {
+            const email = this.value.trim();
+            if (email && email.includes('@') && email.includes('.')) {
+              if (typeof logger !== 'undefined') {
+                logger.debug('Valid email format entered');
+              }
+              this.style.borderColor = '#28a745';
+            } else if (email) {
+              this.style.borderColor = '#dc3545';
+            } else {
+              this.style.borderColor = '';
+            }
+          });
+        }
+      }
+      
+      // Initialize all functionality when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeForgotPassword();
+        initializeInputValidation();
+      });
+    </script>
+</body>
+</html>

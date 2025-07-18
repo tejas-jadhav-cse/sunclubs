@@ -1,0 +1,16 @@
+{
+  "name": "sunclubs",
+  "version": "1.0.0",
+  "description": "Masters' Union Clubs and Fests website",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [
+    "clubs",
+    "fests",
+    "masters-union"
+  ],
+  "author": "Masters' Union",
+  "license": "MIT"
+}
